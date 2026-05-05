@@ -185,13 +185,24 @@ module awg_fmc_adda_top (
     assign ad9250_reset    = rst_n;
 
     //--------------------------------------------------------------------------
-    // LMK04828 SPI 配置（占位）
+    // LMK04828 SPI 配置控制器
     //--------------------------------------------------------------------------
-    // TODO: 实例化 lmk04828_spi_ctrl，使用 HexReg_9250_9144_04828_125M_500M_gen.txt
-    assign lmk04828_spi_sclk = 1'b0;
-    assign lmk04828_spi_sdio = 1'b0;
-    assign lmk04828_cs_n     = 1'b1;
-    assign lmk04828_reset    = 1'b1;
+    wire lmk_spi_done;
+    wire lmk_spi_busy;
+
+    lmk04828_spi_ctrl u_lmk_spi (
+        .clk       (clk),
+        .rst_n     (rst_n),
+        .start     (1'b1),       // 上电自动开始配置
+        .done      (lmk_spi_done),
+        .busy      (lmk_spi_busy),
+        .spi_csb   (lmk04828_cs_n),
+        .spi_sclk  (lmk04828_spi_sclk),
+        .spi_sdio  (lmk04828_spi_sdio),
+        .spi_sdo   (1'b0)
+    );
+
+    assign lmk04828_reset = rst_n;
 
     //--------------------------------------------------------------------------
     // JESD204B 接口占位
