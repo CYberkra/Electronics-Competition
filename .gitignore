@@ -17,7 +17,13 @@
 # Vivado IP generated outputs (keep .xci only)
 vivado/**/ip/*/*/
 !vivado/**/ip/*/*.xci
-!vivado/**/ip/*/*.xml
+
+# Vivado wave config
+vivado/*.wcfg
+
+# Simulation outputs
+sim/work/xsim.dir/
+sim/work/*.vcd
 
 # Build logs
 build_*.log
