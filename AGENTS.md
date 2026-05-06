@@ -1399,10 +1399,10 @@ If this is missing, the AD9144 path may link but output a flat waveform.
   - Hardware program/capture: `D:\vivado\Vivado\2024.1\bin\vivado.bat -mode batch -source D:\awg_fpga\scripts\program_and_capture_awg_debug.tcl`
 - Output files:
   - Normal bit: `D:\awg_fpga\vivado\awg_k325t.runs\impl_1\awg_dds_led_top.bit`
-  - Debug bit: `D:\awg_fpga\vivado\awg_k325t.runs\impl_1\awg_dds_led_top_debug.bit`
-  - Debug probes: `D:\awg_fpga\vivado\awg_k325t.runs\impl_1\awg_dds_led_top_debug.ltx`
+  - Stable debug bit: `D:\awg_fpga\artifacts\debug\awg_dds_led_top_debug.bit`
+  - Stable debug probes: `D:\awg_fpga\artifacts\debug\awg_dds_led_top_debug.ltx`
   - ILA CSV output directory: `D:\awg_fpga\measurements\ila\capture_YYYYMMDD_HHMMSS`
-- Important workflow detail: `rebuild_awg_debug.tcl` uses the main `impl_1` run, so it temporarily writes a debug `awg_dds_led_top.bit`. Run `rebuild_awg_base.tcl` afterward when the normal non-debug bit should be restored.
+- Important workflow detail: `rebuild_awg_debug.tcl` uses the main `impl_1` run, so it temporarily writes a debug `awg_dds_led_top.bit`. It also copies the debug bit/ltx to `D:\awg_fpga\artifacts\debug\`. Run `rebuild_awg_base.tcl` afterward when the normal non-debug bit should be restored.
 - Fresh verification from 2026-05-06:
   - `D:\awg_fpga\sim\work\run_awg_led_status_sim.ps1` -> PASS
   - `D:\awg_fpga\sim\work\run_awg_key_ui_ctrl_sim.ps1` -> PASS
@@ -1411,6 +1411,9 @@ If this is missing, the AD9144 path may link but output a flat waveform.
   - Debug build script completed and copied debug bit/ltx; debug routed timing was WNS about `1.655ns`, 0 failing endpoints.
 - Board-side capture status:
   - Computer detects the Digilent USB cable: `USB Serial Converter`, `VID_0403&PID_6014`, serial `210512180081`.
-  - Vivado 2024.1 currently fails at `open_hw_target`: cable is visible but no FPGA devices are detected on the JTAG chain.
-  - This blocks automatic ILA capture and points to board power, JTAG chain, connector, boot/JTAG mode, or physical cabling rather than RTL/license.
-  - Before retrying capture, verify board power LEDs, USB-JTAG port, external power supply if required, JTAG mode/boot switches, and then rerun `program_and_capture_awg_debug.tcl`.
+  - Initial `open_hw_target` failure was caused by board power being off. After power was restored, Vivado detected `xc7k325t_0`.
+  - Debug bit programming succeeded with startup status `HIGH`.
+  - `program_and_capture_awg_debug.tcl` must set `BSCAN_SWITCH_USER_MASK=1`; otherwise Hardware Manager may not find `dbg_hub` on user scan chain 1.
+  - Successful ILA capture: `D:\awg_fpga\measurements\ila\capture_20260506_181837\hw_ila_1.csv`.
+  - Captured CSV includes `key0/key1/rst_n/ui_mode/wave_mode/freq_load/phase_inc/amplitude/offset/awg_sample/sample_valid/da_data/led`.
+  - Default output is 1Hz, so a 2048-sample ILA window at 100MHz shows little visible waveform movement unless controls are changed or a faster debug frequency is used.
