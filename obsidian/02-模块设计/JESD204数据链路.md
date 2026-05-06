@@ -30,13 +30,13 @@ flowchart LR
 
 ## 高速 lane 映射
 
-| FMC signal | FPGA pins | Bank117 | 用途 |
-|---|---|---|---|
-| DP0_C2M_P/N | H2 / H1 | TX2 | DAC lane 0 |
-| DP1_C2M_P/N | F2 / F1 | TX3 | DAC lane 1 |
-| DP2_C2M_P/N | J4 / J3 | TX1 | DAC lane 2 |
-| DP3_C2M_P/N | K2 / K1 | TX0 | DAC lane 3 |
-| GBTCLK0_M2C_P/N | G8 / G7 | CLK0 | GTX refclk |
+| FMC signal      | FPGA pins | Bank117 | 用途         |
+| --------------- | --------- | ------- | ---------- |
+| DP0_C2M_P/N     | H2 / H1   | TX2     | DAC lane 0 |
+| DP1_C2M_P/N     | F2 / F1   | TX3     | DAC lane 1 |
+| DP2_C2M_P/N     | J4 / J3   | TX1     | DAC lane 2 |
+| DP3_C2M_P/N     | K2 / K1   | TX0     | DAC lane 3 |
+| GBTCLK0_M2C_P/N | G8 / G7   | CLK0    | GTX refclk |
 
 ## 建链顺序
 

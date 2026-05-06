@@ -31,6 +31,13 @@ puts "  Project created"
 add_files -fileset sources_1 [list \
     "D:/awg_fpga/rtl/top/awg_dds_led_top.v" \
     "D:/awg_fpga/rtl/dds/dds_compiler_wrapper.v" \
+    "D:/awg_fpga/rtl/dds/dds_nco.v" \
+    "D:/awg_fpga/rtl/dds/sine_lut.v" \
+    "D:/awg_fpga/rtl/dds/wave_shape_gen.v" \
+    "D:/awg_fpga/rtl/dsp/sample_mux.v" \
+    "D:/awg_fpga/rtl/dsp/amp_offset_scale.v" \
+    "D:/awg_fpga/rtl/dsp/awg_core.v" \
+    "D:/awg_fpga/rtl/control/awg_key_ui_ctrl.v" \
     "D:/awg_fpga/rtl/dac/dac_edu_parallel_if.v" \
 ]
 puts "  RTL added"

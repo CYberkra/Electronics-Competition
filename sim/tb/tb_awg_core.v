@@ -46,6 +46,10 @@ module tb_awg_core;
     wire signed [DATA_W-1:0] shape_sample;
     wire signed [DATA_W-1:0] sample_mux_out;
     wire signed [DATA_W-1:0] final_sample;
+    wire [ADDR_W-1:0] core_phase_addr;
+    wire signed [DATA_W-1:0] core_sample_raw;
+    wire signed [DATA_W-1:0] core_sample_out;
+    wire              core_sample_valid;
     
     // 测试码型：简单的斜坡，用于 mode=4
     wire signed [DATA_W-1:0] test_ramp;
@@ -115,6 +119,26 @@ module tb_awg_core;
         .sample_out (final_sample)
     );
 
+    awg_core #(
+        .PHASE_W (PHASE_W),
+        .ADDR_W  (ADDR_W),
+        .DATA_W  (DATA_W)
+    ) u_awg_core (
+        .clk          (clk),
+        .rst_n        (rst_n),
+        .freq_load    (freq_load),
+        .phase_inc    (phase_inc_val),
+        .phase_offset (phase_offset),
+        .wave_mode    (wave_mode),
+        .amplitude    (amplitude),
+        .offset       (offset),
+        .test_sample  (test_ramp),
+        .phase_addr   (core_phase_addr),
+        .sample_raw   (core_sample_raw),
+        .sample_out   (core_sample_out),
+        .sample_valid (core_sample_valid)
+    );
+
     //----------------------------------------------------------------------
     // 主测试流程
     //----------------------------------------------------------------------
@@ -160,6 +184,18 @@ module tb_awg_core;
             #1;
             if (final_sample > peak_max) peak_max = final_sample;
             if (final_sample < peak_min) peak_min = final_sample;
+            if (core_sample_valid) begin
+                if (core_sample_out !== final_sample) begin
+                    $display("  [FAIL] Core wrapper mismatch in sine test: ref=%0d dut=%0d",
+                             final_sample, core_sample_out);
+                    error_cnt = error_cnt + 1;
+                end
+                if (core_sample_raw !== sample_mux_out) begin
+                    $display("  [FAIL] Core raw mismatch in sine test: ref=%0d dut=%0d",
+                             sample_mux_out, core_sample_raw);
+                    error_cnt = error_cnt + 1;
+                end
+            end
         end
         $display("  Peak max = %d  Peak min = %d  (expect ~32767 / ~-32768)",
                  peak_max, peak_min);
@@ -183,6 +219,11 @@ module tb_awg_core;
             #1;
             if (final_sample > peak_max) peak_max = final_sample;
             if (final_sample < peak_min) peak_min = final_sample;
+            if (core_sample_valid && core_sample_out !== final_sample) begin
+                $display("  [FAIL] Core wrapper mismatch in square test: ref=%0d dut=%0d",
+                         final_sample, core_sample_out);
+                error_cnt = error_cnt + 1;
+            end
         end
         $display("  Peak max = %d  Peak min = %d  (expect ~32766 / ~-32767)",
                  peak_max, peak_min);
@@ -207,6 +248,11 @@ module tb_awg_core;
             #1;
             if (final_sample > peak_max) peak_max = final_sample;
             if (final_sample < peak_min) peak_min = final_sample;
+            if (core_sample_valid && core_sample_out !== final_sample) begin
+                $display("  [FAIL] Core wrapper mismatch in triangle test: ref=%0d dut=%0d",
+                         final_sample, core_sample_out);
+                error_cnt = error_cnt + 1;
+            end
         end
         $display("  Peak max = %d  Peak min = %d", peak_max, peak_min);
         if (peak_max < 30000 || peak_min > -30000) begin
@@ -229,6 +275,11 @@ module tb_awg_core;
             #1;
             if (final_sample > peak_max) peak_max = final_sample;
             if (final_sample < peak_min) peak_min = final_sample;
+            if (core_sample_valid && core_sample_out !== final_sample) begin
+                $display("  [FAIL] Core wrapper mismatch in saw test: ref=%0d dut=%0d",
+                         final_sample, core_sample_out);
+                error_cnt = error_cnt + 1;
+            end
         end
         $display("  Peak max = %d  Peak min = %d", peak_max, peak_min);
         if (peak_max < 30000 || peak_min > -30000) begin
@@ -253,6 +304,11 @@ module tb_awg_core;
             #1;
             if (final_sample > peak_max) peak_max = final_sample;
             if (final_sample < peak_min) peak_min = final_sample;
+            if (core_sample_valid && core_sample_out !== final_sample) begin
+                $display("  [FAIL] Core wrapper mismatch in amp test: ref=%0d dut=%0d",
+                         final_sample, core_sample_out);
+                error_cnt = error_cnt + 1;
+            end
         end
         $display("  Peak max = %d  Peak min = %d  (expect ~16383 / ~-16384)",
                  peak_max, peak_min);
@@ -277,6 +333,11 @@ module tb_awg_core;
             #1;
             if (final_sample > peak_max) peak_max = final_sample;
             if (final_sample < peak_min) peak_min = final_sample;
+            if (core_sample_valid && core_sample_out !== final_sample) begin
+                $display("  [FAIL] Core wrapper mismatch in offset test: ref=%0d dut=%0d",
+                         final_sample, core_sample_out);
+                error_cnt = error_cnt + 1;
+            end
         end
         $display("  Peak max = %d  Peak min = %d  (expect ~+26383 / ~-6384)",
                  peak_max, peak_min);
@@ -301,6 +362,11 @@ module tb_awg_core;
             #1;
             if (final_sample > peak_max) peak_max = final_sample;
             if (final_sample < peak_min) peak_min = final_sample;
+            if (core_sample_valid && core_sample_out !== final_sample) begin
+                $display("  [FAIL] Core wrapper mismatch in saturation test: ref=%0d dut=%0d",
+                         final_sample, core_sample_out);
+                error_cnt = error_cnt + 1;
+            end
         end
         $display("  Peak max = %d  Peak min = %d  (expect 32767 / >0)",
                  peak_max, peak_min);

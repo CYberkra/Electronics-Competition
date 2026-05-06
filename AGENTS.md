@@ -163,7 +163,10 @@ Phase 1: 基础验证
 │   ├── [✅] 板级测试设计（LED 指示）
 │   ├── [✅] Bitstream 生成
 │   └── [⏳] 板子烧录验证（待用户执行）
-├── [⬜] 幅度/偏置/缩放模块
+├── [🔄] AWG core 前端（DDS + 波形选择 + 幅度/偏置）
+│   ├── [✅] awg_core 统一模块已接入 `awg_dds_led_top`
+│   ├── [✅] `tb_awg_core` 参考链路逐拍对拍通过
+│   └── [⏳] 后续接寄存器/按键控制接口
 ├── [⬜] 教学 DAC 接口
 ├── [⬜] 扫频引擎
 ├── [⬜] BRAM 波形存储
@@ -190,7 +193,7 @@ Phase 2: 完整系统
 
 | 工程 | 路径 | 状态 | 最后更新 |
 |------|------|------|----------|
-| **awg_k325t** (DDS) | `D:\awg_fpga` | ✅ Bitstream 已生成 | 2026-05-05 |
+| **awg_k325t** (DDS) | `D:\awg_fpga` | 🔄 `awg_core` 前端已接入，仿真对拍通过 | 2026-05-06 |
 | **ad9144_bringup_k325t** (JESD204 vendor demo) | `D:\FPGA\ad9144_bringup_k325t` | 🔎 `top_direct.bit` 已烧录；等待 15s 后 TX/RX ILA clock 可用；AD9144 TX 侧 QPLL/reset/tready/SYNC/SYSREF/data 正常，AD9250 RX `tvalid=0` | 2026-05-06 |
 | **fpga_only_diag** | `D:\FPGA\fpga_only_diag` | ✅ K325T 本体/JTAG/板载 100MHz/ILA 验证通过 | 2026-05-06 |
 | **awg_k325t** (JESD204 integration) | `D:\awg_fpga` | ⏸ 等 standalone 建链验证后再集成 | 2026-05-06 |
@@ -212,8 +215,16 @@ D:\awg_fpga
 ├── rtl/
 │   ├── dds/
 │   │   └── dds_compiler_wrapper.v      # DDS IP 封装（中文注释）
+│   ├── dds/
+│   │   ├── dds_nco.v                   # 手写 NCO
+│   │   ├── sine_lut.v                  # 正弦 ROM
+│   │   └── wave_shape_gen.v            # 方波/三角波/锯齿波
 │   ├── top/
 │   │   └── awg_dds_led_top.v           # 板级顶层（含 DAC 接口）
+│   ├── dsp/
+│   │   ├── awg_core.v                  # DDS + 波形选择 + 幅度/偏置前端
+│   │   ├── amp_offset_scale.v          # 幅度缩放 + 偏置 + 饱和
+│   │   └── sample_mux.v                # 波形选择器
 │   └── dac/
 │       └── dac_edu_parallel_if.v       # 教学 DAC 接口
 ├── sim/
@@ -1317,6 +1328,7 @@ If this is missing, the AD9144 path may link but output a flat waveform.
 | 2026-05-06 | **完成 FPGA-only 排除法验证**：创建 `fpga_only_diag` 最小设计并实测通过，证明 K325T 本体、JTAG、板载 100MHz、debug hub/ILA 正常；AD9144 当前问题收敛到 FMCADDA/LMK/glblclk 路径 | Codex |
 | 2026-05-06 | **FMC 子卡复测与 JESD TX 验证**：发现 vendor reset 延时约 4s，硬件脚本需等待 12-15s；等待后 TX/RX ILA clock 可用，AD9144 TX 侧 QPLL/reset/tready/SYNC/SYSREF/data 正常，AD9250 RX `tvalid=0` 待后续单独处理 | Codex |
 | 2026-05-06 | **补充示波器首测预期**：当前 vendor ROM 路径预期 DAC 输出约 50MHz，先测 OUT1，若为平线再换 OUT2-OUT4；判断前需等待 12-15s 完成复位/配置 | Codex |
+| 2026-05-06 | **开始 AWG core 前端**：新增 `awg_core.v`，把 DDS / 波形选择 / 幅度 / 偏置串成统一前端；`tb_awg_core` 已对拍通过，并已接入 `awg_dds_led_top.v` | Codex |
 
 ### 下次更新建议
 
