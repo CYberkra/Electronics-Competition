@@ -117,7 +117,7 @@ Prefer:
 & D:\vivado\Vivado\2024.1\bin\vivado.bat -mode batch -tempDir C:/tmp/vivado_awg_uart_temp -journal C:/tmp/vivado_awg_uart.jou -log C:/tmp/vivado_awg_uart.log -source D:\FPGA\ad9144_bringup_k325t\scripts\build_awg_uart_direct.tcl
 ```
 
-- [ ] **Step 3: Commit and push `main`**
+- [x] **Step 3: Commit and push `main`**
 
 Commit only source, scripts, and docs. Do not add Vivado generated directories.
 
@@ -127,3 +127,4 @@ Commit only source, scripts, and docs. Do not add Vivado generated directories.
 - Build log: `C:\tmp\vivado_awg_uart.log`
 - `write_bitstream completed successfully`
 - Timing caveat: routed build still reports setup violations (`WNS=-3.330ns`, `TNS=-3948.764ns`), so this remains a bring-up/demo bit until CDC/reset/debug timing cleanup is completed.
+- Main branch commit: `a8cc9c1` (`feat: add AD9144 UART control variant`)
