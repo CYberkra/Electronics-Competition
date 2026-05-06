@@ -1366,3 +1366,51 @@ If this is missing, the AD9144 path may link but output a flat waveform.
   - `run_awg_core_sim.ps1` -> PASS
   - `rebuild_awg_base.tcl` -> PASS, bitstream generated at `D:\awg_fpga\vivado\awg_k325t.runs\impl_1\awg_dds_led_top.bit`
 - Next board step: reconnect the board, program the bitstream in Hardware Manager, and observe KEY0/KEY1 control plus DAC output.
+
+## 14. AWG debug observability addendum (2026-05-06)
+
+- Added visible front-panel feedback in `D:\awg_fpga\rtl\control\awg_led_status.v`.
+  - Normal mode returns to waveform LEDs: `led[0]=awg_sample[15]`, `led[1]=awg_sample[14]^awg_sample[15]`.
+  - After a control change, LEDs show the active edit group for about 1 second:
+    - frequency: `01`
+    - waveform: `10`
+    - amplitude: `11`
+    - offset: both LEDs blink
+- `D:\awg_fpga\rtl\dsp\amp_offset_scale.v` now registers the multiply result and offset before saturation.
+  - This adds one AWG sample clock of latency.
+  - It fixed the 100 MHz setup path from `wave_sel` through the DSP/saturator.
+- Conditional ILA support is inside `D:\awg_fpga\rtl\top\awg_dds_led_top.v` under `AWG_DEBUG_ILA`.
+  - probe0 `key0`
+  - probe1 `key1`
+  - probe2 `rst_n`
+  - probe3 `ui_mode[1:0]`
+  - probe4 `wave_mode[2:0]`
+  - probe5 `freq_load`
+  - probe6 `phase_inc[47:0]`
+  - probe7 `amplitude[15:0]`
+  - probe8 `offset[15:0]`
+  - probe9 `awg_sample[15:0]`
+  - probe10 `sample_valid`
+  - probe11 `da_data[7:0]`
+  - probe12 `led[1:0]`
+- Build commands:
+  - Normal bit: `D:\vivado\Vivado\2024.1\bin\vivado.bat -mode batch -source D:\awg_fpga\scripts\rebuild_awg_base.tcl`
+  - Debug bit/ltx: `D:\vivado\Vivado\2024.1\bin\vivado.bat -mode batch -source D:\awg_fpga\scripts\rebuild_awg_debug.tcl`
+  - Hardware program/capture: `D:\vivado\Vivado\2024.1\bin\vivado.bat -mode batch -source D:\awg_fpga\scripts\program_and_capture_awg_debug.tcl`
+- Output files:
+  - Normal bit: `D:\awg_fpga\vivado\awg_k325t.runs\impl_1\awg_dds_led_top.bit`
+  - Debug bit: `D:\awg_fpga\vivado\awg_k325t.runs\impl_1\awg_dds_led_top_debug.bit`
+  - Debug probes: `D:\awg_fpga\vivado\awg_k325t.runs\impl_1\awg_dds_led_top_debug.ltx`
+  - ILA CSV output directory: `D:\awg_fpga\measurements\ila\capture_YYYYMMDD_HHMMSS`
+- Important workflow detail: `rebuild_awg_debug.tcl` uses the main `impl_1` run, so it temporarily writes a debug `awg_dds_led_top.bit`. Run `rebuild_awg_base.tcl` afterward when the normal non-debug bit should be restored.
+- Fresh verification from 2026-05-06:
+  - `D:\awg_fpga\sim\work\run_awg_led_status_sim.ps1` -> PASS
+  - `D:\awg_fpga\sim\work\run_awg_key_ui_ctrl_sim.ps1` -> PASS
+  - `D:\awg_fpga\sim\work\run_awg_core_sim.ps1` -> PASS
+  - Normal bitstream rebuilt after debug restore: WNS `2.087ns`, hold slack `0.107ns`, 0 failing endpoints.
+  - Debug build script completed and copied debug bit/ltx; debug routed timing was WNS about `1.655ns`, 0 failing endpoints.
+- Board-side capture status:
+  - Computer detects the Digilent USB cable: `USB Serial Converter`, `VID_0403&PID_6014`, serial `210512180081`.
+  - Vivado 2024.1 currently fails at `open_hw_target`: cable is visible but no FPGA devices are detected on the JTAG chain.
+  - This blocks automatic ILA capture and points to board power, JTAG chain, connector, boot/JTAG mode, or physical cabling rather than RTL/license.
+  - Before retrying capture, verify board power LEDs, USB-JTAG port, external power supply if required, JTAG mode/boot switches, and then rerun `program_and_capture_awg_debug.tcl`.
