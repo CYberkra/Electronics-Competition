@@ -41,3 +41,15 @@ Thumbs.db
 *.bit
 *.bin
 *.ltx
+
+# Obsidian local app state
+obsidian/.obsidian/
+
+# Accidental nested Obsidian vault under Vivado project
+vivado/研电赛/
+
+# Vivado IP root generated helper files (keep .xci)
+vivado/**/ip/**/*.xml
+vivado/**/ip/**/*.veo
+vivado/**/ip/**/*.vho
+vivado/**/ip/**/*_ooc.xdc
