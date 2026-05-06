@@ -6,6 +6,8 @@ $ErrorActionPreference = "Stop"
 $vivado_bin = "D:\vivado\Vivado\2024.1\bin"
 $rtl_dds = "D:\awg_fpga\rtl\dds"
 $rtl_dsp = "D:\awg_fpga\rtl\dsp"
+$rtl_sweep = "D:\awg_fpga\rtl\sweep"
+$rtl_wave = "D:\awg_fpga\rtl\wave"
 $tb_dir = "D:\awg_fpga\sim\tb"
 $work_dir = "D:\awg_fpga\sim\work"
 
@@ -39,6 +41,12 @@ if ($LASTEXITCODE -ne 0) { exit 1 }
 if ($LASTEXITCODE -ne 0) { exit 1 }
 
 & $vivado_bin\xvlog.bat -sv "$rtl_dsp\amp_offset_scale.v"
+if ($LASTEXITCODE -ne 0) { exit 1 }
+
+& $vivado_bin\xvlog.bat -sv "$rtl_sweep\sweep_engine.v"
+if ($LASTEXITCODE -ne 0) { exit 1 }
+
+& $vivado_bin\xvlog.bat -sv "$rtl_wave\bram_wave_player.v"
 if ($LASTEXITCODE -ne 0) { exit 1 }
 
 & $vivado_bin\xvlog.bat -sv "$rtl_dsp\awg_core.v"

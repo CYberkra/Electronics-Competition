@@ -7,6 +7,15 @@ set proj_name "awg_k325t"
 # Open project
 open_project [file join $proj_dir "$proj_name.xpr"]
 
+proc ensure_source {path} {
+    if {[llength [get_files -quiet $path]] == 0} {
+        add_files -fileset sources_1 $path
+    }
+}
+
+ensure_source D:/awg_fpga/rtl/sweep/sweep_engine.v
+ensure_source D:/awg_fpga/rtl/wave/bram_wave_player.v
+
 # Ensure top module is set
 set_property verilog_define {} [get_filesets sources_1]
 set_property top awg_dds_led_top [get_filesets sources_1]

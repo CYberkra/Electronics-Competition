@@ -25,6 +25,8 @@ module tb_awg_core;
     localparam PHASE_W    = 64;
     localparam ADDR_W     = 12;
     localparam DATA_W     = 16;
+    localparam [PHASE_W-1:0] SWEEP_START_INC = 64'h0000_0000_0041_8937_4BC7;
+    localparam [PHASE_W-1:0] SWEEP_STOP_INC  = 64'h0000_0000_028F_5C28_F5C3;
     // phase_inc = 2^56 → 256 个时钟周期走完 4096 点 LUT
     localparam PHASE_INC  = 64'h0100_0000_0000_0000;
 
@@ -44,9 +46,11 @@ module tb_awg_core;
     wire              addr_valid;
     wire signed [DATA_W-1:0] sine_sample;
     wire signed [DATA_W-1:0] shape_sample;
+    wire signed [DATA_W-1:0] bram_sample;
     wire signed [DATA_W-1:0] sample_mux_out;
     wire signed [DATA_W-1:0] final_sample;
     wire [ADDR_W-1:0] core_phase_addr;
+    wire [PHASE_W-1:0] phase_inc_active;
     wire signed [DATA_W-1:0] core_sample_raw;
     wire signed [DATA_W-1:0] core_sample_out;
     wire              core_sample_valid;
@@ -102,10 +106,17 @@ module tb_awg_core;
         .wave_out  (shape_sample)
     );
 
+    bram_wave_player #(.ADDR_W(ADDR_W), .DATA_W(DATA_W)) u_bram_wave (
+        .clk        (clk),
+        .addr       (phase_addr),
+        .sample_out (bram_sample)
+    );
+
     sample_mux #(.DATA_W(DATA_W)) u_mux (
         .mode          (wave_mode),
         .sine_sample   (sine_sample),
         .shape_sample  (shape_sample),
+        .bram_sample   (bram_sample),
         .test_sample   (test_ramp),
         .sample_out    (sample_mux_out)
     );
@@ -120,9 +131,13 @@ module tb_awg_core;
     );
 
     awg_core #(
-        .PHASE_W (PHASE_W),
-        .ADDR_W  (ADDR_W),
-        .DATA_W  (DATA_W)
+        .PHASE_W           (PHASE_W),
+        .ADDR_W            (ADDR_W),
+        .DATA_W            (DATA_W),
+        .SWEEP_DWELL_TICKS (32'd4),
+        .SWEEP_START_INC   (SWEEP_START_INC),
+        .SWEEP_STOP_INC    (SWEEP_STOP_INC),
+        .SWEEP_STEP_INC    (SWEEP_START_INC)
     ) u_awg_core (
         .clk          (clk),
         .rst_n        (rst_n),
@@ -134,6 +149,7 @@ module tb_awg_core;
         .offset       (offset),
         .test_sample  (test_ramp),
         .phase_addr   (core_phase_addr),
+        .phase_inc_active (phase_inc_active),
         .sample_raw   (core_sample_raw),
         .sample_out   (core_sample_out),
         .sample_valid (core_sample_valid)
@@ -375,6 +391,75 @@ module tb_awg_core;
             error_cnt = error_cnt + 1;
         end else begin
             $display("  [PASS] Saturation limiter OK");
+        end
+
+        //==================================================================
+        // TEST 8: BRAM arbitrary waveform output
+        //==================================================================
+        $display("\n[TEST 8] BRAM arbitrary waveform output");
+        wave_mode = 3'd5;
+        amplitude = 16'h7FFF;
+        offset    = 16'sd0;
+        #100;
+        peak_max = -32768;
+        peak_min = 32767;
+        repeat (256) begin
+            @(posedge clk);
+            #1;
+            if (bram_sample > peak_max) peak_max = bram_sample;
+            if (bram_sample < peak_min) peak_min = bram_sample;
+            if (core_sample_valid) begin
+                if (sample_mux_out !== bram_sample) begin
+                    $display("  [FAIL] BRAM mux mismatch: ref=%0d dut=%0d",
+                             bram_sample, sample_mux_out);
+                    error_cnt = error_cnt + 1;
+                end
+                if (core_sample_raw !== bram_sample) begin
+                    $display("  [FAIL] BRAM raw mismatch: ref=%0d dut=%0d",
+                             bram_sample, core_sample_raw);
+                    error_cnt = error_cnt + 1;
+                end
+                if (core_sample_out !== final_sample) begin
+                    $display("  [FAIL] BRAM wrapper mismatch: ref=%0d dut=%0d",
+                             final_sample, core_sample_out);
+                    error_cnt = error_cnt + 1;
+                end
+            end
+        end
+        $display("  Peak max = %d  Peak min = %d", peak_max, peak_min);
+        if (peak_max < 15000 || peak_min > -15000) begin
+            $display("  [FAIL] BRAM waveform does not swing enough!");
+            error_cnt = error_cnt + 1;
+        end else begin
+            $display("  [PASS] BRAM waveform path OK");
+        end
+
+        //==================================================================
+        // TEST 9: Sweep engine output
+        //==================================================================
+        $display("\n[TEST 9] Sweep engine output");
+        wave_mode = 3'd6;
+        phase_inc_val = SWEEP_START_INC;
+        freq_load     = 1'b1;
+        @(posedge clk);
+        freq_load     = 1'b0;
+        sample_cnt    = 0;
+        #20;
+        repeat (32) begin
+            @(posedge clk);
+            #1;
+            if (phase_inc_active < SWEEP_START_INC || phase_inc_active > SWEEP_STOP_INC) begin
+                $display("  [FAIL] Sweep phase increment out of range: %h", phase_inc_active);
+                error_cnt = error_cnt + 1;
+            end
+            if (phase_inc_active != SWEEP_START_INC)
+                sample_cnt = sample_cnt + 1;
+        end
+        if (sample_cnt == 0) begin
+            $display("  [FAIL] Sweep increment never changed from the start value!");
+            error_cnt = error_cnt + 1;
+        end else begin
+            $display("  [PASS] Sweep increment changes observed (%0d samples)", sample_cnt);
         end
 
         //==================================================================

@@ -163,14 +163,15 @@ Phase 1: 基础验证
 │   ├── [✅] 板级测试设计（LED 指示）
 │   ├── [✅] Bitstream 生成
 │   └── [⏳] 板子烧录验证（待用户执行）
-├── [🔄] AWG core 前端（DDS + 波形选择 + 幅度/偏置）
+├── [✅] AWG core 前端（DDS + 波形选择 + 幅度/偏置）
 │   ├── [✅] awg_core 统一模块已接入 `awg_dds_led_top`
-│   ├── [✅] `tb_awg_core` 参考链路逐拍对拍通过
-│   └── [⏳] 后续接寄存器/按键控制接口
-├── [⬜] 教学 DAC 接口
-├── [⬜] 扫频引擎
-├── [⬜] BRAM 波形存储
-└── [⬜] Phase 1 Demo
+│   ├── [✅] `wave_mode` 已扩展到 sine/square/triangle/saw/test/BRAM/sweep
+│   ├── [✅] `tb_awg_core` 覆盖 BRAM 与 sweep 模式并通过
+│   └── [✅] `rebuild_awg_base.tcl` 可生成最新 `awg_dds_led_top.bit`
+├── [✅] 教学 DAC 接口
+├── [✅] 扫频引擎
+├── [✅] BRAM 波形存储
+└── [🔄] Phase 1 Demo
 
 Phase 2: 完整系统
 ├── [⬜] DDR3 MIG 配置
@@ -193,7 +194,7 @@ Phase 2: 完整系统
 
 | 工程 | 路径 | 状态 | 最后更新 |
 |------|------|------|----------|
-| **awg_k325t** (DDS) | `D:\awg_fpga` | 🔄 `awg_core` 前端已接入，仿真对拍通过 | 2026-05-06 |
+| **awg_k325t** (DDS) | `D:\awg_fpga` | ✅ BRAM waveform + sweep_engine 已接入；`tb_awg_core` 与 base bitstream 重建通过 | 2026-05-06 |
 | **ad9144_bringup_k325t** (JESD204 vendor demo) | `D:\FPGA\ad9144_bringup_k325t` | 🔎 `top_direct.bit` 已烧录；等待 15s 后 TX/RX ILA clock 可用；AD9144 TX 侧 QPLL/reset/tready/SYNC/SYSREF/data 正常，AD9250 RX `tvalid=0` | 2026-05-06 |
 | **fpga_only_diag** | `D:\FPGA\fpga_only_diag` | ✅ K325T 本体/JTAG/板载 100MHz/ILA 验证通过 | 2026-05-06 |
 | **awg_k325t** (JESD204 integration) | `D:\awg_fpga` | ⏸ 等 standalone 建链验证后再集成 | 2026-05-06 |
@@ -411,6 +412,35 @@ D:\awg_fpga\vivado\awg_k325t.runs\impl_1\awg_dds_led_top.bit
 ```powershell
 & D:\vivado\Vivado\2024.1\bin\vivado.bat -mode batch -source D:\awg_fpga\run_simulation.tcl
 ```
+
+#### 4.1.10 AWG core 当前模式映射
+
+当前 `D:\awg_fpga\rtl\dsp\awg_core.v` 已把 DDS/NCO、波形选择、幅度偏置、BRAM waveform、扫频控制串成统一前端，顶层 `D:\awg_fpga\rtl\top\awg_dds_led_top.v` 通过按键 UI 控制参数。
+
+| `wave_mode` | 输出源 | 说明 |
+|------|------|------|
+| `3'd0` | sine | DDS 相位地址 + `sine_lut` |
+| `3'd1` | square | `wave_shape_gen` 方波 |
+| `3'd2` | triangle | `wave_shape_gen` 三角波 |
+| `3'd3` | sawtooth | `wave_shape_gen` 锯齿波 |
+| `3'd4` | test pattern | `awg_key_ui_ctrl` 提供的测试码型 |
+| `3'd5` | BRAM waveform | `bram_wave_player` 内置梯形任意波 ROM |
+| `3'd6` | sweep sine | `sweep_engine` 输出动态 `phase_inc`，波形仍走 sine 通路 |
+
+关键文件：
+- `D:\awg_fpga\rtl\sweep\sweep_engine.v`: 默认 100 kHz -> 1 MHz -> 100 kHz 线性往返扫频，100 kHz 步进。
+- `D:\awg_fpga\rtl\wave\bram_wave_player.v`: 自包含 ROM，不依赖外部 hex 文件，方便综合和仿真。
+- `D:\awg_fpga\sim\tb\tb_awg_core.v`: 覆盖 sine/square/triangle/saw/amp/offset/saturation/BRAM/sweep。
+- `D:\awg_fpga\sim\work\run_awg_core_sim.ps1`: 一键运行 `tb_awg_core` 回归。
+- `D:\awg_fpga\scripts\rebuild_awg_base.tcl`: 打开 Vivado 工程时自动补入 `rtl\sweep` 和 `rtl\wave` 新源文件。
+
+最新验证（2026-05-06）：
+```powershell
+& D:\awg_fpga\sim\work\run_awg_core_sim.ps1
+& D:\vivado\Vivado\2024.1\bin\vivado.bat -mode batch -source D:\awg_fpga\scripts\rebuild_awg_base.tcl
+```
+
+结果：`tb_awg_core` 9 项测试 0 error；base 工程综合/实现/write_bitstream 通过，输出 `D:\awg_fpga\vivado\awg_k325t.runs\impl_1\awg_dds_led_top.bit`。
 
 ### 4.2 基础示例：1_led
 
@@ -1329,6 +1359,7 @@ If this is missing, the AD9144 path may link but output a flat waveform.
 | 2026-05-06 | **FMC 子卡复测与 JESD TX 验证**：发现 vendor reset 延时约 4s，硬件脚本需等待 12-15s；等待后 TX/RX ILA clock 可用，AD9144 TX 侧 QPLL/reset/tready/SYNC/SYSREF/data 正常，AD9250 RX `tvalid=0` 待后续单独处理 | Codex |
 | 2026-05-06 | **补充示波器首测预期**：当前 vendor ROM 路径预期 DAC 输出约 50MHz，先测 OUT1，若为平线再换 OUT2-OUT4；判断前需等待 12-15s 完成复位/配置 | Codex |
 | 2026-05-06 | **开始 AWG core 前端**：新增 `awg_core.v`，把 DDS / 波形选择 / 幅度 / 偏置串成统一前端；`tb_awg_core` 已对拍通过，并已接入 `awg_dds_led_top.v` | Codex |
+| 2026-05-06 | **落地 Phase 1 AWG 模式扩展**：新增 `sweep_engine.v` 与 `bram_wave_player.v`，`wave_mode` 扩展到 0-6；`tb_awg_core` 新增 BRAM/sweep 回归并通过，`rebuild_awg_base.tcl` 已生成最新 `awg_dds_led_top.bit` | Codex |
 
 ### 下次更新建议
 

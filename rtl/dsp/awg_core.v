@@ -24,7 +24,11 @@
 module awg_core #(
     parameter PHASE_W = 64,
     parameter ADDR_W  = 12,
-    parameter DATA_W  = 16
+    parameter DATA_W  = 16,
+    parameter [31:0] SWEEP_DWELL_TICKS = 32'd2_000_000,
+    parameter [PHASE_W-1:0] SWEEP_START_INC = 48'h004189374BC7,
+    parameter [PHASE_W-1:0] SWEEP_STOP_INC  = 48'h028F5C28F5C3,
+    parameter [PHASE_W-1:0] SWEEP_STEP_INC  = 48'h004189374BC7
 )(
     input  wire                      clk,
     input  wire                      rst_n,
@@ -36,6 +40,7 @@ module awg_core #(
     input  wire signed [DATA_W-1:0]  offset,
     input  wire signed [DATA_W-1:0]  test_sample,
     output wire [ADDR_W-1:0]         phase_addr,
+    output wire [PHASE_W-1:0]        phase_inc_active,
     output wire signed [DATA_W-1:0]  sample_raw,
     output wire signed [DATA_W-1:0]  sample_out,
     output wire                      sample_valid
@@ -49,7 +54,9 @@ module awg_core #(
     wire [ADDR_W-1:0]         phase_addr_i;
     wire signed [DATA_W-1:0]  sine_sample;
     wire signed [DATA_W-1:0]  shape_sample;
+    wire signed [DATA_W-1:0]  bram_sample;
     wire signed [DATA_W-1:0]  mux_sample;
+    wire [PHASE_W-1:0]        phase_inc_drive;
 
     //--------------------------------------------------------------------------
     // 控制字寄存
@@ -73,6 +80,21 @@ module awg_core #(
     //--------------------------------------------------------------------------
     // DDS 相位地址
     //--------------------------------------------------------------------------
+    sweep_engine #(
+        .PHASE_W     (PHASE_W),
+        .DWELL_TICKS (SWEEP_DWELL_TICKS),
+        .START_INC   (SWEEP_START_INC),
+        .STOP_INC    (SWEEP_STOP_INC),
+        .STEP_INC    (SWEEP_STEP_INC)
+    ) u_sweep_engine (
+        .clk              (clk),
+        .rst_n            (rst_n),
+        .enable           (wave_mode == 3'd6),
+        .manual_phase_inc (phase_inc_reg),
+        .phase_inc_out    (phase_inc_drive),
+        .sweep_active     ()
+    );
+
     dds_nco #(
         .PHASE_W (PHASE_W),
         .ADDR_W  (ADDR_W)
@@ -80,7 +102,7 @@ module awg_core #(
         .clk          (clk),
         .rst_n        (rst_n),
         .freq_load    (1'b0),
-        .phase_inc    (phase_inc_reg),
+        .phase_inc    (phase_inc_drive),
         .phase_offset (phase_offset_reg),
         .phase_addr   (phase_addr_i),
         .addr_valid   ()
@@ -108,12 +130,22 @@ module awg_core #(
         .wave_out (shape_sample)
     );
 
+    bram_wave_player #(
+        .ADDR_W (ADDR_W),
+        .DATA_W (DATA_W)
+    ) u_bram_wave_player (
+        .clk        (clk),
+        .addr       (phase_addr_i),
+        .sample_out (bram_sample)
+    );
+
     sample_mux #(
         .DATA_W (DATA_W)
     ) u_sample_mux (
         .mode         (wave_mode),
         .sine_sample  (sine_sample),
         .shape_sample (shape_sample),
+        .bram_sample  (bram_sample),
         .test_sample  (test_sample),
         .sample_out   (mux_sample)
     );
@@ -130,6 +162,7 @@ module awg_core #(
     );
 
     assign phase_addr   = phase_addr_i;
+    assign phase_inc_active = phase_inc_drive;
     assign sample_raw   = mux_sample;
     assign sample_valid = cfg_loaded & valid_pipe[1];
 

@@ -95,6 +95,7 @@ module awg_dds_led_top (
         .offset       (offset),
         .test_sample  (test_sample),
         .phase_addr   (),
+        .phase_inc_active (),
         .sample_raw   (),
         .sample_out   (awg_sample),
         .sample_valid (sample_valid)

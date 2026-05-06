@@ -11,6 +11,15 @@ set artifact_dir "D:/awg_fpga/artifacts/debug"
 
 open_project [file join $proj_dir "$proj_name.xpr"]
 
+proc ensure_source {path} {
+    if {[llength [get_files -quiet $path]] == 0} {
+        add_files -fileset sources_1 $path
+    }
+}
+
+ensure_source D:/awg_fpga/rtl/sweep/sweep_engine.v
+ensure_source D:/awg_fpga/rtl/wave/bram_wave_player.v
+
 set_property top awg_dds_led_top [get_filesets sources_1]
 set_property verilog_define {AWG_DEBUG_ILA} [get_filesets sources_1]
 

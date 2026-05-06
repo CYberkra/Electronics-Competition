@@ -101,6 +101,8 @@ module awg_key_ui_ctrl #(
             3'd2: wave_mode = 3'd2;   // triangle
             3'd3: wave_mode = 3'd3;   // sawtooth
             3'd4: wave_mode = 3'd4;   // test / DC
+            3'd5: wave_mode = 3'd5;   // BRAM waveform
+            3'd6: wave_mode = 3'd6;   // linear sweep
             default: wave_mode = 3'd0;
         endcase
 
@@ -213,7 +215,7 @@ module awg_key_ui_ctrl #(
                             freq_load <= 1'b1;
                         end
                         2'd1: begin
-                            if (wave_sel < 3'd4)
+                            if (wave_sel < 3'd6)
                                 wave_sel <= wave_sel + 1'b1;
                             else
                                 wave_sel <= 3'd0;
@@ -251,7 +253,7 @@ module awg_key_ui_ctrl #(
                             if (wave_sel > 3'd0)
                                 wave_sel <= wave_sel - 1'b1;
                             else
-                                wave_sel <= 3'd4;
+                                wave_sel <= 3'd6;
                         end
                         2'd2: begin
                             if (amp_sel > 3'd0)
