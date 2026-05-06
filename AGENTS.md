@@ -1417,3 +1417,64 @@ If this is missing, the AD9144 path may link but output a flat waveform.
   - Successful ILA capture: `D:\awg_fpga\measurements\ila\capture_20260506_181837\hw_ila_1.csv`.
   - Captured CSV includes `key0/key1/rst_n/ui_mode/wave_mode/freq_load/phase_inc/amplitude/offset/awg_sample/sample_valid/da_data/led`.
   - Default output is 1Hz, so a 2048-sample ILA window at 100MHz shows little visible waveform movement unless controls are changed or a faster debug frequency is used.
+
+## 15. AD9144 AWG Button Variant Addendum (2026-05-06)
+
+- Purpose: make the already-proven AD9144/JESD analog path respond to the two K325T board keys on the oscilloscope.
+- This variant does not replace the known-good vendor baseline `top_direct.bit`.
+- Active bitstream now generated and programmed:
+  - `D:\FPGA\ad9144_bringup_k325t\vivado_awg_button\top_awg_button.bit`
+  - Build log: `D:\FPGA\ad9144_bringup_k325t\vivado_awg_button_build_20260506_retry.log`
+  - Program log: `D:\FPGA\ad9144_bringup_k325t\vivado_awg_button_program_20260506.log`
+- Source and constraints:
+  - `D:\FPGA\ad9144_bringup_k325t\variants\awg_button\top.v`
+  - `D:\FPGA\ad9144_bringup_k325t\constraints\awg_button_k325t.xdc`
+  - `D:\FPGA\ad9144_bringup_k325t\scripts\create_awg_button_project.tcl`
+  - `D:\FPGA\ad9144_bringup_k325t\scripts\build_awg_button_direct.tcl`
+  - `D:\FPGA\ad9144_bringup_k325t\scripts\program_awg_button.tcl`
+- What changed versus `top_direct.bit`:
+  - JESD204/GTX/LMK04828/AD9144/AD9250 initialization is kept from the vendor demo.
+  - The vendor sine ROM path is retained, but its ROM address step, amplitude scale, and phase offset are controlled by keys.
+  - This is a conservative oscilloscope-visible control demo, not the final full `awg_core` JESD integration.
+- Key behavior:
+  - `key0` is `A26`; `key1` is `A25`; both are active-low board buttons.
+  - Default mode is amplitude mode (`ui_mode=1`), default amplitude is about 75 percent.
+  - Press/release `key0`: increase current mode setting.
+  - Press/release `key1`: decrease current mode setting.
+  - Hold both keys for about 250 ms: switch edit mode.
+  - LED output shows `ui_mode`: `0=frequency`, `1=amplitude`, `2=phase`.
+- Scope expectations:
+  - Probe AD9144 `OUT1` first with 50 ohm termination.
+  - After programming, wait 12-15 seconds before judging output.
+  - In default mode, pressing `key0` should increase amplitude toward full-scale; pressing `key1` should reduce amplitude.
+  - Phase mode changes the ROM phase offset but is not a good single-channel pass/fail test; use a stable external reference or a second channel if phase must be judged.
+- Frequency/phase artifact fix:
+  - The AD9144 vendor path packs four DAC samples into each JESD TX beat.
+  - The known-good 50 MHz pattern is `0,5,10,15,20...` in the 100-entry sine ROM.
+  - Do not change only the beat-to-beat address increment. The four samples inside the beat must use `0,1,2,3` times the selected sample step, and the next beat must advance by `4 * sample_step`.
+  - If this relationship is broken, low frequencies show phase-slip artifacts and high frequencies show obvious waveform distortion.
+  - Regression check: `powershell -NoProfile -ExecutionPolicy Bypass -File D:\FPGA\ad9144_bringup_k325t\scripts\check_awg_button_sequence.ps1`.
+- Fresh verification on 2026-05-06:
+  - First build failed because PowerShell wrote a UTF-8 BOM into the copied vendor `top.v`; Vivado reported illegal bytes `EF BB BF`.
+  - BOM was removed and the retry build completed with `write_bitstream completed successfully`.
+  - Generated bitstream size: 3,225,126 bytes.
+  - Hardware programming completed with `End of startup status: HIGH`.
+  - Vivado reported 3 ILA cores and 1 VIO core after programming; missing probes warning only affects debug-core viewing, not analog output.
+
+## 16. AD9144 AWG Button Artifact Fix Addendum (2026-05-06)
+
+- User observation after first scope test:
+  - 50 MHz was mostly smooth with slight artifacts.
+  - Lower frequency showed clear phase-misalignment artifacts.
+  - Higher frequency showed obvious waveform distortion.
+- Root cause:
+  - The first AWG button variant treated the frequency setting as a beat-to-beat ROM address step but kept the four in-beat sample offsets fixed at `+5/+10/+15`.
+  - That produced nonuniform sample order such as `0,5,10,15,1,6...` at low frequency or `0,5,10,15,25,30...` at high frequency.
+- Fix:
+  - `sample_step_from_sel()` now returns the per-DAC-sample ROM step.
+  - In-beat addresses are `phase + 0*step`, `phase + 1*step`, `phase + 2*step`, `phase + 3*step`.
+  - The next JESD beat advances by `4*step`.
+  - Default frequency selection is `3'd4`, mapping to `step=5`, preserving the known-good 50 MHz baseline.
+  - Frequency choices are intentionally conservative for this ROM demo: about 10, 20, 30, 40, 50, 80, and 100 MHz. Higher final AWG frequencies should be implemented with the real NCO/waveform path rather than this 100-point ROM demo.
+- Verification:
+  - `D:\FPGA\ad9144_bringup_k325t\scripts\check_awg_button_sequence.ps1` validates every frequency selection has constant inter-sample phase spacing across JESD beat boundaries.
