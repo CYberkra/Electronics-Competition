@@ -110,3 +110,26 @@ w_rx_tdata[63:0] = 0000000000000000
 2. 先测 **OUT1**，使用 50 ohm 负载/终端。
 3. OUT1 若为平线，依次试 OUT2-OUT4，不要立刻改 RTL。
 4. 若所有输出都为平线，回到 TX ILA、SYSREF/SYNC、AD9144 SPI 初始化、模拟输出使能和供电/时钟指示灯排查。
+
+## 2026-05-07 AWG button waveform demo
+
+当前工作路径已经从 vendor ROM 过渡到四采样 DDS4：
+
+```text
+D:\FPGA\ad9144_bringup_k325t\rtl\awg\ad9144_awg_dds4.v
+D:\FPGA\ad9144_bringup_k325t\rtl\awg\ad9144_sample_packer.v
+D:\FPGA\ad9144_bringup_k325t\variants\awg_button\top.v
+D:\FPGA\ad9144_bringup_k325t\vivado_awg_button\top_awg_button.bit
+```
+
+按键 UI：
+- 默认 `ui_mode=1`，即幅度模式。
+- 双键长按约 250 ms 切换模式：`1=amplitude -> 2=phase -> 3=waveform -> 0=frequency`。
+- 单按 KEY0 增大/前进当前参数，单按 KEY1 减小/后退当前参数。
+- 波形模式下可切换 `0=sine`、`1=square`、`2=triangle`、`3=saw`。
+
+硬件观察：
+- OUT1 已确认有输出。
+- 频率、幅度、波形切换均能在示波器上看到效果。
+- 相位模式暂不作为单通道示波器验收项。
+- 当前仍有波形失真，后续重点是 ILA 可观测性、timing/CDC 清理和模拟输出质量定位。
