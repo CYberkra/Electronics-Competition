@@ -1,7 +1,9 @@
 # Configure DDS Compiler IP with correct parameter dependencies
-# Run: vivado -mode batch -source D:/awg_fpga/scripts/configure_ip_correct.tcl
+# Run: vivado -mode batch -source scripts/configure_ip_correct.tcl
 
-set project_dir "D:/awg_fpga/vivado"
+set script_dir [file normalize [file dirname [info script]]]
+set repo_root [file normalize [file join $script_dir ".."]]
+set project_dir [file join $repo_root "vivado"]
 set project_name "awg_k325t"
 set ip_name "dds_compiler_0"
 

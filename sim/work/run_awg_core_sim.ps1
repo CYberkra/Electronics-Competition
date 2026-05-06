@@ -1,11 +1,14 @@
 # Run standalone behavioral simulation for AWG Core
 # Tests: dds_nco + sine_lut + wave_shape_gen + sample_mux + amp_offset_scale
 
-$vivado_bin = "D:\vivado\Vivado\2024.2\bin"
-$rtl_dds = "D:\awg_fpga\rtl\dds"
-$rtl_dsp = "D:\awg_fpga\rtl\dsp"
-$tb_dir = "D:\awg_fpga\sim\tb"
-$work_dir = "D:\awg_fpga\sim\work"
+$scriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
+$repoRoot = Split-Path (Split-Path $scriptDir -Parent) -Parent
+
+$vivado_bin = "D:\vivado\Vivado\2024.1\bin"
+$rtl_dds = Join-Path $repoRoot "rtl" "dds"
+$rtl_dsp = Join-Path $repoRoot "rtl" "dsp"
+$tb_dir = Join-Path $repoRoot "sim" "tb"
+$work_dir = $scriptDir
 
 New-Item -ItemType Directory -Path $work_dir -Force | Out-Null
 Set-Location $work_dir

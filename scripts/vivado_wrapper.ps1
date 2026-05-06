@@ -1,7 +1,10 @@
 # Wrapper to run Vivado batch with heartbeat for background task compatibility
-$vivado = "D:\vivado\Vivado\2024.2\bin\vivado.bat"
-$tcl = "D:\awg_fpga\scripts\rebuild_awg_base.tcl"
-$log = "D:\awg_fpga\vivado\rebuild_run.log"
+$scriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
+$repoRoot = Split-Path $scriptDir -Parent
+
+$vivado = "D:\vivado\Vivado\2024.1\bin\vivado.bat"
+$tcl = Join-Path $repoRoot "scripts" "rebuild_awg_base.tcl"
+$log = Join-Path $repoRoot "vivado" "rebuild_run.log"
 
 Write-Host "========================================"
 Write-Host "Starting Vivado wrapper"

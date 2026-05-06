@@ -5,8 +5,11 @@
 # ============================================================================
 
 set ip_name "jesd204_tx_ad9144"
-set ip_dir  "D:/awg_fpga/vivado/awg_k325t.srcs/sources_1/ip"
-set project_path "D:/awg_fpga/vivado/awg_k325t.xpr"
+set script_dir [file normalize [file dirname [info script]]]
+set repo_root [file normalize [file join $script_dir ".." ".."]]
+set project_dir [file join $repo_root "vivado"]
+set ip_dir  [file join $project_dir "awg_k325t.srcs" "sources_1" "ip"]
+set project_path [file join $project_dir "awg_k325t.xpr"]
 
 puts "========================================"
 puts "  Creating JESD204 TX IP for AD9144"

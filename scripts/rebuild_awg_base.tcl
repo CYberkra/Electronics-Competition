@@ -1,7 +1,9 @@
 # Rebuild AWG Base Project (DDS IP + DAC Interface)
 # Target: awg_dds_led_top -> bitstream
 
-set proj_dir "D:/awg_fpga/vivado"
+set script_dir [file normalize [file dirname [info script]]]
+set repo_root [file normalize [file join $script_dir ".."]]
+set proj_dir [file join $repo_root "vivado"]
 set proj_name "awg_k325t"
 
 # Open project

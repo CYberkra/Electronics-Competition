@@ -6,8 +6,10 @@
 #          (run from D:\awg_fpga or adjust project_path below)
 # ============================================================================
 
-set project_path "D:/awg_fpga/vivado/awg_k325t.xpr"
-set output_dir   "D:/awg_fpga/vivado"
+set script_dir [file normalize [file dirname [info script]]]
+set repo_root [file normalize [file join $script_dir ".." ".."]]
+set project_path [file join $repo_root "vivado" "awg_k325t.xpr"]
+set output_dir   [file join $repo_root "vivado"]
 
 puts "========================================"
 puts "  Opening project: $project_path"

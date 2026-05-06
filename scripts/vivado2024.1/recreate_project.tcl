@@ -2,8 +2,10 @@
 # Recreate AWG project for Vivado 2024.1 (batch mode)
 # ============================================================================
 
+set script_dir [file normalize [file dirname [info script]]]
+set repo_root [file normalize [file join $script_dir ".." ".."]]
 set project_name "awg_k325t"
-set project_dir  "D:/awg_fpga/vivado"
+set project_dir  [file join $repo_root "vivado"]
 set part         "xc7k325tffg900-2"
 
 puts "========================================"
@@ -29,9 +31,9 @@ puts "  Project created"
 
 # Step 3: Add RTL
 add_files -fileset sources_1 [list \
-    "D:/awg_fpga/rtl/top/awg_dds_led_top.v" \
-    "D:/awg_fpga/rtl/dds/dds_compiler_wrapper.v" \
-    "D:/awg_fpga/rtl/dac/dac_edu_parallel_if.v" \
+    [file join $repo_root "rtl" "top" "awg_dds_led_top.v"] \
+    [file join $repo_root "rtl" "dds" "dds_compiler_wrapper.v"] \
+    [file join $repo_root "rtl" "dac" "dac_edu_parallel_if.v"] \
 ]
 puts "  RTL added"
 
@@ -57,7 +59,7 @@ generate_target all [get_ips dds_compiler_0]
 puts "  DDS IP created and generated"
 
 # Step 5: Add constraints
-add_files -fileset constrs_1 "D:/awg_fpga/constraints/awg_dds_led_top.xdc"
+add_files -fileset constrs_1 [file join $repo_root "constraints" "awg_dds_led_top.xdc"]
 puts "  Constraints added"
 
 # Step 6: Set top

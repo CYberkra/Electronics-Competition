@@ -1,7 +1,9 @@
 # Create Vivado project for AWG K325T
-# Run: vivado -mode batch -source D:/awg_fpga/scripts/create_project.tcl
+# Run: vivado -mode batch -source scripts/create_project.tcl
 
-set project_dir "D:/awg_fpga/vivado"
+set script_dir [file normalize [file dirname [info script]]]
+set repo_root [file normalize [file join $script_dir ".."]]
+set project_dir [file join $repo_root "vivado"]
 set project_name "awg_k325t"
 set part "xc7k325tffg900-2"
 

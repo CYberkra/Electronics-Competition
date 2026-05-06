@@ -2,16 +2,22 @@ import subprocess
 import sys
 import time
 
+from pathlib import Path
+
+repo_root = Path(__file__).parent.resolve()
+
 cmd = [
-    r"D:\vivado\Vivado\2024.2\bin\vivado.bat",
+    r"D:\vivado\Vivado\2024.1\bin\vivado.bat",
     "-mode", "batch",
-    "-source", r"D:\awg_fpga\build_key_freq.tcl"
+    "-source", str(repo_root / "build_key_freq.tcl")
 ]
+
+log_file = repo_root / "build_key_freq.log"
 
 print("Starting Vivado build...")
 print(f"Command: {' '.join(cmd)}")
 
-with open(r"D:\awg_fpga\build_key_freq.log", "w", encoding="utf-8") as log:
+with open(log_file, "w", encoding="utf-8") as log:
     proc = subprocess.Popen(
         cmd,
         stdout=log,

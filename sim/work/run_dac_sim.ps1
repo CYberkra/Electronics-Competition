@@ -1,10 +1,13 @@
 # Run standalone behavioral simulation for dac_edu_parallel_if
 # No Vivado project required; pure Verilog compilation
 
-$vivado_bin = "D:\vivado\Vivado\2024.2\bin"
-$rtl_dir = "D:\awg_fpga\rtl\dac"
-$tb_dir = "D:\awg_fpga\sim\tb"
-$work_dir = "D:\awg_fpga\sim\work"
+$scriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
+$repoRoot = Split-Path (Split-Path $scriptDir -Parent) -Parent
+
+$vivado_bin = "D:\vivado\Vivado\2024.1\bin"
+$rtl_dir = Join-Path $repoRoot "rtl" "dac"
+$tb_dir = Join-Path $repoRoot "sim" "tb"
+$work_dir = $scriptDir
 
 # Ensure work directory exists
 New-Item -ItemType Directory -Path $work_dir -Force | Out-Null

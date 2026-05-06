@@ -1,7 +1,9 @@
 # Complete project creation and DDS Compiler IP configuration
-# Run: vivado -mode batch -source D:/awg_fpga/scripts/create_project_and_ip.tcl
+# Run: vivado -mode batch -source scripts/create_project_and_ip.tcl
 
-set project_dir "D:/awg_fpga/vivado"
+set script_dir [file normalize [file dirname [info script]]]
+set repo_root [file normalize [file join $script_dir ".."]]
+set project_dir [file join $repo_root "vivado"]
 set project_name "awg_k325t"
 set part "xc7k325tffg900-2"
 set ip_name "dds_compiler_0"

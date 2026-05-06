@@ -2,14 +2,19 @@ import subprocess
 import sys
 import os
 
+from pathlib import Path
+
+script_dir = Path(__file__).parent.resolve()
+repo_root = script_dir.parent
+
 vivado_cmd = [
-    r"D:\vivado\Vivado\2024.2\bin\vivado.bat",
+    r"D:\vivado\Vivado\2024.1\bin\vivado.bat",
     "-mode", "batch",
-    "-source", r"D:\awg_fpga\scripts\rebuild_awg_base.tcl"
+    "-source", str(repo_root / "scripts" / "rebuild_awg_base.tcl")
 ]
 
-log_path = r"D:\awg_fpga\vivado\rebuild_run.log"
-err_path = r"D:\awg_fpga\vivado\rebuild_run_err.log"
+log_path = str(repo_root / "vivado" / "rebuild_run.log")
+err_path = str(repo_root / "vivado" / "rebuild_run_err.log")
 
 # Clean old logs
 for p in [log_path, err_path]:

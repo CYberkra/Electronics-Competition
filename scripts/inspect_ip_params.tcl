@@ -1,7 +1,9 @@
 # Inspect DDS Compiler IP parameters
-# Run: vivado -mode batch -source D:/awg_fpga/scripts/inspect_ip_params.tcl
+# Run: vivado -mode batch -source scripts/inspect_ip_params.tcl
 
-set project_dir "D:/awg_fpga/vivado"
+set script_dir [file normalize [file dirname [info script]]]
+set repo_root [file normalize [file join $script_dir ".."]]
+set project_dir [file join $repo_root "vivado"]
 set project_name "awg_k325t"
 
 open_project "$project_dir/$project_name.xpr"

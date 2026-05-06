@@ -56,7 +56,9 @@ def parse_vcd(vcd_path):
     return signals, widths, data
 
 def main():
-    vcd_path = r"D:\awg_fpga\sim\work\dac_interface_tb.vcd"
+    from pathlib import Path
+    script_dir = Path(__file__).parent.resolve()
+    vcd_path = str(script_dir / "dac_interface_tb.vcd")
     
     signals, widths, data = parse_vcd(vcd_path)
     
