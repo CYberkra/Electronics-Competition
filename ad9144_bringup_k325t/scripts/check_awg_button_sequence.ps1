@@ -71,6 +71,7 @@ foreach ($needle in @(
     'ad9144_sample_packer u_ad9144_sample_packer',
     '.phase_inc     (phase_inc)',
     '.phase_offset  (phase_offset)',
+    '.wave_mode     (wave_mode)',
     '.amplitude_q15 (amp_q15)',
     '.sample0       (awg_sample0)',
     '.sample3       (awg_sample3)',
@@ -81,8 +82,32 @@ foreach ($needle in @(
     }
 }
 
+foreach ($pattern in @(
+    'reg\s*\[1:0\]\s+wave_sel\s*;',
+    'wire\s*\[1:0\]\s+wave_mode\s*=\s*wave_sel\s*;',
+    "if\(ui_mode == 2'd3\)",
+    "2'd3:\s+wave_sel\s+<="
+)) {
+    if ($topText -notmatch $pattern) {
+        throw "Missing waveform UI wiring pattern: $pattern"
+    }
+}
+
 if ($ddsText -notmatch 'parameter INIT_FILE\s*=\s*"D:/FPGA/ad9144_bringup_k325t/rtl/awg/ad9144_sine_4096.hex"') {
     throw "DDS module is not pointing at the expected sine table"
+}
+
+foreach ($pattern in @(
+    'input\s+wire\s+\[1:0\]\s+wave_mode',
+    'function\s+signed\s+\[15:0\]\s+shape_from_addr',
+    'function\s+signed\s+\[15:0\]\s+select_raw_sample',
+    "2'd1:\s+shape_from_addr\s+=\s+addr\[11\]\s+\?",
+    "2'd2:\s+begin",
+    "2'd3:\s+begin"
+)) {
+    if ($ddsText -notmatch $pattern) {
+        throw "Missing waveform generator pattern: $pattern"
+    }
 }
 
 if ($packerText -notmatch '(?s)sample3\[7:0\].*sample2\[7:0\].*sample1\[7:0\].*sample0\[7:0\].*sample3\[15:8\].*sample2\[15:8\].*sample1\[15:8\].*sample0\[15:8\]') {

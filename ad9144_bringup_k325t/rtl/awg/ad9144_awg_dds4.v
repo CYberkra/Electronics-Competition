@@ -9,6 +9,7 @@ module ad9144_awg_dds4 #(
     input  wire               rst_n,
     input  wire        [47:0] phase_inc,
     input  wire        [47:0] phase_offset,
+    input  wire         [1:0] wave_mode,
     input  wire        [15:0] amplitude_q15,
     input  wire signed [15:0] offset,
     output reg  signed [15:0] sample0,
@@ -50,10 +51,46 @@ reg [11:0] addr0_s1, addr1_s1, addr2_s1, addr3_s1;
 reg [11:0] addr0_s2, addr1_s2, addr2_s2, addr3_s2;
 
 reg signed [15:0] sine0_s1, sine1_s1, sine2_s1, sine3_s1;
+reg signed [15:0] shape0_s1, shape1_s1, shape2_s1, shape3_s1;
 reg signed [32:0] product0_s2, product1_s2, product2_s2, product3_s2;
 reg [15:0] amp_s0, amp_s1;
 reg signed [15:0] offset_s0, offset_s1, offset_s2;
+reg [1:0] wave_mode_s0, wave_mode_s1;
 reg [2:0] valid_pipe;
+
+function signed [15:0] shape_from_addr;
+    input [1:0] mode;
+    input [11:0] addr;
+    reg [10:0] half_addr;
+    reg [10:0] tri_unsigned;
+    reg signed [12:0] tri_centered;
+    reg signed [13:0] saw_centered;
+    begin
+        half_addr = addr[10:0];
+        case (mode)
+            2'd1: shape_from_addr = addr[11] ? -16'sd32768 : 16'sd32767;
+            2'd2: begin
+                tri_unsigned = addr[11] ? (11'd2047 - half_addr) : half_addr;
+                tri_centered = $signed({1'b0, tri_unsigned}) - 13'sd1024;
+                shape_from_addr = tri_centered <<< 5;
+            end
+            2'd3: begin
+                saw_centered = $signed({1'b0, addr}) - 14'sd2048;
+                shape_from_addr = saw_centered <<< 4;
+            end
+            default: shape_from_addr = 16'sd0;
+        endcase
+    end
+endfunction
+
+function signed [15:0] select_raw_sample;
+    input [1:0] mode;
+    input signed [15:0] sine_value;
+    input signed [15:0] shape_value;
+    begin
+        select_raw_sample = (mode == 2'd0) ? sine_value : shape_value;
+    end
+endfunction
 
 function signed [15:0] scale_and_saturate;
     input signed [32:0] product;
@@ -91,6 +128,10 @@ always @(posedge clk or negedge rst_n) begin
         sine1_s1     <= 16'sd0;
         sine2_s1     <= 16'sd0;
         sine3_s1     <= 16'sd0;
+        shape0_s1    <= 16'sd0;
+        shape1_s1    <= 16'sd0;
+        shape2_s1    <= 16'sd0;
+        shape3_s1    <= 16'sd0;
         product0_s2  <= 33'sd0;
         product1_s2  <= 33'sd0;
         product2_s2  <= 33'sd0;
@@ -100,6 +141,8 @@ always @(posedge clk or negedge rst_n) begin
         offset_s0    <= 16'sd0;
         offset_s1    <= 16'sd0;
         offset_s2    <= 16'sd0;
+        wave_mode_s0 <= 2'd0;
+        wave_mode_s1 <= 2'd0;
         sample0      <= 16'sd0;
         sample1      <= 16'sd0;
         sample2      <= 16'sd0;
@@ -119,22 +162,28 @@ always @(posedge clk or negedge rst_n) begin
         addr3_s0 <= phase3[47:36];
         amp_s0   <= amplitude_q15;
         offset_s0 <= offset;
+        wave_mode_s0 <= wave_mode;
 
         sine0_s1 <= sine_rom0[addr0_s0];
         sine1_s1 <= sine_rom1[addr1_s0];
         sine2_s1 <= sine_rom2[addr2_s0];
         sine3_s1 <= sine_rom3[addr3_s0];
+        shape0_s1 <= shape_from_addr(wave_mode_s0, addr0_s0);
+        shape1_s1 <= shape_from_addr(wave_mode_s0, addr1_s0);
+        shape2_s1 <= shape_from_addr(wave_mode_s0, addr2_s0);
+        shape3_s1 <= shape_from_addr(wave_mode_s0, addr3_s0);
         addr0_s1 <= addr0_s0;
         addr1_s1 <= addr1_s0;
         addr2_s1 <= addr2_s0;
         addr3_s1 <= addr3_s0;
         amp_s1   <= amp_s0;
         offset_s1 <= offset_s0;
+        wave_mode_s1 <= wave_mode_s0;
 
-        product0_s2 <= sine0_s1 * $signed({1'b0, amp_s1});
-        product1_s2 <= sine1_s1 * $signed({1'b0, amp_s1});
-        product2_s2 <= sine2_s1 * $signed({1'b0, amp_s1});
-        product3_s2 <= sine3_s1 * $signed({1'b0, amp_s1});
+        product0_s2 <= select_raw_sample(wave_mode_s1, sine0_s1, shape0_s1) * $signed({1'b0, amp_s1});
+        product1_s2 <= select_raw_sample(wave_mode_s1, sine1_s1, shape1_s1) * $signed({1'b0, amp_s1});
+        product2_s2 <= select_raw_sample(wave_mode_s1, sine2_s1, shape2_s1) * $signed({1'b0, amp_s1});
+        product3_s2 <= select_raw_sample(wave_mode_s1, sine3_s1, shape3_s1) * $signed({1'b0, amp_s1});
         addr0_s2    <= addr0_s1;
         addr1_s2    <= addr1_s1;
         addr2_s2    <= addr2_s1;

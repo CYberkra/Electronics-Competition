@@ -286,6 +286,7 @@ reg key1_d, key1_dd, key1_stable, key1_stable_prev;
 reg[31:0] key0_cnt, key1_cnt, chord_cnt;
 reg combo_seen, chord_latched;
 reg[1:0] ui_mode;
+reg[1:0] wave_sel;
 reg[2:0] freq_sel, amp_sel, phase_sel;
 
 localparam [31:0] KEY_DEBOUNCE_TICKS = 32'd5_000_000;
@@ -342,12 +343,14 @@ endfunction
 wire [47:0] phase_inc    = phase_inc_from_sel(freq_sel);
 wire [15:0] amp_q15      = amp_from_sel(amp_sel);
 wire [47:0] phase_offset = phase_offset_from_sel(phase_sel);
+wire [1:0]  wave_mode    = wave_sel;
 
 ad9144_awg_dds4 u_ad9144_awg_dds4 (
     .clk           (w_tx_core_clk),
     .rst_n         (w_rst_n),
     .phase_inc     (phase_inc),
     .phase_offset  (phase_offset),
+    .wave_mode     (wave_mode),
     .amplitude_q15 (amp_q15),
     .offset        (16'sd0),
     .sample0       (awg_sample0),
@@ -385,6 +388,7 @@ always@ (posedge w_tx_core_clk or negedge w_rst_n) begin
         combo_seen       <= 1'b0;
         chord_latched    <= 1'b0;
         ui_mode          <= 2'd1;
+        wave_sel         <= 2'd0;
         freq_sel         <= 3'd4;
         amp_sel          <= 3'd3;
         phase_sel        <= 3'd0;
@@ -416,7 +420,7 @@ always@ (posedge w_tx_core_clk or negedge w_rst_n) begin
             if(chord_cnt < KEY_CHORD_TICKS)
                 chord_cnt <= chord_cnt + 1'b1;
             else if(!chord_latched) begin
-                if(ui_mode == 2'd2)
+                if(ui_mode == 2'd3)
                     ui_mode <= 2'd0;
                 else
                     ui_mode <= ui_mode + 1'b1;
@@ -435,6 +439,7 @@ always@ (posedge w_tx_core_clk or negedge w_rst_n) begin
                 2'd0: freq_sel  <= (freq_sel  == 3'd6) ? 3'd0 : freq_sel + 1'b1;
                 2'd1: amp_sel   <= (amp_sel   == 3'd4) ? 3'd0 : amp_sel + 1'b1;
                 2'd2: phase_sel <= (phase_sel == 3'd4) ? 3'd0 : phase_sel + 1'b1;
+                2'd3: wave_sel  <= wave_sel + 1'b1;
                 default: begin end
             endcase
         end
@@ -444,6 +449,7 @@ always@ (posedge w_tx_core_clk or negedge w_rst_n) begin
                 2'd0: freq_sel  <= (freq_sel  == 3'd0) ? 3'd6 : freq_sel - 1'b1;
                 2'd1: amp_sel   <= (amp_sel   == 3'd0) ? 3'd4 : amp_sel - 1'b1;
                 2'd2: phase_sel <= (phase_sel == 3'd0) ? 3'd4 : phase_sel - 1'b1;
+                2'd3: wave_sel  <= wave_sel - 1'b1;
                 default: begin end
             endcase
         end

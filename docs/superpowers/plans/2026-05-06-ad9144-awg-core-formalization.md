@@ -112,13 +112,16 @@ Feed the selected raw waveform samples into the existing multiply, offset, satur
 
 - [ ] **Step 4: Add `wave_sel` control in top**
 
-Add `wave_sel` in `top.v`. Long-press still cycles `ui_mode` through frequency, amplitude, and phase for now; waveform mode can be fixed to sine until a fourth UI mode is explicitly added. For this task, wire:
+Add `wave_sel` in `top.v`. Long-press cycles `ui_mode` through frequency, amplitude, phase, and waveform:
 
-```verilog
-wire [1:0] wave_mode = 2'd0;
+```text
+0 = frequency
+1 = amplitude
+2 = phase
+3 = waveform
 ```
 
-The next task can expose it through buttons or VIO.
+In waveform mode, `KEY0` increments `wave_sel` and `KEY1` decrements it. The two-bit wrap order is sine, square, triangle, saw.
 
 ## Task 4: Verify and Rebuild
 

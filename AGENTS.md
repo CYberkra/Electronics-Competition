@@ -1514,3 +1514,11 @@ If this is missing, the AD9144 path may link but output a flat waveform.
   - Move the currently working DDS4 + sample packing path toward a reusable AWG core boundary.
   - Add oscilloscope-visible waveform modes next, starting with sine/square/triangle/saw.
   - Add ILA-visible observability for `ui_mode`, frequency/amplitude/phase selections, waveform mode, generated samples, and `w_tx_tdata` before relying on analog symptoms alone.
+- Implemented first waveform-mode step:
+  - `D:\FPGA\ad9144_bringup_k325t\rtl\awg\ad9144_awg_dds4.v` now supports `wave_mode`: `0=sine`, `1=square`, `2=triangle`, `3=saw`.
+  - `D:\FPGA\ad9144_bringup_k325t\variants\awg_button\top.v` now cycles UI modes as `0=frequency`, `1=amplitude`, `2=phase`, `3=waveform`.
+  - In waveform mode, `KEY0` advances waveform and `KEY1` decrements waveform.
+  - Regression: `D:\FPGA\ad9144_bringup_k325t\scripts\check_awg_button_sequence.ps1` passes.
+  - Bitstream build completed and wrote `D:\FPGA\ad9144_bringup_k325t\vivado_awg_button\top_awg_button.bit` at 2026-05-07 00:31:32.
+  - Programming completed at 2026-05-07 00:32 with startup status `HIGH`.
+  - Timing note: bitstream generation succeeds, but routed timing still reports known vendor/debug/CDC style violations (`WNS` about `-3.24ns`, mostly async/cross-clock paths). Treat current bit as oscilloscope bring-up/demo quality until CDC constraints and debug paths are cleaned.
