@@ -1548,3 +1548,51 @@ If this is missing, the AD9144 path may link but output a flat waveform.
   - Clean known routed timing/CDC/debug-path violations before treating this as a stable engineering release.
   - Improve waveform quality: characterize distortion versus frequency, amplitude, waveform mode, termination, and DAC output channel.
   - Move from the button demo toward a register-controlled AWG interface for the later PC frontend.
+
+## 20. AD9144 Register Skeleton and Debug ILA Build (2026-05-07)
+
+- Added the first register-control boundary without changing the verified button-demo behavior:
+  - `D:\FPGA\ad9144_bringup_k325t\rtl\awg\ad9144_awg_reg_bank.v`
+  - `D:\FPGA\ad9144_bringup_k325t\docs\awg_register_map.md`
+- Current top-level behavior:
+  - `u_ad9144_awg_reg_bank` is instantiated in `D:\FPGA\ad9144_bringup_k325t\variants\awg_button\top.v`.
+  - Its write/read bus is tied idle for now.
+  - Reset default is `CONTROL=0x00000001`, so `output_enable=1` and `use_reg_control=0`.
+  - Therefore the hardware-verified KEY0/KEY1 path remains the active control path.
+  - If a future control master sets `CONTROL[1]=1`, the AWG will use register values for phase increment, phase offset, amplitude, offset, and waveform mode.
+- Register map draft:
+  - `0x00 ID = 0x41574731` (`AWG1`)
+  - `0x04 VERSION = 0x20260507`
+  - `0x08 CONTROL`: bit0 `output_enable`, bit1 `use_reg_control`
+  - `0x10/0x14 PHASE_INC`
+  - `0x18/0x1C PHASE_OFFSET`
+  - `0x20 AMPLITUDE`
+  - `0x24 OFFSET`
+  - `0x28 WAVE_MODE`
+  - `0x2C APPLY`
+  - `0x30 BUTTON_STATE`
+- Added debug build/capture scripts:
+  - `D:\FPGA\ad9144_bringup_k325t\scripts\build_awg_button_debug.tcl`
+  - `D:\FPGA\ad9144_bringup_k325t\scripts\capture_awg_button_debug.tcl`
+  - `D:\FPGA\ad9144_bringup_k325t\scripts\check_awg_register_debug_wiring.ps1`
+- Debug ILA build result:
+  - Preferred command: `D:\vivado\Vivado\2024.1\bin\vivado.bat -mode batch -tempDir C:/tmp/vivado_awg_debug_temp -journal C:/tmp/vivado_awg_button_debug.jou -log C:/tmp/vivado_awg_button_debug.log -source D:\FPGA\ad9144_bringup_k325t\scripts\build_awg_button_debug.tcl`
+  - Result: `write_bitstream completed successfully`
+  - Extra AWG debug nets connected: `384`
+  - Bitstream: `D:\FPGA\ad9144_bringup_k325t\vivado_awg_button\top_awg_button_debug.bit`
+  - Probes: `D:\FPGA\ad9144_bringup_k325t\vivado_awg_button\top_awg_button_debug.ltx`
+  - Timestamp: 2026-05-07 02:31
+- License/temp-directory caution:
+  - If Vivado is launched from a restricted agent sandbox, it may fail with `[Common 17-345] A valid license was not found` even though `C:\Users\17844\AppData\Roaming\XilinxLicense\Xlnx_2024.lic` is still present and valid. Re-run from the normal user environment before concluding that the license is broken.
+  - If `synth_design` reports `Synthesis finished with 0 errors` and then fails on `error deleting "D:/FPGA/.Xil/.../straps.rtd": permission denied`, the RTL and license are not the root cause. Use the preferred command above with `-tempDir C:/tmp/...` and `C:/tmp` logs/journals to avoid the `D:\FPGA\.Xil` cleanup failure.
+- Debug observable groups:
+  - `awg_debug_ctrl`: link/control/mode/select state
+  - `awg_debug_samples`: `sample3..sample0`
+  - `awg_debug_tdata_lo`: final JESD TX data `[63:0]`
+  - `awg_debug_tdata_hi`: final JESD TX data `[127:64]`
+  - `awg_debug_phase_inc`: active 48-bit DDS phase increment
+  - `awg_debug_phase_offset`: active 48-bit phase offset
+- Timing note:
+  - Debug bitstream is generated, but timing is still not clean.
+  - Routed summary for the debug build reported about `WNS=-3.179ns`, `TNS=-2393.698ns`, `807` setup failing endpoints, and no hold failures.
+  - Most remaining failures remain in async/vendor/debug/CDC style paths. Use this bit for ILA bring-up only, not as a final engineering release.

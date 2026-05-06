@@ -279,6 +279,7 @@ jesd_axi_read jesd_axi_read_for_rx(
 wire signed [15:0] awg_sample0, awg_sample1, awg_sample2, awg_sample3;
 wire [11:0] awg_phase_addr0, awg_phase_addr1, awg_phase_addr2, awg_phase_addr3;
 wire awg_sample_valid;
+wire [127:0] awg_tx_tdata;
 // 例化4个相同的ROM，通过地址错位读取，合并成一路信号给JESD204b的数据端口
 // 4路DAC将输出相同的波形信号
 reg key0_d, key0_dd, key0_stable, key0_stable_prev;
@@ -340,10 +341,81 @@ function [47:0] phase_offset_from_sel;
     end
 endfunction
 
-wire [47:0] phase_inc    = phase_inc_from_sel(freq_sel);
-wire [15:0] amp_q15      = amp_from_sel(amp_sel);
-wire [47:0] phase_offset = phase_offset_from_sel(phase_sel);
-wire [1:0]  wave_mode    = wave_sel;
+wire [47:0] key_phase_inc    = phase_inc_from_sel(freq_sel);
+wire [15:0] key_amp_q15      = amp_from_sel(amp_sel);
+wire [47:0] key_phase_offset = phase_offset_from_sel(phase_sel);
+wire [1:0]  key_wave_mode    = wave_sel;
+
+wire        awg_reg_output_enable;
+wire        awg_reg_use_control;
+wire [47:0] awg_reg_phase_inc;
+wire [47:0] awg_reg_phase_offset;
+wire [15:0] awg_reg_amplitude_q15;
+wire signed [15:0] awg_reg_offset;
+wire [1:0]  awg_reg_wave_mode;
+wire        awg_reg_update_toggle;
+wire [31:0] awg_reg_read_data;
+
+ad9144_awg_reg_bank u_ad9144_awg_reg_bank (
+    .clk              (w_tx_core_clk),
+    .rst_n            (w_rst_n),
+    .cfg_wr_en        (1'b0),
+    .cfg_addr         (8'd0),
+    .cfg_wdata        (32'd0),
+    .cfg_rd_en        (1'b0),
+    .cfg_rdata        (awg_reg_read_data),
+    .output_enable    (awg_reg_output_enable),
+    .use_reg_control  (awg_reg_use_control),
+    .phase_inc        (awg_reg_phase_inc),
+    .phase_offset     (awg_reg_phase_offset),
+    .amplitude_q15    (awg_reg_amplitude_q15),
+    .offset           (awg_reg_offset),
+    .wave_mode        (awg_reg_wave_mode),
+    .update_toggle    (awg_reg_update_toggle),
+    .button_ui_mode   (ui_mode),
+    .button_freq_sel  (freq_sel),
+    .button_amp_sel   (amp_sel),
+    .button_phase_sel (phase_sel),
+    .button_wave_sel  (wave_sel),
+    .tx_ready         (w_tx_tready),
+    .tx_sync          (w_tx_sync),
+    .sysref_seen      (w_sysref),
+    .sample_valid     (awg_sample_valid)
+);
+
+wire [47:0] phase_inc    = awg_reg_use_control ? awg_reg_phase_inc : key_phase_inc;
+wire [15:0] amp_q15      = awg_reg_use_control ? awg_reg_amplitude_q15 : key_amp_q15;
+wire [47:0] phase_offset = awg_reg_use_control ? awg_reg_phase_offset : key_phase_offset;
+wire [1:0]  wave_mode    = awg_reg_use_control ? awg_reg_wave_mode : key_wave_mode;
+wire signed [15:0] awg_offset = awg_reg_use_control ? awg_reg_offset : 16'sd0;
+
+(* keep = "true", mark_debug = "true" *) wire [63:0] awg_debug_ctrl = {
+    8'hA5,
+    w_common0_qpll_lock_out,
+    w_tx_reset_done,
+    w_tx_tready,
+    w_tx_sync,
+    w_sysref,
+    awg_sample_valid,
+    awg_reg_output_enable,
+    awg_reg_use_control,
+    2'b00, ui_mode,
+    2'b00, wave_sel,
+    1'b0,  freq_sel,
+    1'b0,  amp_sel,
+    1'b0,  phase_sel,
+    key0_stable,
+    key1_stable,
+    key0_release,
+    key1_release,
+    awg_phase_addr0,
+    awg_phase_addr1
+};
+(* keep = "true", mark_debug = "true" *) wire [63:0] awg_debug_samples = {awg_sample3, awg_sample2, awg_sample1, awg_sample0};
+(* keep = "true", mark_debug = "true" *) wire [63:0] awg_debug_tdata_lo = w_tx_tdata[63:0];
+(* keep = "true", mark_debug = "true" *) wire [63:0] awg_debug_tdata_hi = w_tx_tdata[127:64];
+(* keep = "true", mark_debug = "true" *) wire [63:0] awg_debug_phase_inc = {16'd0, phase_inc};
+(* keep = "true", mark_debug = "true" *) wire [63:0] awg_debug_phase_offset = {16'd0, phase_offset};
 
 ad9144_awg_dds4 u_ad9144_awg_dds4 (
     .clk           (w_tx_core_clk),
@@ -352,7 +424,7 @@ ad9144_awg_dds4 u_ad9144_awg_dds4 (
     .phase_offset  (phase_offset),
     .wave_mode     (wave_mode),
     .amplitude_q15 (amp_q15),
-    .offset        (16'sd0),
+    .offset        (awg_offset),
     .sample0       (awg_sample0),
     .sample1       (awg_sample1),
     .sample2       (awg_sample2),
@@ -369,8 +441,10 @@ ad9144_sample_packer u_ad9144_sample_packer (
     .sample1 (awg_sample1),
     .sample2 (awg_sample2),
     .sample3 (awg_sample3),
-    .tx_tdata(w_tx_tdata)
+    .tx_tdata(awg_tx_tdata)
 );
+
+assign w_tx_tdata = awg_reg_output_enable ? awg_tx_tdata : 128'd0;
 
 always@ (posedge w_tx_core_clk or negedge w_rst_n) begin
     if(~w_rst_n) begin

@@ -84,7 +84,8 @@ if ($badSine) {
 foreach ($pattern in @(
     'reg\s*\[1:0\]\s+ui_mode\s*;',
     'reg\s*\[1:0\]\s+wave_sel\s*;',
-    'wire\s*\[1:0\]\s+wave_mode\s*=\s*wave_sel\s*;',
+    'wire\s*\[1:0\]\s+key_wave_mode\s+=\s+wave_sel\s*;',
+    'wire\s*\[1:0\]\s+wave_mode\s+=\s+awg_reg_use_control\s+\?\s+awg_reg_wave_mode\s+:\s+key_wave_mode\s*;',
     "ui_mode\s+<=\s+2'd1;",
     "wave_sel\s+<=\s+2'd0;",
     "freq_sel\s+<=\s+3'd4;",

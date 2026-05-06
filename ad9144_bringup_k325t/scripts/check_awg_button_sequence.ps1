@@ -84,7 +84,8 @@ foreach ($needle in @(
 
 foreach ($pattern in @(
     'reg\s*\[1:0\]\s+wave_sel\s*;',
-    'wire\s*\[1:0\]\s+wave_mode\s*=\s*wave_sel\s*;',
+    'wire\s*\[1:0\]\s+key_wave_mode\s+=\s+wave_sel\s*;',
+    'wire\s*\[1:0\]\s+wave_mode\s+=\s+awg_reg_use_control\s+\?\s+awg_reg_wave_mode\s+:\s+key_wave_mode\s*;',
     "if\(ui_mode == 2'd3\)",
     "2'd3:\s+wave_sel\s+<="
 )) {

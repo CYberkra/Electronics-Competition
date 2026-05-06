@@ -158,3 +158,30 @@ Run:
 ```
 
 Expected: `End of startup status: HIGH`. After 12-15 seconds, OUT1 should still show the known-good sine output and frequency/amplitude buttons should still work.
+
+## 2026-05-07 Follow-Up: Register Skeleton and Debug ILA
+
+Implemented after the waveform-mode demo was hardware-confirmed:
+
+- Added `D:\FPGA\ad9144_bringup_k325t\rtl\awg\ad9144_awg_reg_bank.v`.
+- Added `D:\FPGA\ad9144_bringup_k325t\docs\awg_register_map.md`.
+- Integrated the register bank in `D:\FPGA\ad9144_bringup_k325t\variants\awg_button\top.v` with `cfg_wr_en=0` and `cfg_rd_en=0`, so the verified button path remains active by default.
+- Added source-level debug buses for control state, samples, final JESD TX data, phase increment, and phase offset.
+- Added `D:\FPGA\ad9144_bringup_k325t\scripts\build_awg_button_debug.tcl`.
+- Added `D:\FPGA\ad9144_bringup_k325t\scripts\capture_awg_button_debug.tcl`.
+- Added `D:\FPGA\ad9144_bringup_k325t\scripts\check_awg_register_debug_wiring.ps1`.
+
+Verification command:
+
+```powershell
+& D:\vivado\Vivado\2024.1\bin\vivado.bat -mode batch -tempDir C:/tmp/vivado_awg_debug_temp -journal C:/tmp/vivado_awg_button_debug.jou -log C:/tmp/vivado_awg_button_debug.log -source D:\FPGA\ad9144_bringup_k325t\scripts\build_awg_button_debug.tcl
+```
+
+Result:
+
+- Debug bit generated: `D:\FPGA\ad9144_bringup_k325t\vivado_awg_button\top_awg_button_debug.bit`
+- Debug probes generated: `D:\FPGA\ad9144_bringup_k325t\vivado_awg_button\top_awg_button_debug.ltx`
+- Extra AWG debug nets connected: `384`
+- Timestamp after re-verify: 2026-05-07 02:31.
+- Timing still not clean: about `WNS=-3.181ns`, so use this only as a debug/bring-up bit.
+- Note: a restricted agent sandbox can falsely report missing Vivado license because it cannot read `C:\Users\17844\AppData\Roaming\XilinxLicense\Xlnx_2024.lic`. Also, direct launches from `D:\FPGA` may fail after successful synthesis on `.Xil/.../straps.rtd` cleanup; using `C:/tmp` for `-tempDir`, log, and journal avoids that failure.
