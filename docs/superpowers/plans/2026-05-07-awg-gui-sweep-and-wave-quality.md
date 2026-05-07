@@ -92,6 +92,6 @@ Document GUI sweep usage, wave-quality limitations, output paths, and the curren
 
 Run `py_compile`, GUI smoke, sweep dry-run, wave-quality quick run, and git diff checks.
 
-- [ ] **Step 3: Commit and push**
+- [x] **Step 3: Commit and push**
 
 Commit tracked source/docs changes to `main`. Leave generated measurement CSVs and Vivado outputs untracked.
