@@ -1759,3 +1759,25 @@ If this is missing, the AD9144 path may link but output a flat waveform.
     - 50 MHz sine: THD `-68.70 dBc`, largest non-harmonic spur `-75.48 dBc`.
     - 100 MHz sine: THD `-66.84 dBc`, largest non-harmonic spur `-325.22 dBc`.
   - Treat it as a digital-code sanity check only; it does not include AD9144 analog effects, JESD latency, clock jitter, output network response, or oscilloscope loading.
+
+## 24. Scope Measurement Workflow and 2026-05-07 Board Notes
+
+- Tool:
+  - `D:\FPGA\ad9144_bringup_k325t\tools\awg_scope_measurement.py`
+- Doc:
+  - `D:\FPGA\ad9144_bringup_k325t\docs\awg_scope_measurement.md`
+- Purpose:
+  - Generate blank measurement CSV sheets from built-in profiles or from UART sweep CSVs.
+  - Summarize filled sheets into Markdown reports.
+  - Keep manual oscilloscope observations tied to the exact UART register settings that produced them.
+- Template examples:
+  - `python D:\FPGA\ad9144_bringup_k325t\tools\awg_scope_measurement.py template --profile freq_response --out D:\FPGA\ad9144_bringup_k325t\measurements\scope_templates\freq_response.csv`
+  - `python D:\FPGA\ad9144_bringup_k325t\tools\awg_scope_measurement.py template --from-sweep D:\FPGA\ad9144_bringup_k325t\measurements\uart_sweeps\scope_freq_response_rerun_20260507_1305.csv`
+- Report example:
+  - `python D:\FPGA\ad9144_bringup_k325t\tools\awg_scope_measurement.py report --input <filled_scope_csv> --out <scope_report_md>`
+- 2026-05-07 confirmed board behavior:
+  - OUT1 responded to UART-controlled frequency, amplitude, and waveform changes.
+  - Frequency response coarse sweep points through 300 MHz looked broadly normal to the user.
+  - The 400 MHz point appeared to have jumping frequency on the oscilloscope.
+  - FPGA-side readback at 400 MHz stayed stable for repeated reads: `PHASE_INC=0x666666666666`, `AMPLITUDE=0x6000`, `WAVE_MODE=0`, `CONTROL=0x00000003`.
+  - Current classification: 400 MHz jump was oscilloscope counter/trigger/measurement behavior, not UART or FPGA register instability.
