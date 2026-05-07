@@ -1666,3 +1666,10 @@ If this is missing, the AD9144 path may link but output a flat waveform.
   5. Run the host `status` command and confirm `ID=0x41574731`.
   6. Send a 50 MHz sine preset, then vary amplitude/frequency from the host.
   7. If UART does not respond, first confirm COM port and that the UART bit, not the button bit, is loaded.
+- Board check on 2026-05-07 morning:
+  - Windows detected the Digilent JTAG cable as `USB Serial Converter`, `VID_0403&PID_6014`, serial `210512180081`.
+  - `program_awg_uart.tcl` programmed `top_awg_uart.bit` successfully.
+  - Vivado reported `End of startup status: HIGH`.
+  - Vivado saw 3 ILA cores and 1 VIO core in the programmed design; missing probes warning only affects debug naming/viewing.
+  - Windows did not expose any `COM` port (`Win32_SerialPort` and `[System.IO.Ports.SerialPort]::GetPortNames()` returned empty), so `awg_uart_control.py --port COMx status` could not be run yet.
+  - Next physical action: connect or enable a real USB-UART path to K325T pins `T23/T22` before judging UART register control. Until then, the UART bit should still behave like the button demo because register control defaults off.
