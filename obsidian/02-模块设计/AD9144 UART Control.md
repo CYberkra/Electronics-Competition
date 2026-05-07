@@ -88,3 +88,72 @@ Get-PnpDevice -PresentOnly -Class Ports
 - Vivado detected 3 ILA cores and 1 VIO core; missing probe-file warnings only affect debug signal names.
 - No Windows `COM` port was present after programming. `Win32_SerialPort` and `[System.IO.Ports.SerialPort]::GetPortNames()` returned empty.
 - Next action is physical: connect or enable a USB-UART adapter to the K325T UART pins (`uart_rxd=T23`, `uart_txd=T22`). After that, run `status` and expect `ID=0x41574731`.
+
+## 2026-05-07 CH340 Validation
+
+- CH340 enumerated as `USB-SERIAL CH340 (COM7)`.
+- Board was power-cycled, so the fixed UART bit was reprogrammed over JTAG.
+- First UART bridge build responded, but every other byte was skipped:
+  - `D 41574731` appeared as `D4543`
+  - `OK` appeared as `O`
+- Root cause:
+  - `ST_SEND` advanced before `uart_tx` had accepted the byte.
+  - readback captured synchronous `cfg_rdata` one clock too early.
+- Fix:
+  - Added `ST_SEND_BUSY` and `ST_SEND_IDLE`.
+  - Added `ST_RD_CAPTURE`.
+  - Added static checks so this does not regress silently.
+- Rebuilt and programmed `top_awg_uart.bit`; Vivado startup status was `HIGH`.
+- Raw UART checks now pass:
+  - `R 00` -> `D 41574731`
+  - `R 04` -> `D 20260507`
+  - `W 08 00000003` -> `OK`
+  - `R 08` -> `D 00000003`
+- Host tool checks pass:
+  - `status` reports `ID=0x41574731`.
+  - `preset --frequency 50000000 --amplitude 0x6000 --wave sine` enables register control.
+  - Final readback: `CONTROL=0x00000003`, `PHASE_INC=0x0CCCCCCCCCCD`, `AMPLITUDE=0x6000`, `WAVE_MODE=0`.
+- Current board state after this check: fixed UART bit is loaded, register control is enabled, and output is configured as 50 MHz sine at amplitude `0x6000`.
+- User confirmed OUT1 shows a normal 50 MHz sine wave with this configuration.
+
+## UART Panel
+
+First GUI panel:
+
+```text
+D:\FPGA\ad9144_bringup_k325t\tools\awg_uart_panel.py
+```
+
+Launch:
+
+```powershell
+python D:\FPGA\ad9144_bringup_k325t\tools\awg_uart_panel.py
+```
+
+The panel can refresh COM ports, read status, apply a frequency/amplitude/phase/waveform preset, turn output off, and return to button control.
+
+Validation:
+
+```text
+python -m py_compile ... -> pass
+python awg_uart_panel.py --smoke -> AWG_UART_PANEL_IMPORT_OK
+Port enumeration -> COM7
+UART status -> ID=0x41574731
+```
+
+## Vivado Thread Setting
+
+Shared scripts now set Vivado to 8 threads by default on this i7-11800H machine:
+
+```text
+D:\FPGA\scripts\vivado_threads.tcl
+D:\FPGA\ad9144_bringup_k325t\scripts\vivado_threads.tcl
+```
+
+Override before running Vivado:
+
+```powershell
+$env:AWG_VIVADO_MAX_THREADS = "4"
+```
+
+Batch verification printed `AWG_VIVADO_MAX_THREADS=8`, `AWG_VIVADO_JOBS=8`, and `VIVADO_GENERAL_MAXTHREADS=8`.
