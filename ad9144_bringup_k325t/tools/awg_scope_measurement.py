@@ -14,8 +14,10 @@ from awg_uart_control import phase_inc_from_frequency
 
 
 DEFAULT_SAMPLE_RATE = 1_000_000_000.0
-DEFAULT_TEMPLATE_DIR = Path("D:/FPGA/ad9144_bringup_k325t/measurements/scope_templates")
-DEFAULT_REPORT_DIR = Path("D:/FPGA/ad9144_bringup_k325t/measurements/scope_reports")
+_TOOLS_DIR = Path(__file__).resolve().parent
+_BRINGUP_ROOT = _TOOLS_DIR.parent
+DEFAULT_TEMPLATE_DIR = _BRINGUP_ROOT / "measurements" / "scope_templates"
+DEFAULT_REPORT_DIR = _BRINGUP_ROOT / "measurements" / "scope_reports"
 
 FIELDNAMES = [
     "timestamp",

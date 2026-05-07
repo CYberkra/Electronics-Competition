@@ -1,8 +1,10 @@
 # Create a Vivado project for the K325T AD9144 AWG button-control variant.
+# The vendor_src path points to external vendor demo sources (not in this repo).
+# Override it by setting the VENDOR_SRC environment variable before running.
 
-if {![info exists proj_root]} {
-    set proj_root "D:/FPGA/ad9144_bringup_k325t"
-}
+set script_dir [file normalize [file dirname [info script]]]
+set proj_root [file normalize [file join $script_dir ".."]]
+
 if {![info exists proj_dir]} {
     set proj_dir  "$proj_root/vivado_awg_button"
 }
@@ -13,7 +15,13 @@ if {![info exists part_name]} {
     set part_name "xc7k325tffg900-2"
 }
 if {![info exists vendor_src]} {
-    set vendor_src "D:/FPGA/FMCADDA-9250-9144/extracted_k7_full/fmcadda_9250_9144_demo_dac4L_k7/fmcadda_9250_9144.srcs"
+    # Allow override via environment variable VENDOR_SRC
+    if {[info exists ::env(VENDOR_SRC)]} {
+        set vendor_src $::env(VENDOR_SRC)
+    } else {
+        # Default: assume vendor sources are at a sibling directory named FMCADDA-9250-9144
+        set vendor_src [file normalize [file join $proj_root ".." "FMCADDA-9250-9144" "extracted_k7_full" "fmcadda_9250_9144_demo_dac4L_k7" "fmcadda_9250_9144.srcs"]]
+    }
 }
 if {![info exists variant_top]} {
     set variant_top "$proj_root/variants/awg_button/top.v"
@@ -39,8 +47,10 @@ if {![file exists $coe_src]} {
 }
 
 # The imported 2018.3 blk_mem_gen_0 IP records legacy COE paths.
-file copy -force $coe_src "D:/FPGA/sine.coe"
-file copy -force $coe_src "D:/FPGA/FMCADDA-9250-9144/sine.coe"
+# Copy to well-known locations the IP expects.
+set coe_copy_dir [file normalize [file join $proj_root ".." ".."]]
+file copy -force $coe_src [file join $coe_copy_dir "sine.coe"]
+file copy -force $coe_src [file join $coe_copy_dir "FMCADDA-9250-9144" "sine.coe"]
 
 create_project -force $project_name $proj_dir -part $part_name
 set_property target_language Verilog [current_project]

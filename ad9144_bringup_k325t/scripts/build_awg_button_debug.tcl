@@ -1,6 +1,5 @@
 # Build an AWG button-control diagnostic bitstream with an extra ILA.
-# The normal fallback bit remains:
-#   D:/FPGA/ad9144_bringup_k325t/vivado_awg_button/top_awg_button.bit
+# The normal fallback bit remains in vivado_awg_button/top_awg_button.bit
 
 set script_dir [file normalize [file dirname [info script]]]
 set repo_root [file normalize [file join $script_dir ".." ".."]]

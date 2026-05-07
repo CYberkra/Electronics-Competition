@@ -94,7 +94,7 @@ foreach ($pattern in @(
     }
 }
 
-if ($ddsText -notmatch 'parameter INIT_FILE\s*=\s*"D:/FPGA/ad9144_bringup_k325t/rtl/awg/ad9144_sine_4096.hex"') {
+if ($ddsText -notmatch 'parameter INIT_FILE\s*=\s*"ad9144_sine_4096.hex"') {
     throw "DDS module is not pointing at the expected sine table"
 }
 

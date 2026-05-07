@@ -18,7 +18,8 @@ set part [get_property part [current_project]]
 puts "Project part: $part"
 
 # Save verification evidence
-set evidence_file "D:/FPGA/.sisyphus/evidence/task-1-project-created.txt"
+set evidence_file [file join $repo_root ".sisyphus" "evidence" "task-1-project-created.txt"]
+file mkdir [file dirname $evidence_file]
 set fh [open $evidence_file w]
 puts $fh "Task 1: Create Vivado Project - Verification"
 puts $fh "============================================"
@@ -85,7 +86,7 @@ puts "  Phase Increment: $phase_inc"
 puts "  Output Selection: $output_sel"
 
 # Save evidence
-set evidence_file2 "D:/FPGA/.sisyphus/evidence/task-2-ip-config.txt"
+set evidence_file2 [file join $repo_root ".sisyphus" "evidence" "task-2-ip-config.txt"]
 set fh2 [open $evidence_file2 w]
 puts $fh2 "Task 2: Configure DDS Compiler IP - Verification"
 puts $fh2 "================================================="

@@ -1,6 +1,9 @@
-set bit_file "D:/FPGA/ad9144_bringup_k325t/vivado_awg_button/top_awg_button_debug.bit"
-set probes_file "D:/FPGA/ad9144_bringup_k325t/vivado_awg_button/top_awg_button_debug.ltx"
-set out_dir "D:/FPGA/ad9144_bringup_k325t/vivado_awg_button/awg_debug_capture"
+set script_dir [file normalize [file dirname [info script]]]
+set proj_root [file normalize [file join $script_dir ".."]]
+
+set bit_file [file join $proj_root "vivado_awg_button" "top_awg_button_debug.bit"]
+set probes_file [file join $proj_root "vivado_awg_button" "top_awg_button_debug.ltx"]
+set out_dir [file join $proj_root "vivado_awg_button" "awg_debug_capture"]
 file mkdir $out_dir
 
 if {![file exists $bit_file]} {

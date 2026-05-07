@@ -1,6 +1,8 @@
 # Program the latest AWG base bitstream onto the connected K325T board.
 
-set bit_file "D:/awg_fpga/vivado/awg_k325t.runs/impl_1/awg_dds_led_top.bit"
+set script_dir [file normalize [file dirname [info script]]]
+set repo_root [file normalize [file join $script_dir ".."]]
+set bit_file [file join $repo_root "vivado" "awg_k325t.runs" "impl_1" "awg_dds_led_top.bit"]
 
 proc cleanup_and_exit {code message} {
     puts $message

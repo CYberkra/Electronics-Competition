@@ -31,7 +31,8 @@ foreach prop [list_property $ip CONFIG.*] {
 puts "=========================================="
 
 # Save to file
-set out_file "D:/FPGA/.sisyphus/evidence/dds_compiler_params.txt"
+set out_file [file join $repo_root ".sisyphus" "evidence" "dds_compiler_params.txt"]
+file mkdir [file dirname $out_file]
 set fh [open $out_file w]
 puts $fh "DDS Compiler v6.0 Parameter Dump"
 puts $fh "================================="

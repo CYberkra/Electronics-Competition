@@ -1,11 +1,13 @@
 # Configure DDS Compiler IP with correct parameter dependencies
-# Run: vivado -mode batch -source D:/awg_fpga/scripts/configure_ip_correct.tcl
+# Run: vivado -mode batch -source scripts/configure_ip_correct.tcl
 
-set project_dir "D:/awg_fpga/vivado"
+set script_dir [file normalize [file dirname [info script]]]
+set repo_root [file normalize [file join $script_dir ".."]]
+set project_dir [file join $repo_root "vivado"]
 set project_name "awg_k325t"
 set ip_name "dds_compiler_0"
 
-open_project "$project_dir/$project_name.xpr"
+open_project [file join $project_dir "$project_name.xpr"]
 
 # Step 1: Set Parameter_Entry to Hardware_Parameters to enable manual Phase_Width/Output_Width
 set_property CONFIG.Parameter_Entry Hardware_Parameters [get_ips $ip_name]
@@ -38,7 +40,8 @@ puts "  Phase Increment: [get_property CONFIG.Phase_Increment [get_ips $ip_name]
 puts "  Output Selection: [get_property CONFIG.Output_Selection [get_ips $ip_name]]"
 
 # Save evidence
-set evidence_file "D:/FPGA/.sisyphus/evidence/task-2-ip-config.txt"
+set evidence_file [file join $repo_root ".sisyphus" "evidence" "task-2-ip-config.txt"]
+file mkdir [file dirname $evidence_file]
 set fh [open $evidence_file w]
 puts $fh "Task 2: Configure DDS Compiler IP - Verification"
 puts $fh "================================================="

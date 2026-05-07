@@ -1,7 +1,10 @@
 # Recreate the AWG UART project and run synthesis inside this Vivado process.
 
-source D:/FPGA/ad9144_bringup_k325t/scripts/vivado_threads.tcl
-source D:/FPGA/ad9144_bringup_k325t/scripts/create_awg_uart_project.tcl
+set script_dir [file normalize [file dirname [info script]]]
+set proj_root [file normalize [file join $script_dir ".."]]
+
+source [file join $proj_root "scripts" "vivado_threads.tcl"]
+source [file join $proj_root "scripts" "create_awg_uart_project.tcl"]
 
 set ips [get_ips -quiet *]
 if {[llength $ips] > 0} {
@@ -20,9 +23,12 @@ if {[llength $ips] > 0} {
 
 update_compile_order -fileset sources_1
 
-synth_design -top top -part xc7k325tffg900-2 -flatten_hierarchy rebuilt
-write_checkpoint -force D:/FPGA/ad9144_bringup_k325t/vivado_awg_uart/top_awg_uart_synth.dcp
-report_utilization -file D:/FPGA/ad9144_bringup_k325t/vivado_awg_uart/top_awg_uart_synth_util.rpt
-report_timing_summary -file D:/FPGA/ad9144_bringup_k325t/vivado_awg_uart/top_awg_uart_synth_timing.rpt
+set out_dir [file join $proj_root "vivado_awg_uart"]
+file mkdir $out_dir
 
-puts "SYNTH_AWG_UART_DCP=D:/FPGA/ad9144_bringup_k325t/vivado_awg_uart/top_awg_uart_synth.dcp"
+synth_design -top top -part xc7k325tffg900-2 -flatten_hierarchy rebuilt
+write_checkpoint -force [file join $out_dir "top_awg_uart_synth.dcp"]
+report_utilization -file [file join $out_dir "top_awg_uart_synth_util.rpt"]
+report_timing_summary -file [file join $out_dir "top_awg_uart_synth_timing.rpt"]
+
+puts "SYNTH_AWG_UART_DCP=[file join $out_dir "top_awg_uart_synth.dcp"]"

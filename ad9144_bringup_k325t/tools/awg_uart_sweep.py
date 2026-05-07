@@ -253,7 +253,10 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--sample-rate", type=float, default=DEFAULT_SAMPLE_RATE)
     parser.add_argument("--settle", type=float, default=0.10)
     parser.add_argument("--profile", choices=["quick", "wave", "amplitude", "full"], default="quick")
-    parser.add_argument("--out", default="D:/FPGA/ad9144_bringup_k325t/measurements/uart_sweeps/sweep_latest.csv")
+    _TOOLS_DIR = Path(__file__).resolve().parent
+    _BRINGUP_ROOT = _TOOLS_DIR.parent
+    _DEFAULT_OUT = _BRINGUP_ROOT / "measurements" / "uart_sweeps" / "sweep_latest.csv"
+    parser.add_argument("--out", default=str(_DEFAULT_OUT))
     parser.add_argument("--dry-run", action="store_true")
     parser.add_argument("--no-restore", dest="restore", action="store_false")
     parser.set_defaults(restore=True)

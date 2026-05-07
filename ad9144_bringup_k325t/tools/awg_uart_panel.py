@@ -39,7 +39,9 @@ from awg_uart_control import (
 DEFAULT_BAUD = 115200
 DEFAULT_TIMEOUT = 1.0
 DEFAULT_SAMPLE_RATE = 1_000_000_000.0
-DEFAULT_SWEEP_DIR = Path("D:/FPGA/ad9144_bringup_k325t/measurements/uart_sweeps")
+_TOOLS_DIR = Path(__file__).resolve().parent
+_BRINGUP_ROOT = _TOOLS_DIR.parent
+DEFAULT_SWEEP_DIR = _BRINGUP_ROOT / "measurements" / "uart_sweeps"
 
 
 def list_ports() -> list[str]:

@@ -1,11 +1,13 @@
 # Rebuild AWG DDS LED Demo with key-controlled frequency
 # Target: xc7k325tffg900-2
 
-set proj_dir "D:/awg_fpga/vivado"
+set script_dir [file normalize [file dirname [info script]]]
+set repo_root [file normalize [file join $script_dir ""]]
+set proj_dir [file join $repo_root "vivado"]
 set proj_name "awg_k325t"
 set top_module "awg_dds_led_top"
 
-source D:/FPGA/scripts/vivado_threads.tcl
+source [file join $repo_root "scripts" "vivado_threads.tcl"]
 
 # Open project
 open_project [file join $proj_dir "$proj_name.xpr"]

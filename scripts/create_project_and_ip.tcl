@@ -1,7 +1,9 @@
 # Complete project creation and DDS Compiler IP configuration
-# Run: vivado -mode batch -source D:/awg_fpga/scripts/create_project_and_ip.tcl
+# Run: vivado -mode batch -source scripts/create_project_and_ip.tcl
 
-set project_dir "D:/awg_fpga/vivado"
+set script_dir [file normalize [file dirname [info script]]]
+set repo_root [file normalize [file join $script_dir ".."]]
+set project_dir [file join $repo_root "vivado"]
 set project_name "awg_k325t"
 set part "xc7k325tffg900-2"
 set ip_name "dds_compiler_0"
@@ -18,13 +20,14 @@ puts "Project created: $project_name"
 puts "Part: $part_actual"
 
 # Save verification evidence
-set evidence_file "D:/FPGA/.sisyphus/evidence/task-1-project-created.txt"
+set evidence_file [file join $repo_root ".sisyphus" "evidence" "task-1-project-created.txt"]
+file mkdir [file dirname $evidence_file]
 set fh [open $evidence_file w]
 puts $fh "Task 1: Create Vivado Project - Verification"
 puts $fh "============================================"
 puts $fh "Timestamp: [clock format [clock seconds]]"
-puts $fh "Project file: $project_dir/$project_name.xpr"
-puts $fh "Project exists: [file exists $project_dir/$project_name.xpr]"
+puts $fh "Project file: [file join $project_dir "$project_name.xpr"]"
+puts $fh "Project exists: [file exists [file join $project_dir "$project_name.xpr"]]"
 puts $fh "Part: $part_actual"
 puts $fh "Target language: [get_property target_language [current_project]]"
 puts $fh "Status: PASSED"
@@ -63,7 +66,7 @@ puts "  Phase Increment: $phase_inc"
 puts "  Output Selection: $output_sel"
 
 # Save evidence
-set evidence_file2 "D:/FPGA/.sisyphus/evidence/task-2-ip-config.txt"
+set evidence_file2 [file join $repo_root ".sisyphus" "evidence" "task-2-ip-config.txt"]
 set fh2 [open $evidence_file2 w]
 puts $fh2 "Task 2: Configure DDS Compiler IP - Verification"
 puts $fh2 "================================================="

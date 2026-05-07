@@ -20,8 +20,10 @@ PHASE_MASK = (1 << PHASE_BITS) - 1
 LUT_BITS = 12
 DEFAULT_SAMPLE_RATE = 1_000_000_000.0
 DEFAULT_SAMPLE_COUNT = 20_000
-DEFAULT_LUT = Path("D:/FPGA/ad9144_bringup_k325t/rtl/awg/ad9144_sine_4096.hex")
-DEFAULT_OUT = Path("D:/FPGA/ad9144_bringup_k325t/reports/wave_quality/wave_quality_latest.csv")
+_TOOLS_DIR = Path(__file__).resolve().parent
+_BRINGUP_ROOT = _TOOLS_DIR.parent
+DEFAULT_LUT = _BRINGUP_ROOT / "rtl" / "awg" / "ad9144_sine_4096.hex"
+DEFAULT_OUT = _BRINGUP_ROOT / "reports" / "wave_quality" / "wave_quality_latest.csv"
 
 
 def signed16(value: int) -> int:
