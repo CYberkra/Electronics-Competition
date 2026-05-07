@@ -1,7 +1,13 @@
+# DEPRECATED: This script is from an early project iteration.
+# Use scripts/vivado2024.1/recreate_project.tcl or rebuild_awg_base.tcl instead.
+# This script remains for reference only and may not work with the current project structure.
+#
 # Verify project and configure DDS Compiler IP (v4 - clean restart)
-# Run: vivado -mode batch -source D:/awg_fpga/scripts/verify_and_configure_ip_v4.tcl
+# Run: vivado -mode batch -source scripts/verify_and_configure_ip_v4.tcl
 
-set project_dir "D:/awg_fpga/vivado"
+set script_dir [file normalize [file dirname [info script]]]
+set repo_root [file normalize [file join $script_dir ".."]]
+set project_dir [file join $repo_root "vivado"]
 set project_name "awg_k325t"
 set ip_name "dds_compiler_0"
 
@@ -9,21 +15,22 @@ set ip_name "dds_compiler_0"
 close_project -quiet
 
 # Delete IP directory if exists
-set ip_dir "$project_dir/$project_name.srcs/sources_1/ip/$ip_name"
+set ip_dir [file join $project_dir "$project_name.srcs" "sources_1" "ip" $ip_name]
 if {[file exists $ip_dir]} {
     file delete -force $ip_dir
     puts "Removed IP directory: $ip_dir"
 }
 
 # Open project
-open_project "$project_dir/$project_name.xpr"
+open_project [file join $project_dir "$project_name.xpr"]
 
 # Verify part
 set part [get_property part [current_project]]
 puts "Project part: $part"
 
 # Save verification evidence
-set evidence_file "D:/FPGA/.sisyphus/evidence/task-1-project-created.txt"
+set evidence_file [file join $repo_root ".sisyphus" "evidence" "task-1-project-created.txt"]
+file mkdir [file dirname $evidence_file]
 set fh [open $evidence_file w]
 puts $fh "Task 1: Create Vivado Project - Verification"
 puts $fh "============================================"
@@ -89,7 +96,7 @@ puts "  Phase Increment: $phase_inc"
 puts "  Output Selection: $output_sel"
 
 # Save evidence
-set evidence_file2 "D:/FPGA/.sisyphus/evidence/task-2-ip-config.txt"
+set evidence_file2 [file join $repo_root ".sisyphus" "evidence" "task-2-ip-config.txt"]
 set fh2 [open $evidence_file2 w]
 puts $fh2 "Task 2: Configure DDS Compiler IP - Verification"
 puts $fh2 "================================================="

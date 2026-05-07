@@ -3,7 +3,7 @@
 // four samples on each tx_core_clk cycle.
 
 module ad9144_awg_dds4 #(
-    parameter INIT_FILE = "D:/FPGA/ad9144_bringup_k325t/rtl/awg/ad9144_sine_4096.hex"
+    parameter INIT_FILE = "ad9144_sine_4096.hex"
 ) (
     input  wire               clk,
     input  wire               rst_n,

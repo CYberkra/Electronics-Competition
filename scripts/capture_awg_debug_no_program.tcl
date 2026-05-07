@@ -4,8 +4,11 @@
 # after the board buttons have been operated. Reprogramming resets the UI
 # state, so this script intentionally avoids program_hw_devices.
 
-set ltx_file "D:/awg_fpga/artifacts/debug/awg_dds_led_top_debug.ltx"
-set out_dir  "D:/awg_fpga/measurements/ila"
+set script_dir [file normalize [file dirname [info script]]]
+set repo_root [file normalize [file join $script_dir ".."]]
+
+set ltx_file [file join $repo_root "artifacts" "debug" "awg_dds_led_top_debug.ltx"]
+set out_dir  [file join $repo_root "measurements" "ila"]
 
 proc cleanup_and_exit {code message} {
     puts $message
@@ -83,7 +86,7 @@ refresh_hw_device -update_hw_probes true $dev
 set ilas [get_hw_ilas]
 puts "HW_ILAS=$ilas"
 if {[llength $ilas] == 0} {
-    cleanup_and_exit 5 "ERROR: no ILA cores found. Program D:/awg_fpga/artifacts/debug/awg_dds_led_top_debug.bit first, then run this script after pressing buttons."
+    cleanup_and_exit 5 "ERROR: no ILA cores found. Program [file join $repo_root "artifacts" "debug" "awg_dds_led_top_debug.bit"] first, then run this script after pressing buttons."
 }
 
 foreach ila $ilas {

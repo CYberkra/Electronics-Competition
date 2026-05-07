@@ -2,7 +2,11 @@
 # The normal fallback bit remains:
 #   D:/FPGA/ad9144_bringup_k325t/vivado_awg_button/top_awg_button.bit
 
-source D:/FPGA/ad9144_bringup_k325t/scripts/synth_awg_button_direct.tcl
+set script_dir [file normalize [file dirname [info script]]]
+set repo_root [file normalize [file join $script_dir ".." ".."]]
+set bringup_root [file normalize [file join $script_dir ".."]]
+
+source [file join $bringup_root "scripts" "synth_awg_button_direct.tcl"]
 
 set tx_clk [get_nets -hier -quiet w_tx_core_clk]
 if {[llength $tx_clk] != 1} {
@@ -49,11 +53,14 @@ place_design
 phys_opt_design
 route_design
 
-report_timing_summary -file D:/FPGA/ad9144_bringup_k325t/vivado_awg_button/top_awg_button_debug_timing_routed.rpt
-report_utilization -file D:/FPGA/ad9144_bringup_k325t/vivado_awg_button/top_awg_button_debug_util_routed.rpt
+set out_dir [file join $bringup_root "vivado_awg_button"]
+file mkdir $out_dir
 
-set bit_file "D:/FPGA/ad9144_bringup_k325t/vivado_awg_button/top_awg_button_debug.bit"
-set ltx_file "D:/FPGA/ad9144_bringup_k325t/vivado_awg_button/top_awg_button_debug.ltx"
+report_timing_summary -file [file join $out_dir "top_awg_button_debug_timing_routed.rpt"]
+report_utilization -file [file join $out_dir "top_awg_button_debug_util_routed.rpt"]
+
+set bit_file [file join $out_dir "top_awg_button_debug.bit"]
+set ltx_file [file join $out_dir "top_awg_button_debug.ltx"]
 write_debug_probes -force $ltx_file
 write_bitstream -force $bit_file
 

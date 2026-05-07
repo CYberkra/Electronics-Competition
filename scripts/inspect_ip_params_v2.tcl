@@ -1,10 +1,16 @@
+# DEPRECATED: This script is from an early project iteration.
+# Use scripts/vivado2024.1/probe_jesd204_params.tcl for current IP probing.
+# This script remains for reference only.
+#
 # Inspect DDS Compiler IP parameters (simplified)
-# Run: vivado -mode batch -source D:/awg_fpga/scripts/inspect_ip_params_v2.tcl
+# Run: vivado -mode batch -source scripts/inspect_ip_params_v2.tcl
 
-set project_dir "D:/awg_fpga/vivado"
+set script_dir [file normalize [file dirname [info script]]]
+set repo_root [file normalize [file join $script_dir ".."]]
+set project_dir [file join $repo_root "vivado"]
 set project_name "awg_k325t"
 
-open_project "$project_dir/$project_name.xpr"
+open_project [file join $project_dir "$project_name.xpr"]
 
 set ip_name "dds_compiler_0"
 set ip [get_ips $ip_name]

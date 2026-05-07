@@ -1,15 +1,17 @@
 # Rebuild AWG debug project with conditional ILA enabled.
 # Output:
-#   D:/awg_fpga/vivado/awg_k325t.runs/impl_1/awg_dds_led_top_debug.bit
-#   D:/awg_fpga/vivado/awg_k325t.runs/impl_1/awg_dds_led_top_debug.ltx
+#   {repo_root}/vivado/awg_k325t.runs/impl_1/awg_dds_led_top_debug.bit
+#   {repo_root}/vivado/awg_k325t.runs/impl_1/awg_dds_led_top_debug.ltx
 
-set proj_dir "D:/awg_fpga/vivado"
+set script_dir [file normalize [file dirname [info script]]]
+set repo_root [file normalize [file join $script_dir ".."]]
+set proj_dir [file join $repo_root "vivado"]
 set proj_name "awg_k325t"
 set ip_dir [file join $proj_dir "$proj_name.srcs" sources_1 ip]
 set ila_name "ila_awg_debug"
-set artifact_dir "D:/awg_fpga/artifacts/debug"
+set artifact_dir [file join $repo_root "artifacts" "debug"]
 
-source D:/FPGA/scripts/vivado_threads.tcl
+source [file join $repo_root "scripts" "vivado_threads.tcl"]
 
 open_project [file join $proj_dir "$proj_name.xpr"]
 
@@ -19,8 +21,8 @@ proc ensure_source {path} {
     }
 }
 
-ensure_source D:/awg_fpga/rtl/sweep/sweep_engine.v
-ensure_source D:/awg_fpga/rtl/wave/bram_wave_player.v
+ensure_source [file join $repo_root "rtl" "sweep" "sweep_engine.v"]
+ensure_source [file join $repo_root "rtl" "wave" "bram_wave_player.v"]
 
 set_property top awg_dds_led_top [get_filesets sources_1]
 set_property verilog_define {AWG_DEBUG_ILA} [get_filesets sources_1]

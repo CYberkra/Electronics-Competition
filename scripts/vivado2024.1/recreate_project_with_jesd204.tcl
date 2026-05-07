@@ -2,11 +2,14 @@
 # Recreate AWG project + JESD204 IP for Vivado 2024.1
 # ============================================================================
 
+set script_dir [file normalize [file dirname [info script]]]
+set repo_root [file normalize [file join $script_dir ".." ".."]]
+
 set project_name "awg_k325t"
-set project_dir  "D:/awg_fpga/vivado"
+set project_dir  [file join $repo_root "vivado"]
 set part         "xc7k325tffg900-2"
 set ip_name      "jesd204_tx_ad9144"
-set ip_dir       "D:/awg_fpga/vivado/awg_k325t.srcs/sources_1/ip"
+set ip_dir       [file join $project_dir "awg_k325t.srcs" "sources_1" "ip"]
 
 puts "========================================"
 puts "  Creating fresh Vivado 2024.1 project"
@@ -32,17 +35,17 @@ puts "  Project created"
 
 # Step 3: Add RTL
 add_files -fileset sources_1 [list \
-    "D:/awg_fpga/rtl/top/awg_dds_led_top.v" \
-    "D:/awg_fpga/rtl/dds/dds_compiler_wrapper.v" \
-    "D:/awg_fpga/rtl/dds/dds_nco.v" \
-    "D:/awg_fpga/rtl/dds/sine_lut.v" \
-    "D:/awg_fpga/rtl/dds/wave_shape_gen.v" \
-    "D:/awg_fpga/rtl/dsp/sample_mux.v" \
-    "D:/awg_fpga/rtl/dsp/amp_offset_scale.v" \
-    "D:/awg_fpga/rtl/dsp/awg_core.v" \
-    "D:/awg_fpga/rtl/control/awg_key_ui_ctrl.v" \
-    "D:/awg_fpga/rtl/control/awg_led_status.v" \
-    "D:/awg_fpga/rtl/dac/dac_edu_parallel_if.v" \
+    [file join $repo_root "rtl" "top" "awg_dds_led_top.v"] \
+    [file join $repo_root "rtl" "dds" "dds_compiler_wrapper.v"] \
+    [file join $repo_root "rtl" "dds" "dds_nco.v"] \
+    [file join $repo_root "rtl" "dds" "sine_lut.v"] \
+    [file join $repo_root "rtl" "dds" "wave_shape_gen.v"] \
+    [file join $repo_root "rtl" "dsp" "sample_mux.v"] \
+    [file join $repo_root "rtl" "dsp" "amp_offset_scale.v"] \
+    [file join $repo_root "rtl" "dsp" "awg_core.v"] \
+    [file join $repo_root "rtl" "control" "awg_key_ui_ctrl.v"] \
+    [file join $repo_root "rtl" "control" "awg_led_status.v"] \
+    [file join $repo_root "rtl" "dac" "dac_edu_parallel_if.v"] \
 ]
 puts "  RTL added"
 
@@ -64,7 +67,7 @@ generate_target all [get_ips dds_compiler_0]
 puts "  DDS IP done"
 
 # Step 5: Add constraints
-add_files -fileset constrs_1 "D:/awg_fpga/constraints/awg_dds_led_top.xdc"
+add_files -fileset constrs_1 [file join $repo_root "constraints" "awg_dds_led_top.xdc"]
 puts "  Constraints added"
 
 # Step 6: Set top

@@ -25,7 +25,9 @@ Verified on 2026-05-07:
 3. Program the UART bit:
 
 ```powershell
-& D:\vivado\Vivado\2024.1\bin\vivado.bat -mode batch -source D:\FPGA\ad9144_bringup_k325t\scripts\program_awg_uart.tcl
+# Set VIVADO_PATH environment variable to your Vivado 2024.1 installation
+$env:VIVADO_PATH = "D:\Xilinx\Vivado\2024.1\bin\vivado.bat"
+& $env:VIVADO_PATH -mode batch -source scripts\program_awg_uart.tcl
 ```
 
 4. Wait 12-15 seconds for AD9144/clock setup.
@@ -57,31 +59,32 @@ Wave: sine
 Build the UART-control bitstream if the generated bit is missing or stale:
 
 ```powershell
-& D:\vivado\Vivado\2024.1\bin\vivado.bat -mode batch -tempDir C:/tmp/vivado_awg_uart_temp -journal C:/tmp/vivado_awg_uart.jou -log C:/tmp/vivado_awg_uart.log -source D:\FPGA\ad9144_bringup_k325t\scripts\build_awg_uart_direct.tcl
+$env:VIVADO_PATH = "D:\Xilinx\Vivado\2024.1\bin\vivado.bat"
+& $env:VIVADO_PATH -mode batch -tempDir C:/tmp/vivado_awg_uart_temp -journal C:/tmp/vivado_awg_uart.jou -log C:/tmp/vivado_awg_uart.log -source scripts\build_awg_uart_direct.tcl
 ```
 
 CLI status check:
 
 ```powershell
-python D:\FPGA\ad9144_bringup_k325t\tools\awg_uart_control.py --port COM7 status
+python tools\awg_uart_control.py --port COM7 status
 ```
 
 CLI preset:
 
 ```powershell
-python D:\FPGA\ad9144_bringup_k325t\tools\awg_uart_control.py --port COM7 preset --frequency 50000000 --amplitude 0x6000 --wave sine
+python tools\awg_uart_control.py --port COM7 preset --frequency 50000000 --amplitude 0x6000 --wave sine
 ```
 
 Run a repeatable UART sweep:
 
 ```powershell
-python D:\FPGA\ad9144_bringup_k325t\tools\awg_uart_sweep.py --port COM7 --profile quick --settle 0.05 --out D:\FPGA\ad9144_bringup_k325t\measurements\uart_sweeps\quick_latest.csv
+python tools\awg_uart_sweep.py --port COM7 --profile quick --settle 0.05 --out measurements\uart_sweeps\quick_latest.csv
 ```
 
 Run digital waveform self-check:
 
 ```powershell
-python D:\FPGA\ad9144_bringup_k325t\tools\awg_wave_quality.py --profile quick --out D:\FPGA\ad9144_bringup_k325t\reports\wave_quality\quick_latest.csv
+python tools\awg_wave_quality.py --profile quick --out reports\wave_quality\quick_latest.csv
 ```
 
 Create a fillable oscilloscope measurement sheet:
@@ -92,13 +95,13 @@ python D:\FPGA\ad9144_bringup_k325t\tools\awg_scope_measurement.py template --pr
 
 ## Documentation Map
 
-- Phase handoff: `D:\FPGA\ad9144_bringup_k325t\docs\phase_handoff_2026-05-07.md`
-- Next board checklist: `D:\FPGA\ad9144_bringup_k325t\docs\next_board_session_checklist.md`
-- UART protocol: `D:\FPGA\ad9144_bringup_k325t\docs\ad9144_uart_control_protocol.md`
-- Register map: `D:\FPGA\ad9144_bringup_k325t\docs\awg_register_map.md`
-- GUI notes: `D:\FPGA\ad9144_bringup_k325t\docs\awg_uart_panel.md`
-- Digital waveform quality: `D:\FPGA\ad9144_bringup_k325t\docs\awg_wave_quality.md`
-- Scope measurement workflow: `D:\FPGA\ad9144_bringup_k325t\docs\awg_scope_measurement.md`
+- Phase handoff: `docs\phase_handoff_2026-05-07.md`
+- Next board checklist: `docs\next_board_session_checklist.md`
+- UART protocol: `docs\ad9144_uart_control_protocol.md`
+- Register map: `docs\awg_register_map.md`
+- GUI notes: `docs\awg_uart_panel.md`
+- Digital waveform quality: `docs\awg_wave_quality.md`
+- Scope measurement workflow: `docs\awg_scope_measurement.md`
 
 ## Generated Files Policy
 

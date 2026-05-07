@@ -1,4 +1,6 @@
-set bit_file "D:/FPGA/ad9144_bringup_k325t/vivado_awg_button/top_awg_button.bit"
+set script_dir [file normalize [file dirname [info script]]]
+set repo_root [file normalize [file join $script_dir ".."]]
+set bit_file [file join $repo_root "vivado_awg_button" "top_awg_button.bit"]
 
 if {![file exists $bit_file]} {
     error "Missing bitstream: $bit_file"

@@ -14,6 +14,61 @@
 
 ---
 
+## AI Quick Start
+
+### 项目概览
+
+**K325T AWG** — 基于正点原子 Kintex-7 325T 开发板的任意波形信号发生器 FPGA 数字基带。
+
+| 项目 | 值 |
+|------|-----|
+| 目标器件 | `xc7k325tffg900-2` |
+| Vivado | **2024.1 Enterprise** (2024.2 不支持 7 系列 JESD204) |
+| 核心指标 | 采样率 ≥ 5GSa/s, 带宽 ≥ 1GHz, 分辨率 ≥ 14bit |
+
+### 双工程结构
+
+```
+Electronics-Competition/
+├── rtl/ + vivado/awg_k325t.xpr          # 基础 AWG 工程 (教学 DAC)
+└── ad9144_bringup_k325t/                # AD9144 高速 DAC bring-up ➜ 见子目录 AGENTS.md
+    └── AGENTS.md                        # 独立的 bring-up 知识库
+```
+
+### 关键导航
+
+| 想做什么 | 看哪里 |
+|----------|--------|
+| 了解最新进展 | [3. 当前项目状态](#3-当前项目状态) |
+| 编码规范/时钟处理 | [5. 技术规范](#5-技术规范) |
+| Vivado 踩坑记录 | [6. 经验教训](#6-经验教训) |
+| 烧录/仿真命令 | [8. 操作指南](#8-操作指南) |
+| AD9144 bring-up 详情 | `ad9144_bringup_k325t/AGENTS.md` |
+| 模块架构图 | `obsidian/01-系统架构/` |
+| 引脚速查 | [9.3 常用引脚速查](#93-常用引脚速查) |
+
+### 关键文件速查
+
+| 文件 | 用途 |
+|------|------|
+| `rtl/top/awg_dds_led_top.v` | 主顶层 (教学 DAC + 按键 UI) |
+| `rtl/dsp/awg_core.v` | AWG 核心 (DDS + 波形选择 + 幅度/偏置) |
+| `rtl/top/awg_fmc_adda_top.v` | FMC ADDA 顶层 stub |
+| `ad9144_bringup_k325t/variants/awg_button/top.v` | **当前工作 AD9144 顶层** |
+| `scripts/rebuild_awg_base.tcl` | 生成基础 bitstream |
+| `constraints/awg_dds_led_top.xdc` | 主约束文件 |
+
+### 反模式速查 (DO NOT)
+
+- ❌ 使用 Vivado 2024.2 — JESD204 IP 不支持 7 系列
+- ❌ 使用 Standard Edition — 不支持 K325T
+- ❌ 差分时钟跳过 `IBUFDS + BUFG`
+- ❌ 脚本中硬编码 `D:/awg_fpga` 路径
+- ❌ 提交 `*.bit`, `*.ltx`, `*.runs/`, `*.cache/` 到 Git
+- ❌ 编程后 12 秒内判断输出 (vendor reset 延迟)
+
+---
+
 ## 目录
 
 1. [项目上下文](#1-项目上下文)

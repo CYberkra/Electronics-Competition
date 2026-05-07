@@ -1,8 +1,10 @@
 # Program AWG debug bit and export ILA capture CSV files.
 
-set bit_file "D:/awg_fpga/artifacts/debug/awg_dds_led_top_debug.bit"
-set ltx_file "D:/awg_fpga/artifacts/debug/awg_dds_led_top_debug.ltx"
-set out_dir  "D:/awg_fpga/measurements/ila"
+set script_dir [file normalize [file dirname [info script]]]
+set repo_root [file normalize [file join $script_dir ".."]]
+set bit_file [file join $repo_root "artifacts" "debug" "awg_dds_led_top_debug.bit"]
+set ltx_file [file join $repo_root "artifacts" "debug" "awg_dds_led_top_debug.ltx"]
+set out_dir [file join $repo_root "measurements" "ila"]
 
 proc cleanup_and_exit {code message} {
     puts $message

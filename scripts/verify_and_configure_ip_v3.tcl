@@ -1,11 +1,17 @@
+# DEPRECATED: This script is from an early project iteration.
+# Use scripts/vivado2024.1/recreate_project.tcl or rebuild_awg_base.tcl instead.
+# This script remains for reference only and may not work with the current project structure.
+#
 # Verify project and configure DDS Compiler IP (v3 - fixed remove command)
-# Run: vivado -mode batch -source D:/awg_fpga/scripts/verify_and_configure_ip_v3.tcl
+# Run: vivado -mode batch -source scripts/verify_and_configure_ip_v3.tcl
 
-set project_dir "D:/awg_fpga/vivado"
+set script_dir [file normalize [file dirname [info script]]]
+set repo_root [file normalize [file join $script_dir ".."]]
+set project_dir [file join $repo_root "vivado"]
 set project_name "awg_k325t"
 
 # Open project
-open_project "$project_dir/$project_name.xpr"
+open_project [file join $project_dir "$project_name.xpr"]
 
 # Verify part
 set part [get_property part [current_project]]

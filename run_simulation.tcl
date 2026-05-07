@@ -1,8 +1,11 @@
 # Vivado Batch Simulation Script for DDS Compiler
 # 自动运行行为仿真并保存波形
 
+set script_dir [file normalize [file dirname [info script]]]
+set repo_root [file normalize [file join $script_dir ""]]
+
 # 打开工程
-open_project D:/awg_fpga/vivado/awg_k325t.xpr
+open_project [file join $repo_root "vivado" "awg_k325t.xpr"]
 
 # 设置顶层仿真模块
 set_property top tb_dds_compiler [get_filesets sim_1]
@@ -14,7 +17,7 @@ launch_simulation -mode behavioral
 run 30us
 
 # 保存波形数据库
-save_wave_config -object [current_wave_config] D:/awg_fpga/vivado/tb_dds_compiler_behav.wcfg
+save_wave_config -object [current_wave_config] [file join $repo_root "vivado" "tb_dds_compiler_behav.wcfg"]
 
 # 输出关键信号值到日志
 puts "============================================"
@@ -29,7 +32,7 @@ puts "  10-20us : 2MHz sine wave"
 puts "  20-25us : 0Hz DC"
 puts ""
 puts "Waveform saved to:"
-puts "  D:/awg_fpga/vivado/awg_k325t.sim/sim_1/behav/xsim/tb_dds_compiler_behav.wdb"
+puts "  [file join $repo_root "vivado" "awg_k325t.sim" "sim_1" "behav" "xsim" "tb_dds_compiler_behav.wdb"]"
 puts ""
 puts "To view waveform:"
 puts "  1. Open Vivado GUI"
