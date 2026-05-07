@@ -157,3 +157,33 @@ $env:AWG_VIVADO_MAX_THREADS = "4"
 ```
 
 Batch verification printed `AWG_VIVADO_MAX_THREADS=8`, `AWG_VIVADO_JOBS=8`, and `VIVADO_GENERAL_MAXTHREADS=8`.
+
+## UART Sweep Logger
+
+Tool:
+
+```text
+D:\FPGA\ad9144_bringup_k325t\tools\awg_uart_sweep.py
+```
+
+Dry run:
+
+```powershell
+python D:\FPGA\ad9144_bringup_k325t\tools\awg_uart_sweep.py --dry-run --out C:\tmp\awg_sweep_dry.csv
+```
+
+Live quick sweep:
+
+```powershell
+python D:\FPGA\ad9144_bringup_k325t\tools\awg_uart_sweep.py --port COM7 --profile quick --settle 0.05 --out D:\FPGA\ad9144_bringup_k325t\measurements\uart_sweeps\quick_latest.csv
+```
+
+Verified live quick sweep rows:
+
+```text
+10 MHz sine -> phase_inc 0x028F5C28F5C3
+50 MHz sine -> phase_inc 0x0CCCCCCCCCCD
+100 MHz sine -> phase_inc 0x19999999999A
+```
+
+The tool restores 50 MHz sine amplitude `0x6000` after live sweeps by default.
