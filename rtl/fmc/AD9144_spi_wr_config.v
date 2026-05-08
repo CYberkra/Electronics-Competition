@@ -401,7 +401,7 @@ always@ (posedge clk_in) begin
                 WR_STA_39  : begin r_wr_infodata <= {1'b0,15'h045, 8'hFF};  end   // Dual B I DAC LSB gain code
                 WR_STA_40  : begin r_wr_infodata <= {1'b0,15'h046, 8'h01};  end   // Dual B Q DAC MSB gain code
                 WR_STA_41  : begin r_wr_infodata <= {1'b0,15'h047, 8'hFF};  end   // Dual B Q DAC LSB gain code
-                WR_STA_42  : begin r_wr_infodata <= {1'b0,15'h112, 8'h01};  end   // Interpolation 2x
+                WR_STA_42  : begin r_wr_infodata <= {1'b0,15'h112, 8'h03};  end   // Interpolation 4x (max 2.8GSPS)
                 WR_STA_43  : begin r_wr_infodata <= {1'b0,15'h110, 8'h00};  end   // twos-complenment
                 WR_STA_44  : begin r_wr_infodata <= {1'b0,15'h111, 8'hA0};  end   //// enable INVSINC filer and digitial gain control
                 WR_STA_45  : begin r_wr_infodata <= {1'b0,15'h13C, 8'hEA};  end   // I DAC LSB GainCode
