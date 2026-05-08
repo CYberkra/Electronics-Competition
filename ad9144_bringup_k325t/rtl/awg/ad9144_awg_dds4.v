@@ -1,6 +1,11 @@
 // Four-sample-per-beat DDS source for the AD9144 JESD TX path.
 // phase_inc is expressed per DAC sample.  The accumulator advances by
 // four samples on each tx_core_clk cycle.
+//
+// NOTE: amplitude_q15 may receive calibrated amplitude from ad9144_awg_cal
+// module when digital calibration is enabled.  The calibration logic is
+// intentionally kept outside this module to preserve clean waveform
+// generation and ease independent verification.
 
 module ad9144_awg_dds4 #(
     parameter INIT_FILE = "ad9144_sine_4096.hex"

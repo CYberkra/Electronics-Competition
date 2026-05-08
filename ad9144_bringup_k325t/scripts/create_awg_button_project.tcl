@@ -19,8 +19,8 @@ if {![info exists vendor_src]} {
     if {[info exists ::env(VENDOR_SRC)]} {
         set vendor_src $::env(VENDOR_SRC)
     } else {
-        # Default: assume vendor sources are at a sibling directory named FMCADDA-9250-9144
-        set vendor_src [file normalize [file join $proj_root ".." "FMCADDA-9250-9144" "extracted_k7_full" "fmcadda_9250_9144_demo_dac4L_k7" "fmcadda_9250_9144.srcs"]]
+        # Default: vendor sources are bundled inside this repo under vendor_src/
+        set vendor_src [file normalize [file join $proj_root "vendor_src" "fmcadda_9250_9144.srcs"]]
     }
 }
 if {![info exists variant_top]} {
@@ -47,10 +47,11 @@ if {![file exists $coe_src]} {
 }
 
 # The imported 2018.3 blk_mem_gen_0 IP records legacy COE paths.
-# Copy to well-known locations the IP expects.
-set coe_copy_dir [file normalize [file join $proj_root ".." ".."]]
+# With vendor sources now inside the repo, the XCI's relative path
+# ../../../../../../sine.coe resolves to the repo root (one level
+# above $proj_root). Copy the COE there so the IP can find it.
+set coe_copy_dir [file normalize [file join $proj_root ".."]]
 file copy -force $coe_src [file join $coe_copy_dir "sine.coe"]
-file copy -force $coe_src [file join $coe_copy_dir "FMCADDA-9250-9144" "sine.coe"]
 
 create_project -force $project_name $proj_dir -part $part_name
 set_property target_language Verilog [current_project]

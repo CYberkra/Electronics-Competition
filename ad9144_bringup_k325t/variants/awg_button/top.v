@@ -365,6 +365,18 @@ wire        awg_cfg_rd_en;
 wire [7:0]  awg_cfg_addr;
 wire [31:0] awg_cfg_wdata;
 
+// Calibration interface wires
+wire [1:0]  awg_reg_range_sel;
+wire        awg_reg_output_en;
+wire        awg_reg_cal_enable;
+wire        awg_reg_cal_wr_en;
+wire [3:0]  awg_reg_cal_wr_addr;
+wire [31:0] awg_reg_cal_wr_data;
+wire        awg_reg_cal_rd_en;
+wire [3:0]  awg_reg_cal_rd_addr;
+wire [31:0] awg_reg_cal_rd_data;
+wire [15:0] awg_cal_amplitude_q15;
+
 `ifdef AWG_UART_CONTROL
 wire awg_uart_activity;
 
@@ -414,11 +426,38 @@ ad9144_awg_reg_bank u_ad9144_awg_reg_bank (
     .tx_ready         (w_tx_tready),
     .tx_sync          (w_tx_sync),
     .sysref_seen      (w_sysref),
-    .sample_valid     (awg_sample_valid)
+    .sample_valid     (awg_sample_valid),
+    // Calibration/range control outputs
+    .range_sel        (awg_reg_range_sel),
+    .output_en        (awg_reg_output_en),
+    .cal_enable       (awg_reg_cal_enable),
+    .cal_wr_en        (awg_reg_cal_wr_en),
+    .cal_wr_addr      (awg_reg_cal_wr_addr),
+    .cal_wr_data      (awg_reg_cal_wr_data),
+    .cal_rd_en        (awg_reg_cal_rd_en),
+    .cal_rd_addr      (awg_reg_cal_rd_addr),
+    .cal_rd_data      (awg_reg_cal_rd_data)
+);
+
+// Digital calibration module: applies freq-dependent gain/offset compensation
+ad9144_awg_cal u_ad9144_awg_cal (
+    .clk               (w_tx_core_clk),
+    .rst_n             (w_rst_n),
+    .cal_enable        (awg_reg_cal_enable),
+    .range_sel         (awg_reg_range_sel),
+    .phase_inc         (awg_reg_use_control ? awg_reg_phase_inc : key_phase_inc),
+    .amplitude_q15_in  (awg_reg_amplitude_q15),
+    .amplitude_q15_out (awg_cal_amplitude_q15),
+    .cal_wr_en         (awg_reg_cal_wr_en),
+    .cal_wr_addr       (awg_reg_cal_wr_addr),
+    .cal_wr_data       (awg_reg_cal_wr_data),
+    .cal_rd_en         (awg_reg_cal_rd_en),
+    .cal_rd_addr       (awg_reg_cal_rd_addr),
+    .cal_rd_data       (awg_reg_cal_rd_data)
 );
 
 wire [47:0] phase_inc    = awg_reg_use_control ? awg_reg_phase_inc : key_phase_inc;
-wire [15:0] amp_q15      = awg_reg_use_control ? awg_reg_amplitude_q15 : key_amp_q15;
+wire [15:0] amp_q15      = awg_reg_use_control ? awg_cal_amplitude_q15 : key_amp_q15;
 wire [47:0] phase_offset = awg_reg_use_control ? awg_reg_phase_offset : key_phase_offset;
 wire [1:0]  wave_mode    = awg_reg_use_control ? awg_reg_wave_mode : key_wave_mode;
 wire signed [15:0] awg_offset = awg_reg_use_control ? awg_reg_offset : 16'sd0;
