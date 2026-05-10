@@ -99,4 +99,3 @@ fifo_for_adc_data fifo_for_adc_data (
   .rd_rst_busy(w_rd_rst_busy)  // output wire rd_rst_busy
 );
 endmodule
-

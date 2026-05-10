@@ -1113,4 +1113,3 @@ input           gt3_data_valid_in,
     );
 
 endmodule
-

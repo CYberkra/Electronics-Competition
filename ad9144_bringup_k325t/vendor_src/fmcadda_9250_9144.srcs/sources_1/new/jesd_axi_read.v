@@ -173,4 +173,3 @@ module jesd_axi_read(
             endcase
     end
 endmodule
-

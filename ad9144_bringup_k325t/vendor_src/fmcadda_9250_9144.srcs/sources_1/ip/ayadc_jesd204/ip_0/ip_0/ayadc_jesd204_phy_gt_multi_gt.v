@@ -1285,4 +1285,3 @@ assign gt2_cpllpd_i = cpll_pd0_i || gt2_cpllpd_in;
 assign gt3_cpllreset_i = cpll_reset0_i || gt3_cpllreset_in;
 assign gt3_cpllpd_i = cpll_pd0_i || gt3_cpllpd_in;
 endmodule
-

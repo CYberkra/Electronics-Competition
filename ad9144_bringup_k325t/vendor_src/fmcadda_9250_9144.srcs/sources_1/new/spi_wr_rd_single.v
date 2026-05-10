@@ -242,4 +242,3 @@ end
 assign datain_ready = (r_datain_ready & (~r_datain_ready_temp1)) ;
 
 endmodule
-

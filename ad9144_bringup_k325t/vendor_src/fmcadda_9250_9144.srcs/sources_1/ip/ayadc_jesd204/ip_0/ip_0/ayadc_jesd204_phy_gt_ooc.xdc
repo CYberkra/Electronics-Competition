@@ -85,4 +85,3 @@ create_clock -period 10.0 [get_ports gt3_gtrefclk0_in]
 ################################################################################
 ############################# SYS/DRP Clock Constraints ########################
 #create_clock -name sysclk_in -period 10.0 [get_ports sysclk_in]
-

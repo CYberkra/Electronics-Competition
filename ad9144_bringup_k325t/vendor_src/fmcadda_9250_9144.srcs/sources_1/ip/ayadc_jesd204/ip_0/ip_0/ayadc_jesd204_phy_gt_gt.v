@@ -849,4 +849,3 @@ wire            rxstartofseq_float_i;
      );
 
 endmodule
-
