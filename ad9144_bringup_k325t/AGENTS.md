@@ -39,6 +39,7 @@ ad9144_bringup_k325t/
 | Program board | `scripts/program_awg_uart.tcl` | Via JTAG, wait 12-15s after |
 | Control from PC | `tools/awg_uart_control.py --port COMx status` | Requires CH340 USB-UART |
 | GUI control | `tools/awg_uart_panel.py` | Tkinter, COM7 default |
+| Competition demo presets | `tools/awg_uart_control.py demo --list` | Fixed sequence for scope sessions |
 | Register map | `docs/ad9144_uart_control_protocol.md` | 115200 8N1, hex addr/data |
 | Waveform quality | `tools/awg_wave_quality.py --profile quick` | Digital-only THD check |
 | Debug ILA build | `scripts/build_awg_button_debug.tcl` | 384 extra probes, timing unclean |
@@ -98,6 +99,11 @@ python tools/awg_uart_control.py --port COM7 status
 
 # Apply 50 MHz sine preset
 python tools/awg_uart_control.py --port COM7 preset --frequency 50000000 --amplitude 0x6000 --wave sine
+
+# List and run competition demo presets
+python tools/awg_uart_control.py demo --list
+python tools/awg_uart_control.py --port COM7 demo baseline_50m
+python tools/awg_uart_control.py --port COM7 demo all --step-delay 2.0
 
 # Quick sweep
 python tools/awg_uart_sweep.py --port COM7 --profile quick --settle 0.05
