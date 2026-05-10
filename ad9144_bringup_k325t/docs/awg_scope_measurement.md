@@ -42,6 +42,27 @@ Keep `termination=50ohm` when the oscilloscope input is set to 50 ohm or an exte
 python D:\FPGA\ad9144_bringup_k325t\tools\awg_scope_measurement.py report --input D:\FPGA\ad9144_bringup_k325t\measurements\scope_templates\scope_freq_response_rerun_20260507_1305_scope_template.csv --out D:\FPGA\ad9144_bringup_k325t\measurements\scope_reports\scope_freq_response_rerun_20260507_1305.md
 ```
 
+## Derive A Calibration Table
+
+Once the scope CSV has measured `measured_vpp_v` values filled in, derive the 16-bin calibration table:
+
+```powershell
+python D:\FPGA\ad9144_bringup_k325t\tools\awg_scope_measurement.py calibration --input D:\FPGA\ad9144_bringup_k325t\measurements\scope_templates\scope_freq_response_rerun_20260507_1305_scope_template.csv --out D:\FPGA\ad9144_bringup_k325t\measurements\calibration_tables\scope_freq_response_rerun_20260507_1305_calibration.csv
+```
+
+The generated CSV can be loaded directly with:
+
+```powershell
+python D:\FPGA\ad9144_bringup_k325t\tools\awg_uart_control.py --port COM7 cal load --input D:\FPGA\ad9144_bringup_k325t\measurements\calibration_tables\scope_freq_response_rerun_20260507_1305_calibration.csv --enable
+```
+
+Calibration rules:
+
+- `phase_inc[47:44]` selects one of the 16 table bins.
+- `gain_q15_hex` uses unsigned Q1.15 scaling: `0x4000=0.5`, `0x8000=1.0`, `0xFFFF~=2.0`.
+- `offset_hex` stays at zero in the first pass unless the analog path needs DC trimming.
+- Bins without measurement data are emitted as unity gain so the table is always complete.
+
 ## Current Board Observation
 
 On 2026-05-07, OUT1 was verified to respond to UART-controlled frequency, amplitude, and waveform changes. The 400 MHz point appeared to have jumping frequency on the oscilloscope, but repeated UART readback showed stable FPGA registers:
