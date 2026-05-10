@@ -6,8 +6,8 @@
 ## \   \   \/     Version : 3.6
 ##  \   \         Application : 7 Series FPGAs Transceivers Wizard
 ##  /   /         Filename : ayadc_jesd204_phy_gt_ooc.xdc
-## /___/   /\     
-## \   \  /  \ 
+## /___/   /\
+## \   \  /  \
 ##  \___\/\___\
 ##
 ##
@@ -59,7 +59,7 @@
 ## liability of any use of Xilinx products in Critical
 ## Applications, subject only to applicable laws and
 ## regulations governing limitations on product liability.
-## 
+##
 ## THIS COPYRIGHT NOTICE AND DISCLAIMER MUST BE RETAINED AS
 ## PART OF THIS FILE AT ALL TIMES.
 ################################################################################
@@ -67,7 +67,7 @@
 ################################################################################
 # This constraints file contains default clock frequencies to be used during out-of-context flows such as
 # OOC Synthesis and Hierarchical Designs. For best results the frequencies should be modified
-# to match the target frequencies. 
+# to match the target frequencies.
 # This constraints file is not used in normal top-down synthesis (the default flow of Vivado)
 ################################################################################
 

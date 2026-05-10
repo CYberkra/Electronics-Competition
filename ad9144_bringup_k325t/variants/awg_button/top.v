@@ -1,30 +1,30 @@
 `timescale 1ns / 1ps
 //////////////////////////////////////////////////////////////////////////////////
-// Company: 
-// Engineer: 
-// 
+// Company:
+// Engineer:
+//
 // Create Date: 2021/05/27 20:16:58
-// Design Name: 
+// Design Name:
 // Module Name: fmcadda_9250_9144_top
-// Project Name: 
-// Target Devices: 
-// Tool Versions: 
-// Description: 
-// 
-// Dependencies: 
-// 
+// Project Name:
+// Target Devices:
+// Tool Versions:
+// Description:
+//
+// Dependencies:
+//
 // Revision:
 // Revision 0.01 - File Created
 // Additional Comments:
-// 
+//
 //////////////////////////////////////////////////////////////////////////////////
-module top (   
+module top (
         input refclk_p, //GTX参考时钟 ref clk = 125M
         input refclk_n,
-        input glblclk_p, ////jesd204b参考时钟 = lane_rate / 40 = 125MHz 
+        input glblclk_p, ////jesd204b参考时钟 = lane_rate / 40 = 125MHz
         input glblclk_n,
         input sysref_p,
-        input sysref_n, 
+        input sysref_n,
         output o_rx_sync_p,
         output o_rx_sync_n,
 
@@ -51,19 +51,19 @@ module top (
 //        output dac_txn_d5,
 //        output dac_txn_d6,
 //        output dac_txn_d7,
-        
+
         inout ads_sda, //adc spi引脚
         output ads_sclk,
         output ads_sen_n,
         output ads_rstn,
-        
+
         inout  das_sda, //dac spi引脚
         output das_sclk,
         output das_sen_n,
         output das_rstn,
         output das_txen0,
         output das_txen1,
-                
+
         inout lmk_sda, //lmk04828 spi引脚
         output  lmk_sclk,
         output  lmk_cs_n,
@@ -117,8 +117,8 @@ module top (
     .clk_out1(clk_25m),     // output clk_out1 25M for other
     .clk_out2(clk_axi_100m),     // output clk_out3 100M for jesd204_AXI
     .locked(mmcm_locked),       // output locked
-    .clk_in1(sys_clk_bufg));      // input clk_in1      
-    
+    .clk_in1(sys_clk_bufg));      // input clk_in1
+
 
 reg lmk_datain_valid;
 wire lmk_datain_ready;
@@ -131,41 +131,41 @@ wire das_datain_ready;
 lmk_spi_wr_config lmk_spi_wr_config_inst(
                         .clk_in(clk_25m),
                         .rst_n(w_rst_n),
-                        
+
                         .o_sclk(lmk_sclk),
                         .io_sda(lmk_sda),
                         .o_cs_n(lmk_cs_n),
                         .o_lmk_rst(lmk_rst),
                         .datain_valid(lmk_datain_valid),
                         .datain_ready(lmk_datain_ready)
-                        );           
+                        );
 ad9250_spi_config ad9250_spi_config_inst(
                         .clk_in(clk_25m),
                         .rst_n(w_rst_n),
-                        
+
                         .o_sclk(ads_sclk),
                         .io_sda(ads_sda),
                         .o_sen_n(ads_sen_n),
                         .o_reset(ads_rstn),
                         .datain_valid(ads_datain_valid),
                         .datain_ready(ads_datain_ready)
-                        );    
+                        );
 ad9144_spi_config ad9144_spi_config_inst(
                         .clk_in(clk_25m),
                         .rst_n(w_rst_n),
-                        
+
                         .o_sclk(das_sclk),
                         .io_sda(das_sda),
                         .o_sen_n(das_sen_n),
                         .o_reset(das_rstn),
                         .datain_valid(das_datain_valid),
                         .datain_ready(das_datain_ready)
-                        );                         
+                        );
 
 assign das_txen0 = 1'b1;
 assign das_txen1 = 1'b1;
 reg init_done;
-wire rx_core_clk_out;   
+wire rx_core_clk_out;
 wire[63:0] w_rx_tdata;
 wire w_rx_tvalid;
 wire[3:0] w_rx_start_of_frame, w_rx_end_of_frame;
@@ -186,7 +186,7 @@ wire w_rx_core_clk, w_tx_core_clk;
       .I(sysref_p),  // Diff_p buffer input (connect directly to top-level port)
       .IB(sysref_n) // Diff_n buffer input (connect directly to top-level port)
    );
-wire w_qpll_refclk; 
+wire w_qpll_refclk;
 wire w_tx_reset_gt, w_rx_reset_gt;
 wire w_tx_sys_reset, w_rx_sys_reset;
 reg r_jesd_tx_sys_reset, r_jesd_rx_sys_reset;
@@ -255,7 +255,7 @@ jesd_axi_read jesd_axi_read_for_rx(
     .s_axi_arvalid   (w_rx_s_axi_arvalid),   //读地址有效
     .s_axi_rdata     (w_rx_s_axi_rdata  ),   //读数据
     .s_axi_rready    (w_rx_s_axi_rready )      //读数据就绪
-    );          
+    );
    IBUFDS_GTE2 #(
       .CLKCM_CFG("TRUE"),   // Refer to Transceiver User Guide
       .CLKRCV_TRST("TRUE"), // Refer to Transceiver User Guide
@@ -674,7 +674,7 @@ jesd204_rx jesd204_rx_inst (
   .s_axi_aresetn(w_rst_n),                    // input wire s_axi_aresetn
   .s_axi_awaddr(0),                      // input wire [11 : 0] s_axi_awaddr
   .s_axi_awvalid(0),                    // input wire s_axi_awvalid
-  .s_axi_awready(),                    // output wire s_axi_awready                                
+  .s_axi_awready(),                    // output wire s_axi_awready
   .s_axi_wdata(0),                        // input wire [31 : 0] s_axi_wdata
   .s_axi_wstrb(0),                        // input wire [3 : 0] s_axi_wstrb
   .s_axi_wvalid(0),                      // input wire s_axi_wvalid
@@ -716,22 +716,22 @@ jesd204_tx jesd204_tx_inst (
   .tx_reset_gt(w_tx_reset_gt),                        // output wire tx_reset_gt
   .tx_core_clk(w_tx_core_clk),                        // input wire tx_core_clk
   .s_axi_aclk(clk_axi_100m),                          // input wire s_axi_aclk
-  .s_axi_aresetn(w_rst_n),                            // input wire s_axi_aresetn              
-  .s_axi_awaddr(w_tx_s_axi_awaddr),                      // input wire [11 : 0] s_axi_awaddr           
-  .s_axi_awvalid(w_tx_s_axi_awvalid),                    // input wire s_axi_awvalid                    
-  .s_axi_awready(w_tx_s_axi_awready),                    // output wire s_axi_awready                      
-  .s_axi_wdata(w_tx_s_axi_wdata),                        // input wire [31 : 0] s_axi_wdata              
-  .s_axi_wstrb(4'b1111),                                       // input wire [3 : 0] s_axi_wstrb              
-  .s_axi_wvalid(w_tx_s_axi_wvalid),                      // input wire s_axi_wvalid                    
-  .s_axi_wready(w_tx_s_axi_wready),                      // output wire s_axi_wready                     
-  .s_axi_bresp(w_tx_s_axi_bresp),                        // output wire [1 : 0] s_axi_bresp             
-  .s_axi_bvalid(w_tx_s_axi_bvalid),                      // output wire s_axi_bvalid           
-  .s_axi_bready(w_tx_s_axi_bready),                      // input wire s_axi_bready                    
-  .s_axi_araddr(w_rx_s_axi_araddr),                      // input wire [11 : 0] s_axi_araddr           
-  .s_axi_arvalid(w_rx_s_axi_arvalid),                    // input wire s_axi_arvalid                    
-  .s_axi_arready(w_rx_s_axi_arready),                    // output wire s_axi_arready                    
-  .s_axi_rdata(w_rx_s_axi_rdata),                        // output wire [31 : 0] s_axi_rdata           
-  .s_axi_rresp(w_rx_s_axi_rresp),                        // output wire [1 : 0] s_axi_rresp            
+  .s_axi_aresetn(w_rst_n),                            // input wire s_axi_aresetn
+  .s_axi_awaddr(w_tx_s_axi_awaddr),                      // input wire [11 : 0] s_axi_awaddr
+  .s_axi_awvalid(w_tx_s_axi_awvalid),                    // input wire s_axi_awvalid
+  .s_axi_awready(w_tx_s_axi_awready),                    // output wire s_axi_awready
+  .s_axi_wdata(w_tx_s_axi_wdata),                        // input wire [31 : 0] s_axi_wdata
+  .s_axi_wstrb(4'b1111),                                       // input wire [3 : 0] s_axi_wstrb
+  .s_axi_wvalid(w_tx_s_axi_wvalid),                      // input wire s_axi_wvalid
+  .s_axi_wready(w_tx_s_axi_wready),                      // output wire s_axi_wready
+  .s_axi_bresp(w_tx_s_axi_bresp),                        // output wire [1 : 0] s_axi_bresp
+  .s_axi_bvalid(w_tx_s_axi_bvalid),                      // output wire s_axi_bvalid
+  .s_axi_bready(w_tx_s_axi_bready),                      // input wire s_axi_bready
+  .s_axi_araddr(w_rx_s_axi_araddr),                      // input wire [11 : 0] s_axi_araddr
+  .s_axi_arvalid(w_rx_s_axi_arvalid),                    // input wire s_axi_arvalid
+  .s_axi_arready(w_rx_s_axi_arready),                    // output wire s_axi_arready
+  .s_axi_rdata(w_rx_s_axi_rdata),                        // output wire [31 : 0] s_axi_rdata
+  .s_axi_rresp(w_rx_s_axi_rresp),                        // output wire [1 : 0] s_axi_rresp
   .s_axi_rvalid(w_rx_s_axi_rvalid),                      // output wire s_axi_rvalid
   .s_axi_rready(w_rx_s_axi_rready),                      // input wire s_axi_rready
   .tx_reset(w_tx_sys_reset),                              // input wire tx_reset
@@ -785,7 +785,7 @@ jesd_data_parse  jesd_data_parse_ch1(
     .i_jesd_data  (w_rx_tdata[31:0]),
     .trig_in  (r_trig_in),
     .fifo_wr_done  (w_fifo_wr_done1),
-    
+
     .o_adc_sample  (w_adc_sample_ch1)
     );
 jesd_data_parse  jesd_data_parse_ch2(
@@ -795,7 +795,7 @@ jesd_data_parse  jesd_data_parse_ch2(
     .i_jesd_data  (w_rx_tdata[63:32]),
     .trig_in  (r_trig_in),
     .fifo_wr_done  (w_fifo_wr_done2),
-    
+
     .o_adc_sample  (w_adc_sample_ch2)
     );
 reg[3:0] state;
@@ -813,44 +813,44 @@ reg[15:0] jesd_rst_delay_cnt = 0;
 always@ (posedge clk_25m) begin
     if(!w_rst_n)  begin
         state <= 4'd0;
-        lmk_datain_valid <= 1'b0; 
-        ads_datain_valid <= 1'b0; 
-        init_done <= 0; 
+        lmk_datain_valid <= 1'b0;
+        ads_datain_valid <= 1'b0;
+        init_done <= 0;
         r_jesd_rx_sys_reset <= 1'b0;
-        r_jesd_tx_sys_reset <= 1'b0; 
+        r_jesd_tx_sys_reset <= 1'b0;
         jesd_rst_delay_cnt <= 16'd0;
         w_tx_axi_ena <= 1'b1;
         end
     else begin
         case(state)
-            4'd0: begin     
-                            lmk_datain_valid <= 1'b0; 
-                            ads_datain_valid <= 1'b0; 
-                            init_done <= 0; 
-                            state <= 3'd1; 
+            4'd0: begin
+                            lmk_datain_valid <= 1'b0;
+                            ads_datain_valid <= 1'b0;
+                            init_done <= 0;
+                            state <= 3'd1;
                             end
-            4'd1: begin    
+            4'd1: begin
                             if(lmk_datain_ready) begin
-                                lmk_datain_valid <= 1'b1; 
+                                lmk_datain_valid <= 1'b1;
                                 state <= 3'd2;
                                 end
                             else begin
-                                lmk_datain_valid <= 1'b0; 
+                                lmk_datain_valid <= 1'b0;
                                 state <= 3'd1;
                                 end
                             end
-            4'd2:  begin state <= 3'd3;end              
-            4'd3: begin    
+            4'd2:  begin state <= 3'd3;end
+            4'd3: begin
                             if(!lmk_datain_ready) begin
                                 lmk_datain_valid <= 1'b0; // 至此完成lmk时钟芯片初始化
                                 state <= 3'd4;//
                                 end
                            else begin
-                                lmk_datain_valid <= 1'b1; 
+                                lmk_datain_valid <= 1'b1;
                                 state <= 3'd3;
                                 end
                             end
-            4'd4: begin     
+            4'd4: begin
                             if(lmk_datain_ready && ads_datain_ready) begin
                                 ads_datain_valid <= 1'b1;
                                 state <= 3'd5;
@@ -860,7 +860,7 @@ always@ (posedge clk_25m) begin
                                 state <= 3'd4;
                                 end
                         end
-            4'd5: begin     
+            4'd5: begin
                             if(!ads_datain_ready) begin
                                 ads_datain_valid <= 1'b0;  // 至此完成adc初始化
                                 state <= 3'd6;//6
@@ -870,7 +870,7 @@ always@ (posedge clk_25m) begin
                                 state <= 3'd5;
                                 end
                         end
-            4'd6: begin     
+            4'd6: begin
                             if(jesd_rst_delay_cnt < 16'd1000) begin
                                 r_jesd_tx_sys_reset <= 1'b1;  // 延时 待ip核复位结束
                                 w_tx_axi_ena <= 1'b1;
@@ -878,13 +878,13 @@ always@ (posedge clk_25m) begin
                                 state <= 3'd6;
                                 end
                             else if(jesd_rst_delay_cnt < 16'd20000) begin
-                                r_jesd_tx_sys_reset <= 1'b0;  
+                                r_jesd_tx_sys_reset <= 1'b0;
                                 w_tx_axi_ena <= 1'b1;
                                 jesd_rst_delay_cnt <= jesd_rst_delay_cnt + 16'd1;
                                 state <= 3'd6;
-                                end                                                                                        
+                                end
                             else if(jesd_rst_delay_cnt < 16'd60000) begin
-                                r_jesd_tx_sys_reset <= 1'b0;  
+                                r_jesd_tx_sys_reset <= 1'b0;
                                 w_tx_axi_ena <= 1'b0; //
                                 jesd_rst_delay_cnt <= jesd_rst_delay_cnt + 16'd1;
                                 state <= 3'd6;
@@ -895,8 +895,8 @@ always@ (posedge clk_25m) begin
                                 jesd_rst_delay_cnt <= 16'd0;
                                 state <= 3'd7;
                                 end
-                        end                        
-            4'd7: begin     
+                        end
+            4'd7: begin
                             if(das_datain_ready ) begin
                                 das_datain_valid <= 1'b1;
                                 state <= 4'd8;
@@ -905,8 +905,8 @@ always@ (posedge clk_25m) begin
                                 das_datain_valid <= 1'b0;
                                 state <= 4'd7;
                                 end
-                        end    
-            4'd8: begin     
+                        end
+            4'd8: begin
                             if(!das_datain_ready) begin
                                 das_datain_valid <= 1'b0;
                                 state <= 4'd9;
@@ -915,111 +915,108 @@ always@ (posedge clk_25m) begin
                                 das_datain_valid <= 1'b1;
                                 state <= 4'd8;
                                 end
-                        end                                            
-            4'd9: begin     
+                        end
+            4'd9: begin
                             if(das_datain_ready) begin
                                 if(jesd_rst_delay_cnt < 16'd100) begin
                                     r_jesd_rx_sys_reset <= 1;
                                     jesd_rst_delay_cnt <= jesd_rst_delay_cnt + 16'd1;
                                     state <= 4'd9;
-                                    end  
+                                    end
                                 else begin
                                     r_jesd_rx_sys_reset <= 0;
                                     jesd_rst_delay_cnt <= 0;
                                     state <= 4'd10;
-                                    end                                 
+                                    end
                                 end
                             else begin
                                 init_done <= 0;
                                 state <= 4'd9;
                                 end
-                        end     
-            4'd10: begin     
+                        end
+            4'd10: begin
                             init_done <= 1;
                             state <= 4'd10;
-                        end                                    
+                        end
         endcase
-    end  
-end 
+    end
+end
 
 // fifo读取AD9250输出的双通道采样数据
 ila_for_adc_data ila_for_adc_data_inst (
 	.clk(clk_25m), // input wire clk
-	
-	.probe0(w_fifo_wr_done1), // input wire [0:0]  probe0  
-	.probe1(w_fifo_wr_done2), // input wire [0:0]  probe1 
-	.probe2(w_adc_sample_ch1), // input wire [13:0]  probe2 
-	.probe3(w_adc_sample_ch2)  // input wire [13:0]  probe3 
+
+	.probe0(w_fifo_wr_done1), // input wire [0:0]  probe0
+	.probe1(w_fifo_wr_done2), // input wire [0:0]  probe1
+	.probe2(w_adc_sample_ch1), // input wire [13:0]  probe2
+	.probe3(w_adc_sample_ch2)  // input wire [13:0]  probe3
 );
 
 //观察ad9250 jesd204b rx ip核输出的各个信号
 my_ila_jesd my_ila_jesd_rx (
 	.clk(w_rx_core_clk), // input wire clk
-	.probe0({1'b0,1'b0}), // input wire [0:0]  probe0  
-	.probe1(w_rx_reset_done), // input wire [0:0]  probe1 
-	.probe2(w_rx_tvalid), // input wire [0:0]  probe2 
-	.probe3(w_rx_sync), // input wire [0:0]  probe3 
-	.probe4(w_sysref), // input wire [0:0]  probe4 
-	.probe5(w_rx_start_of_frame), // input wire [3:0]  probe5 
-	.probe6(w_rx_end_of_frame), // input wire [3:0]  probe6 
-	.probe7(w_rx_start_of_multiframe), // input wire [3:0]  probe7 
-	.probe8(w_rx_end_of_multiframe), // input wire [3:0]  probe8 
-	.probe9(w_rx_frame_error), // input wire [7:0]  probe9 
-	.probe10(w_rx_tdata), // input wire [63:0]  probe10 
-	.probe11({64'b0}), // input wire [63:0]  probe11 
-	.probe12({8'b0}), // input wire [7:0]  probe12 
-	.probe13({8'b0}), // input wire [7:0]  probe13 
-	.probe14({8'b0}), // input wire [7:0]  probe14 
+	.probe0({1'b0,1'b0}), // input wire [0:0]  probe0
+	.probe1(w_rx_reset_done), // input wire [0:0]  probe1
+	.probe2(w_rx_tvalid), // input wire [0:0]  probe2
+	.probe3(w_rx_sync), // input wire [0:0]  probe3
+	.probe4(w_sysref), // input wire [0:0]  probe4
+	.probe5(w_rx_start_of_frame), // input wire [3:0]  probe5
+	.probe6(w_rx_end_of_frame), // input wire [3:0]  probe6
+	.probe7(w_rx_start_of_multiframe), // input wire [3:0]  probe7
+	.probe8(w_rx_end_of_multiframe), // input wire [3:0]  probe8
+	.probe9(w_rx_frame_error), // input wire [7:0]  probe9
+	.probe10(w_rx_tdata), // input wire [63:0]  probe10
+	.probe11({64'b0}), // input wire [63:0]  probe11
+	.probe12({8'b0}), // input wire [7:0]  probe12
+	.probe13({8'b0}), // input wire [7:0]  probe13
+	.probe14({8'b0}), // input wire [7:0]  probe14
 	.probe15({8'b0}) // input wire [7:0]  probe15
 );
 
 //观察ad9144 jesd204b tx ip核输出的各个信号
 my_ila_jesd my_ila_jesd_tx (
 	.clk(w_tx_core_clk), // input wire clk
-	.probe0({1'b0,w_common0_qpll_lock_out}), // input wire [0:0]  probe0  
-	.probe1(w_tx_reset_done), // input wire [0:0]  probe1 
-	.probe2(w_tx_tready), // input wire [0:0]  probe2 
-	.probe3(w_tx_sync), // input wire [0:0]  probe3 
-	.probe4(w_sysref), // input wire [0:0]  probe4 
-	.probe5(w_tx_start_of_frame), // input wire [3:0]  probe5 
-	.probe6({4'b0}), // input wire [3:0]  probe6 
-	.probe7(w_tx_start_of_multiframe), // input wire [3:0]  probe7 
-	.probe8({4'b0}), // input wire [3:0]  probe8 
-	.probe9({9'b0}), // input wire [7:0]  probe9 
-	.probe10(w_tx_tdata[63:0]), // input wire [63:0]  probe10 
-	.probe11(w_tx_tdata[127:64]), // input wire [63:0]  probe11 
-	.probe12({4'b0,awg_phase_addr0[7:0]}), // input wire [7:0]  probe12 
-	.probe13({4'b0,awg_phase_addr1[7:0]}), // input wire [7:0]  probe13 
-	.probe14({4'b0,awg_phase_addr2[7:0]}), // input wire [7:0]  probe14 
-	.probe15({4'b0,awg_phase_addr3[7:0]}) // input wire [7:0]  probe15	
-	
+	.probe0({1'b0,w_common0_qpll_lock_out}), // input wire [0:0]  probe0
+	.probe1(w_tx_reset_done), // input wire [0:0]  probe1
+	.probe2(w_tx_tready), // input wire [0:0]  probe2
+	.probe3(w_tx_sync), // input wire [0:0]  probe3
+	.probe4(w_sysref), // input wire [0:0]  probe4
+	.probe5(w_tx_start_of_frame), // input wire [3:0]  probe5
+	.probe6({4'b0}), // input wire [3:0]  probe6
+	.probe7(w_tx_start_of_multiframe), // input wire [3:0]  probe7
+	.probe8({4'b0}), // input wire [3:0]  probe8
+	.probe9({9'b0}), // input wire [7:0]  probe9
+	.probe10(w_tx_tdata[63:0]), // input wire [63:0]  probe10
+	.probe11(w_tx_tdata[127:64]), // input wire [63:0]  probe11
+	.probe12({4'b0,awg_phase_addr0[7:0]}), // input wire [7:0]  probe12
+	.probe13({4'b0,awg_phase_addr1[7:0]}), // input wire [7:0]  probe13
+	.probe14({4'b0,awg_phase_addr2[7:0]}), // input wire [7:0]  probe14
+	.probe15({4'b0,awg_phase_addr3[7:0]}) // input wire [7:0]  probe15
+
 );
 
 // ip核AXI-lite调试信号  默认不使用
 //ila_for_jesd_axi_debug ila_for_jesd_axi_debug_read(
 //	.clk(clk_axi_100m), // input wire clk
-//	.probe0(w_rx_axi_ena), // input wire [0:0]  probe0  
-//	.probe1(w_rx_s_axi_arready), // input wire [0:0]  probe1 
-//	.probe2(w_rx_s_axi_rvalid), // input wire [0:0]  probe2 
-//	.probe3(w_rx_s_axi_rresp), // input wire [0:0]  probe3 
+//	.probe0(w_rx_axi_ena), // input wire [0:0]  probe0
+//	.probe1(w_rx_s_axi_arready), // input wire [0:0]  probe1
+//	.probe2(w_rx_s_axi_rvalid), // input wire [0:0]  probe2
+//	.probe3(w_rx_s_axi_rresp), // input wire [0:0]  probe3
 //	.probe4(w_rx_s_axi_araddr), // input wire [0:0]  probe4
-//	.probe5(w_rx_s_axi_arvalid), // input wire [3:0]  probe5 
-//	.probe6(w_rx_s_axi_rdata), // input wire [3:0]  probe6 
+//	.probe5(w_rx_s_axi_arvalid), // input wire [3:0]  probe5
+//	.probe6(w_rx_s_axi_rdata), // input wire [3:0]  probe6
 //	.probe7(w_rx_s_axi_rready)
 //	);
 // ip核AXI-lite调试信号  默认不使用
 //ila_for_jesd_axi_debug ila_for_jesd_axi_debug_wr (
 //	.clk(clk_axi_100m), // input wire clk
-//	.probe0(w_tx_axi_ena), // input wire [0:0]  probe0  
-//	.probe1(w_tx_s_axi_awready), // input wire [0:0]  probe1 
-//	.probe2(w_tx_s_axi_wvalid), // input wire [0:0]  probe2 
-//	.probe3(w_tx_s_axi_bresp), // input wire [0:0]  probe3 
+//	.probe0(w_tx_axi_ena), // input wire [0:0]  probe0
+//	.probe1(w_tx_s_axi_awready), // input wire [0:0]  probe1
+//	.probe2(w_tx_s_axi_wvalid), // input wire [0:0]  probe2
+//	.probe3(w_tx_s_axi_bresp), // input wire [0:0]  probe3
 //	.probe4(w_tx_s_axi_awaddr), // input wire [0:0]  probe4
-//	.probe5(w_tx_s_axi_awvalid), // input wire [3:0]  probe5 
-//	.probe6(w_tx_s_axi_wdata), // input wire [3:0]  probe6 
+//	.probe5(w_tx_s_axi_awvalid), // input wire [3:0]  probe5
+//	.probe6(w_tx_s_axi_wdata), // input wire [3:0]  probe6
 //	.probe7(w_tx_s_axi_wready)
 //	);
 endmodule
-
-
-

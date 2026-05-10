@@ -1,22 +1,22 @@
 `timescale 1ns / 1ps
 //////////////////////////////////////////////////////////////////////////////////
-// Company: 
-// Engineer: 
-// 
+// Company:
+// Engineer:
+//
 // Create Date: 2022/06/09 19:58:36
-// Design Name: 
+// Design Name:
 // Module Name: jesd_data_parse
-// Project Name: 
-// Target Devices: 
-// Tool Versions: 
-// Description: 
-// 
-// Dependencies: 
-// 
+// Project Name:
+// Target Devices:
+// Tool Versions:
+// Description:
+//
+// Dependencies:
+//
 // Revision:
 // Revision 0.01 - File Created
 // Additional Comments:
-// 
+//
 //////////////////////////////////////////////////////////////////////////////////
 
 
@@ -27,7 +27,7 @@ module jesd_data_parse(
     input [31:0] i_jesd_data,
     input trig_in,
     output reg fifo_wr_done,
-    
+
     output [13:0]  o_adc_sample
     );
     wire w_wr_rst_busy, w_rd_rst_busy;

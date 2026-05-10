@@ -82,5 +82,3 @@ set_property BITSTREAM.CONFIG.UNUSEDPIN Pullnone [current_design]
 
 # enable bitstream compression
 set_property BITSTREAM.GENERAL.COMPRESS true [current_design]
-
-

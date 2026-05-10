@@ -1,218 +1,218 @@
 `timescale 1ns / 1ps
 //////////////////////////////////////////////////////////////////////////////////
-// Company: 
-// Engineer: 
-// 
+// Company:
+// Engineer:
+//
 // Create Date: 2024/08/02 00:22:31
-// Design Name: 
+// Design Name:
 // Module Name: jesd_axi_write
-// Project Name: 
-// Target Devices: 
-// Tool Versions: 
-// Description: 
-// 
-// Dependencies: 
-// 
+// Project Name:
+// Target Devices:
+// Tool Versions:
+// Description:
+//
+// Dependencies:
+//
 // Revision:
 // Revision 0.01 - File Created
 // Additional Comments:
-// 
+//
 //////////////////////////////////////////////////////////////////////////////////
 
 
 module jesd_axi_write(
-    input               s_axi_aclk      ,   //Ê±ÖÓ
-    input               s_axi_aresetn   ,   //µÍµçÆ½¸´Î»
+    input               s_axi_aclk      ,   //Ê±ï¿½ï¿½
+    input               s_axi_aresetn   ,   //ï¿½Íµï¿½Æ½ï¿½ï¿½Î»
     //input               axi_write_ena   ,
-    input               s_axi_awready   ,   //Ð´ÈëµØÖ·¾ÍÐ÷
-    input               s_axi_wready    ,   //Ð´ÈëÊý¾Ý¾ÍÐ÷
-    input               s_axi_bvalid    ,   //Ð´ÈëÏìÓ¦ÓÐÐ§
-    input      [1:0]    s_axi_bresp     ,   //Ð´ÈëÏìÓ¦
-    output reg [11:0]   s_axi_awaddr    ,   //Ð´ÈëµØÖ·
-    output reg          s_axi_awvalid   ,   //Ð´ÈëµØÖ·ÓÐÐ§
-    output reg [31:0]   s_axi_wdata     ,   //Ð´ÈëÊý¾Ý
-    output reg          s_axi_wvalid    ,   //Ð´ÈëÊý¾ÝÓÐÐ§
-    output reg          s_axi_bready    ,      //Ð´ÈëÊý¾Ý¾ÍÐ÷
-    output reg          axi_write_done      //Êý¾ÝÈ«²¿Ð´Èë
+    input               s_axi_awready   ,   //Ð´ï¿½ï¿½ï¿½Ö·ï¿½ï¿½ï¿½ï¿½
+    input               s_axi_wready    ,   //Ð´ï¿½ï¿½ï¿½ï¿½ï¿½Ý¾ï¿½ï¿½ï¿½
+    input               s_axi_bvalid    ,   //Ð´ï¿½ï¿½ï¿½ï¿½Ó¦ï¿½ï¿½Ð§
+    input      [1:0]    s_axi_bresp     ,   //Ð´ï¿½ï¿½ï¿½ï¿½Ó¦
+    output reg [11:0]   s_axi_awaddr    ,   //Ð´ï¿½ï¿½ï¿½Ö·
+    output reg          s_axi_awvalid   ,   //Ð´ï¿½ï¿½ï¿½Ö·ï¿½ï¿½Ð§
+    output reg [31:0]   s_axi_wdata     ,   //Ð´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+    output reg          s_axi_wvalid    ,   //Ð´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð§
+    output reg          s_axi_bready    ,      //Ð´ï¿½ï¿½ï¿½ï¿½ï¿½Ý¾ï¿½ï¿½ï¿½
+    output reg          axi_write_done      //ï¿½ï¿½ï¿½ï¿½È«ï¿½ï¿½Ð´ï¿½ï¿½
     );
-//*******************Êý¾ÝÁ´Â·²ãµÄ²ÎÊýÅäÖÃ**********************
-    localparam pLanes = 4       ;       //laneÊý
-    // F = 1 K = 32                     //BUFFµÄÖµ
+//*******************ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Â·ï¿½ï¿½Ä²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½**********************
+    localparam pLanes = 4       ;       //laneï¿½ï¿½
+    // F = 1 K = 32                     //BUFFï¿½ï¿½Öµ
     localparam  [2:0] pF        = 1-1    ;       //////////////////////F
     localparam  [8:0] pK        = 32-1   ;       //K
- 
+
     // Setup the link configuration parameters.
-    localparam [7:0] pDID      = 8'h00      ;    //Device ID Éè±¸ID
+    localparam [7:0] pDID      = 8'h00      ;    //Device ID ï¿½è±¸ID
     localparam [3:0] pADJCNT   = 4'h0       ;    //ADJCNT (Phase Adjust Request) [Subclass 2 Only]. Binary value.
     localparam [3:0] pBID      = 4'h0       ;    //Bank ID
     localparam       pADJDIR   = 1'b0       ;    //ADJDIR (Adjust Direction) [Subclass 2 Only]. Binary value.
     localparam       pPHADJ    = 1'b0       ;    //PHADJ (Phase Adjust Request) [Subclass 2 Only]. Binary value.
     localparam       pSCR      = 1'b1       ;    //Scrambling Enable
-    localparam [4:0] pL        = (pLanes-1) ;    //L laneÊý
-    localparam [7:0] pM        = 2 - 1          ;    //M ×ª»»Æ÷Êý   
-    localparam [1:0] pCS       = 2'd0       ;    //CS Ã¿Ö¡ÖÜÆÚÖÐÃ¿¸ö²ÉÑùÑù±¾ËùÐèµÄ¿ØÖÆÎ»Êý   
-    localparam [4:0] pN        = 5'd16 - 1      ;    //N ×ª»»Æ÷µÄ·Ö±æÂÊ   
-    localparam [4:0] pNt       = 5'd16 - 1      ;    //N' Ñù±¾´«ÊäµÄ×ÜÎ»Êý   
+    localparam [4:0] pL        = (pLanes-1) ;    //L laneï¿½ï¿½
+    localparam [7:0] pM        = 2 - 1          ;    //M ×ªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+    localparam [1:0] pCS       = 2'd0       ;    //CS Ã¿Ö¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã¿ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¿ï¿½ï¿½ï¿½Î»ï¿½ï¿½
+    localparam [4:0] pN        = 5'd16 - 1      ;    //N ×ªï¿½ï¿½ï¿½ï¿½ï¿½Ä·Ö±ï¿½ï¿½ï¿½
+    localparam [4:0] pNt       = 5'd16 - 1      ;    //N' ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Î»ï¿½ï¿½
     localparam [2:0] pSUBCV    = 3'b001     ;    //SUBCLASS: 000=Subclass0  001=Subclass1 010=Subclass2
-    localparam [2:0] pJESDV    = 3'b001     ;    //J204°æ±¾  000=JESD204A  001=JESD204B
-    localparam [4:0] pS        = 5'd1 - 1       ;    //S Ã¿Ö¡ÖÜÆÚÃ¿¸ö×ª»»Æ÷²ÉÑùÊý£»   
-    localparam       pHD       = 1'b1       ;    //HD  HD=0 ÔòÑù±¾ÔÚÒ»¸öÍ¨µÀÖÐ£¬HD=1 ÔòÑù±¾±»·ÖÅäÔÚ¶à¸öÍ¨µÀÖÐ£»    
-    localparam [4:0] pCF       = 5'd0       ;    //CF  CF=0 Ôò¿ØÖÆÎ»ÔÚ²ÉÑùÑù±¾ºóÃæ£¬CF=1 Ôò¿ØÖÆÎ»µ¥¶À×é³É¿ØÖÆ×Ö£»   
+    localparam [2:0] pJESDV    = 3'b001     ;    //J204ï¿½æ±¾  000=JESD204A  001=JESD204B
+    localparam [4:0] pS        = 5'd1 - 1       ;    //S Ã¿Ö¡ï¿½ï¿½ï¿½ï¿½Ã¿ï¿½ï¿½×ªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+    localparam       pHD       = 1'b1       ;    //HD  HD=0 ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½Í¨ï¿½ï¿½ï¿½Ð£ï¿½HD=1 ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ú¶ï¿½ï¿½Í¨ï¿½ï¿½ï¿½Ð£ï¿½
+    localparam [4:0] pCF       = 5'd0       ;    //CF  CF=0 ï¿½ï¿½ï¿½ï¿½ï¿½Î»ï¿½Ú²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½æ£¬CF=1 ï¿½ï¿½ï¿½ï¿½ï¿½Î»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½É¿ï¿½ï¿½ï¿½ï¿½Ö£ï¿½
     localparam [7:0] pRES1     = 8'h5A      ;    //RES1 (Reserved Field 1)
     localparam [7:0] pRES2     = 8'hA5      ;    //RES2 (Reserved Field 2)
 //********************************************************************
-//******************×´Ì¬»ú×´Ì¬*************************************
-    localparam [4:0] IDLEW     =  5'b00001  ;     //¿ÕÏÐµÈ´ý
-    localparam [4:0] DRIVEW    =  5'b00010  ;     //×¼±¸
-    localparam [4:0] ADD_RES   =  5'b00100  ;     //È¡µØÖ·
-    localparam [4:0] DAT_RES   =  5'b01000  ;     //È¡Êý¾Ý
-    localparam [4:0] BRES      =  5'b10000  ;     //Ð´Êý¾Ý½×¶Î
-    localparam WRITE_NUM       =  16        ;    ///ÅäÖÃ¼Ä´æÆ÷µÄ¸öÊý
+//******************×´Ì¬ï¿½ï¿½×´Ì¬*************************************
+    localparam [4:0] IDLEW     =  5'b00001  ;     //ï¿½ï¿½ï¿½ÐµÈ´ï¿½
+    localparam [4:0] DRIVEW    =  5'b00010  ;     //×¼ï¿½ï¿½
+    localparam [4:0] ADD_RES   =  5'b00100  ;     //È¡ï¿½ï¿½Ö·
+    localparam [4:0] DAT_RES   =  5'b01000  ;     //È¡ï¿½ï¿½ï¿½ï¿½
+    localparam [4:0] BRES      =  5'b10000  ;     //Ð´ï¿½ï¿½ï¿½Ý½×¶ï¿½
+    localparam WRITE_NUM       =  16        ;    ///ï¿½ï¿½ï¿½Ã¼Ä´ï¿½ï¿½ï¿½ï¿½Ä¸ï¿½ï¿½ï¿½
 //*******************************************************************
- 
-//*****************ÄÚ²¿ÐÅºÅ******************************
-    reg [4:0]   curr_ws             ,  //×´Ì¬»úµÄµ±Ç°×´Ì¬
-                next_ws             ;  //×´Ì¬»úµÄÏÂÒ»¸ö×´Ì¬
+
+//*****************ï¿½Ú²ï¿½ï¿½Åºï¿½******************************
+    reg [4:0]   curr_ws             ,  //×´Ì¬ï¿½ï¿½ï¿½Äµï¿½Ç°×´Ì¬
+                next_ws             ;  //×´Ì¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½×´Ì¬
     reg         write_over          ;
     reg         write_over_delay    ;
-    reg [11:0]  wadd                ;   //¼Ä´æÆ÷µØÖ·
-    reg [9:0]   w_cnt               ;   //¶ÔÐ´ÈëµÄÊý¾Ý¸öÊý½øÐÐ¼ÆÊý£¬ÅäÖÃÍê³É½«write_overÖÃ¸ß
-    reg [31:0]  wdata               ;   //¼Ä´æÆ÷Ð´ÈëÊý¾Ý
+    reg [11:0]  wadd                ;   //ï¿½Ä´ï¿½ï¿½ï¿½ï¿½ï¿½Ö·
+    reg [9:0]   w_cnt               ;   //ï¿½ï¿½Ð´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ý¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½É½ï¿½write_overï¿½Ã¸ï¿½
+    reg [31:0]  wdata               ;   //ï¿½Ä´ï¿½ï¿½ï¿½Ð´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     reg [1:0]   resp                ;
 //**********************************************************
- 
-//×´Ì¬»ú
+
+//×´Ì¬ï¿½ï¿½
     always@(posedge s_axi_aclk or negedge s_axi_aresetn) begin
-        if(!s_axi_aresetn)  
-            curr_ws <= IDLEW    ;              
+        if(!s_axi_aresetn)
+            curr_ws <= IDLEW    ;
         else
             curr_ws <= next_ws;
     end
- 
+
     always@(*) begin
         next_ws = 'dx;
         case(curr_ws)
             IDLEW   :   if(write_over==0)       next_ws = DRIVEW    ;  else next_ws = IDLEW     ;
             DRIVEW  :   if(s_axi_awready==1)    next_ws = ADD_RES   ;  else next_ws = DRIVEW    ;
             ADD_RES :   if(s_axi_wready==1)     next_ws = DAT_RES   ;  else next_ws = ADD_RES   ;
-            DAT_RES :   if(s_axi_bvalid==1)     next_ws = BRES      ;  else next_ws = DAT_RES   ;  
+            DAT_RES :   if(s_axi_bvalid==1)     next_ws = BRES      ;  else next_ws = DAT_RES   ;
             BRES    :   if(write_over==1)       next_ws = IDLEW     ;  else next_ws = DRIVEW    ;
             default :   next_ws = IDLEW ;
         endcase
     end
     always@(posedge s_axi_aclk or negedge s_axi_aresetn) begin
-    
+
         if(!s_axi_aresetn)begin
-                s_axi_awaddr    <= 0    ;              
+                s_axi_awaddr    <= 0    ;
                 s_axi_awvalid   <= 0    ;
-                s_axi_wdata     <= 0    ;              
+                s_axi_wdata     <= 0    ;
                 s_axi_wvalid    <= 0    ;
-                s_axi_bready    <= 0    ;              
-                w_cnt           <= 0    ;        
+                s_axi_bready    <= 0    ;
+                w_cnt           <= 0    ;
                 resp            <= 0    ;
         end
         else case(curr_ws)
                 IDLEW:
                 begin
-                    s_axi_awaddr    <= 0    ;             
+                    s_axi_awaddr    <= 0    ;
                     s_axi_awvalid   <= 0    ;
-                    s_axi_wdata     <= 0    ;             
+                    s_axi_wdata     <= 0    ;
                     s_axi_wvalid    <= 0    ;
-                    s_axi_bready    <= 0    ;             
-                    w_cnt           <= w_cnt;     
+                    s_axi_bready    <= 0    ;
+                    w_cnt           <= w_cnt;
                     resp            <= 0    ;
                 end
                 DRIVEW:
                 begin
-                    if(s_axi_awready==1) begin 
-                        s_axi_awaddr  <= 0  ;        
-                        s_axi_awvalid <= 0  ;   
+                    if(s_axi_awready==1) begin
+                        s_axi_awaddr  <= 0  ;
+                        s_axi_awvalid <= 0  ;
                     end
-                    else begin 
-                        s_axi_awaddr  <= wadd   ;     
-                        s_axi_awvalid <= 1      ;   
+                    else begin
+                        s_axi_awaddr  <= wadd   ;
+                        s_axi_awvalid <= 1      ;
                     end
-                    s_axi_wdata   <= wdata  ;         
+                    s_axi_wdata   <= wdata  ;
                     s_axi_wvalid  <= 1      ;
-                    s_axi_bready  <= 0      ;             
-                    w_cnt         <= w_cnt  ;     
+                    s_axi_bready  <= 0      ;
+                    w_cnt         <= w_cnt  ;
                     resp          <= 0      ;
                 end
                 ADD_RES:
                 begin
-                    s_axi_awaddr  <= 0      ;             
+                    s_axi_awaddr  <= 0      ;
                     s_axi_awvalid <= 0      ;
-                    if(s_axi_wready==1) begin  
-                        s_axi_wdata <= 0    ;        
-                        s_axi_wvalid  <= 0  ;  
+                    if(s_axi_wready==1) begin
+                        s_axi_wdata <= 0    ;
+                        s_axi_wvalid  <= 0  ;
                         w_cnt <= w_cnt+1    ;
-                    end //else keep//Ã¿´«ÊäÒ»¸öÊý¾Ý¼Ó1
-                        s_axi_bready  <= 0  ;             
+                    end //else keep//Ã¿ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½Ý¼ï¿½1
+                        s_axi_bready  <= 0  ;
                     resp <= 0           ;
                 end
                 DAT_RES:
                 begin
-                    s_axi_awaddr  <= 0      ;              
+                    s_axi_awaddr  <= 0      ;
                     s_axi_awvalid <= 0      ;
-                    s_axi_wdata   <= 0      ;              
+                    s_axi_wdata   <= 0      ;
                     s_axi_wvalid  <= 0      ;
-                    if(s_axi_bvalid==1) begin 
-                        s_axi_bready  <= 1  ;        
+                    if(s_axi_bvalid==1) begin
+                        s_axi_bready  <= 1  ;
                         resp <= s_axi_bresp ;
                     end    //else keep
                     w_cnt <= w_cnt          ;
                 end
                 BRES:
                 begin
-                    s_axi_awaddr  <= 0      ;             
+                    s_axi_awaddr  <= 0      ;
                     s_axi_awvalid <= 0      ;
-                    s_axi_wdata   <= 0      ;             
-                    s_axi_wvalid  <= 0      ;       
+                    s_axi_wdata   <= 0      ;
+                    s_axi_wvalid  <= 0      ;
                     w_cnt <= w_cnt          ;
-                    if(s_axi_bready) begin 
-                        s_axi_bready <= 0   ;       
-                        resp <= 0           ;          
-                    end//Ö»³ÖÐøÒ»¸ö¸ßµçÆ½
-                    else begin 
-                        s_axi_bready <= 1   ;        
+                    if(s_axi_bready) begin
+                        s_axi_bready <= 0   ;
+                        resp <= 0           ;
+                    end//Ö»ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ßµï¿½Æ½
+                    else begin
+                        s_axi_bready <= 1   ;
                         resp <= s_axi_bresp ;
                     end
                 end
                 default:
                 begin
-                   s_axi_awaddr  <= 0       ;              
+                   s_axi_awaddr  <= 0       ;
                    s_axi_awvalid <= 0       ;
-                   s_axi_wdata   <= 0       ;              
+                   s_axi_wdata   <= 0       ;
                    s_axi_wvalid  <= 0       ;
-                   s_axi_bready  <= 0       ;              
+                   s_axi_bready  <= 0       ;
                    w_cnt         <= 0       ;
                    resp          <= 0       ;
                 end
             endcase
     end
 //
-//ÅÐ¶Ï¼Ä´æÆ÷ÊÇ·ñÈ«²¿Ð´Èë
+//ï¿½Ð¶Ï¼Ä´ï¿½ï¿½ï¿½ï¿½Ç·ï¿½È«ï¿½ï¿½Ð´ï¿½ï¿½
     always@(posedge s_axi_aclk or negedge s_axi_aresetn) begin
-        if(!s_axi_aresetn)                      
+        if(!s_axi_aresetn)
             write_over <= 0     ;
-        else if( w_cnt == WRITE_NUM)            
+        else if( w_cnt == WRITE_NUM)
             write_over <= 1     ;                   //else keep
     end
 //
-//Êý¾ÝÈ«²¿Ð´Èë  
+//ï¿½ï¿½ï¿½ï¿½È«ï¿½ï¿½Ð´ï¿½ï¿½
     always @(posedge s_axi_aclk or negedge s_axi_aresetn) begin
         if(!s_axi_aresetn)
             write_over_delay <= 0   ;
-        else    
+        else
             write_over_delay <= write_over  ;
     end
     always @(posedge s_axi_aclk or negedge s_axi_aresetn) begin
         if(!s_axi_aresetn)
             axi_write_done <= 0 ;
-        else 
+        else
             axi_write_done <= write_over & ~write_over_delay ;
     end
-//Ð´¼Ä´æÆ÷
+//Ð´ï¿½Ä´ï¿½ï¿½ï¿½
     always@(posedge s_axi_aclk or negedge s_axi_aresetn) begin
         if(!s_axi_aresetn)begin
             wadd <= 0   ;
@@ -239,5 +239,5 @@ module jesd_axi_write(
             default:begin wadd <=12'h008; wdata <= 32'h00000001  ; end
         endcase
     end
-    
+
 endmodule

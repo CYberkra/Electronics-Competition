@@ -23,7 +23,7 @@ while (-not $proc.HasExited) {
     Start-Sleep -Seconds 30
     $elapsed = [math]::Round((Get-Date).TimeOfDay.TotalMinutes, 1)
     Write-Host "[$(Get-Date -Format 'HH:mm:ss')] Still running... (elapsed ${elapsed}m)"
-    
+
     # Tail last 5 lines of log so user can see progress
     if (Test-Path $log) {
         $tail = Get-Content $log -Tail 3

@@ -1,37 +1,37 @@
 `timescale 1ns / 1ps
 //////////////////////////////////////////////////////////////////////////////////
-// Company: 
-// Engineer: 
-// 
+// Company:
+// Engineer:
+//
 // Create Date: 2022/07/31 08:40:55
-// Design Name: 
+// Design Name:
 // Module Name: ltc2175_14_spi_wr_config
-// Project Name: 
-// Target Devices: 
-// Tool Versions: 
-// Description: 
-// 
-// Dependencies: 
-// 
+// Project Name:
+// Target Devices:
+// Tool Versions:
+// Description:
+//
+// Dependencies:
+//
 // Revision:
 // Revision 0.01 - File Created
 // Additional Comments:
-// 
+//
 //////////////////////////////////////////////////////////////////////////////////
 module ad9250_spi_config(
                         input clk_in,
                         input rst_n,
-                        
+
                         output o_sclk,
                         //(* mark_debug = "true" *)output o_sda,
                         //(* mark_debug = "true" *)output o_sda_dir,
                         output o_sen_n,
                         output reg o_reset,
-                        
+
                         inout io_sda,
                         input datain_valid,
                         output reg datain_ready
-                        ); 
+                        );
 localparam IDLE             = 8'd0;
 localparam START            = 8'd1;
 localparam PRE_REST_H         = 8'd46;
@@ -58,7 +58,7 @@ localparam WR_STA_17       = 8'd20 ;
 localparam WR_STA_18       = 8'd21 ;
 localparam WR_STA_19       = 8'd22 ;
 localparam WR_STA_20       = 8'd23 ;
-localparam WR_STA_21       = 8'd24 ;  
+localparam WR_STA_21       = 8'd24 ;
 localparam WR_STA_22       = 8'd25 ;
 localparam WR_STA_23       = 8'd26 ;
 localparam WR_STA_24       = 8'd27 ;
@@ -79,11 +79,11 @@ localparam WR_STA_38       = 8'd41 ;
 localparam WR_STA_39       = 8'd42 ;
 localparam WR_STA_40       = 8'd43 ;
 localparam WR_STA_41       = 8'd44 ;
-localparam END  = 8'd45; 
-localparam SPI_WRITE_MODE  = 2'b00;       
-localparam SPI_READ_MODE  = 2'b01;    
-localparam SPI_DELAY_MODE  = 2'b10;       
-    
+localparam END  = 8'd45;
+localparam SPI_WRITE_MODE  = 2'b00;
+localparam SPI_READ_MODE  = 2'b01;
+localparam SPI_DELAY_MODE  = 2'b10;
+
 reg dataout_valid;
 reg delay_timer_valid;
 reg[7:0] state_cur = 8'd0;
@@ -101,8 +101,8 @@ reg[23:0] r_wr_infodata;
 always@ (posedge clk_in) begin
     if(!rst_n)
         state_cur <= IDLE;
-    else 
-        state_cur <= state_next;    
+    else
+        state_cur <= state_next;
 end
 always@ (*) begin
 case(state_cur)
@@ -110,7 +110,7 @@ case(state_cur)
         PRE_REST_L:  begin     if(rst_delay_cnt == 32'd10000) state_next = PRE_REST_H; else state_next = PRE_REST_L; end
         PRE_REST_H:  begin     if(rst_delay_cnt == 32'd30000) state_next = START; else state_next = PRE_REST_H; end
         START :    begin     if(dataout_ready) state_next = WAIT_GAP; else state_next = START;   end
-        WAIT_GAP : begin    state_next = WR_STA_0; end               
+        WAIT_GAP : begin    state_next = WR_STA_0; end
         WR_STA_0  :begin     if(dataout_ready) state_next = WR_STA_1  ; else state_next = WR_STA_0  ; end
         WR_STA_1  :begin     if(dataout_ready) state_next = WR_STA_2  ; else state_next = WR_STA_1  ; end
         WR_STA_2  :begin     if(dataout_ready) state_next = WR_STA_3  ; else state_next = WR_STA_2  ; end
@@ -127,32 +127,32 @@ case(state_cur)
         WR_STA_13  :begin     if(dataout_ready) state_next = WR_STA_14 ; else state_next = WR_STA_13 ;  end
         WR_STA_14  :begin     if(dataout_ready) state_next = WR_STA_15 ; else state_next = WR_STA_14 ;  end
         WR_STA_15  :begin     if(dataout_ready) state_next = WR_STA_16 ; else state_next = WR_STA_15  ; end
-        WR_STA_16  :begin     if(dataout_ready) state_next = WR_STA_17 ; else state_next = WR_STA_16  ; end        
-        WR_STA_17  :begin     if(dataout_ready) state_next = WR_STA_18 ; else state_next = WR_STA_17  ; end        
-        WR_STA_18  :begin     if(dataout_ready) state_next = WR_STA_19 ; else state_next = WR_STA_18  ; end        
-        WR_STA_19  :begin     if(dataout_ready) state_next = WR_STA_20 ; else state_next = WR_STA_19  ; end  
-        WR_STA_20  :begin     if(dataout_ready) state_next = WR_STA_21 ; else state_next = WR_STA_20  ; end        
-        WR_STA_21  :begin     if(dataout_ready) state_next = WR_STA_22 ; else state_next = WR_STA_21  ; end     
-        WR_STA_22  :begin     if(dataout_ready) state_next = WR_STA_23 ; else state_next = WR_STA_22 ;  end        
-        WR_STA_23  :begin     if(dataout_ready) state_next = WR_STA_24 ; else state_next = WR_STA_23 ;  end  
-        WR_STA_24  :begin     if(dataout_ready) state_next = WR_STA_25 ; else state_next = WR_STA_24 ;  end  
-        WR_STA_25  :begin     if(dataout_ready) state_next = WR_STA_26 ; else state_next = WR_STA_25 ;  end    
-        WR_STA_26  :begin     if(dataout_ready) state_next = WR_STA_27 ; else state_next = WR_STA_26 ;  end       
-        WR_STA_27  :begin     if(dataout_ready) state_next = WR_STA_28 ; else state_next = WR_STA_27  ; end        
-        WR_STA_28  :begin     if(dataout_ready) state_next = WR_STA_29 ; else state_next = WR_STA_28 ;  end  
-        WR_STA_29  :begin     if(dataout_ready) state_next = WR_STA_30 ; else state_next = WR_STA_29 ;  end 
-        WR_STA_30  :begin     if(dataout_ready) state_next = WR_STA_31 ; else state_next = WR_STA_30 ;  end 
-        WR_STA_31  :begin     if(dataout_ready) state_next = WR_STA_32 ; else state_next = WR_STA_31 ;  end 
-        WR_STA_32  :begin     if(dataout_ready) state_next = WR_STA_33 ; else state_next = WR_STA_32 ;  end 
+        WR_STA_16  :begin     if(dataout_ready) state_next = WR_STA_17 ; else state_next = WR_STA_16  ; end
+        WR_STA_17  :begin     if(dataout_ready) state_next = WR_STA_18 ; else state_next = WR_STA_17  ; end
+        WR_STA_18  :begin     if(dataout_ready) state_next = WR_STA_19 ; else state_next = WR_STA_18  ; end
+        WR_STA_19  :begin     if(dataout_ready) state_next = WR_STA_20 ; else state_next = WR_STA_19  ; end
+        WR_STA_20  :begin     if(dataout_ready) state_next = WR_STA_21 ; else state_next = WR_STA_20  ; end
+        WR_STA_21  :begin     if(dataout_ready) state_next = WR_STA_22 ; else state_next = WR_STA_21  ; end
+        WR_STA_22  :begin     if(dataout_ready) state_next = WR_STA_23 ; else state_next = WR_STA_22 ;  end
+        WR_STA_23  :begin     if(dataout_ready) state_next = WR_STA_24 ; else state_next = WR_STA_23 ;  end
+        WR_STA_24  :begin     if(dataout_ready) state_next = WR_STA_25 ; else state_next = WR_STA_24 ;  end
+        WR_STA_25  :begin     if(dataout_ready) state_next = WR_STA_26 ; else state_next = WR_STA_25 ;  end
+        WR_STA_26  :begin     if(dataout_ready) state_next = WR_STA_27 ; else state_next = WR_STA_26 ;  end
+        WR_STA_27  :begin     if(dataout_ready) state_next = WR_STA_28 ; else state_next = WR_STA_27  ; end
+        WR_STA_28  :begin     if(dataout_ready) state_next = WR_STA_29 ; else state_next = WR_STA_28 ;  end
+        WR_STA_29  :begin     if(dataout_ready) state_next = WR_STA_30 ; else state_next = WR_STA_29 ;  end
+        WR_STA_30  :begin     if(dataout_ready) state_next = WR_STA_31 ; else state_next = WR_STA_30 ;  end
+        WR_STA_31  :begin     if(dataout_ready) state_next = WR_STA_32 ; else state_next = WR_STA_31 ;  end
+        WR_STA_32  :begin     if(dataout_ready) state_next = WR_STA_33 ; else state_next = WR_STA_32 ;  end
         WR_STA_33  :begin     if(dataout_ready) state_next = WR_STA_34 ; else state_next = WR_STA_33 ;  end
         WR_STA_34  :begin     if(dataout_ready) state_next = WR_STA_35 ; else state_next = WR_STA_34 ;  end
         WR_STA_35  :begin     if(dataout_ready) state_next = WR_STA_36 ; else state_next = WR_STA_35 ;  end
         WR_STA_36  :begin     if(dataout_ready) state_next = WR_STA_37 ; else state_next = WR_STA_36 ;  end
         WR_STA_37  :begin     if(dataout_ready) state_next = WR_STA_38 ; else state_next = WR_STA_37 ;  end
-        WR_STA_38  :begin     if(dataout_ready) state_next = WR_STA_39 ; else state_next = WR_STA_38 ;  end  
+        WR_STA_38  :begin     if(dataout_ready) state_next = WR_STA_39 ; else state_next = WR_STA_38 ;  end
         WR_STA_39  :begin     if(dataout_ready) state_next = WR_STA_40 ; else state_next = WR_STA_39 ;  end
-        WR_STA_40  :begin     if(dataout_ready) state_next = END ; else state_next = WR_STA_40 ;  end                                                                         
-        END : begin state_next = IDLE; end                           
+        WR_STA_40  :begin     if(dataout_ready) state_next = END ; else state_next = WR_STA_40 ;  end
+        END : begin state_next = IDLE; end
     endcase
 end
 
@@ -171,9 +171,9 @@ always@ (posedge clk_in) begin
                 PRE_REST_L: begin o_reset <= 1'b0; rst_delay_cnt <= rst_delay_cnt + 1'd1; end
                 PRE_REST_H: begin o_reset <= 1'b1; rst_delay_cnt <= rst_delay_cnt + 1'd1; end
                 START : begin dataout_valid <= 1'b1; datain_ready <= 1'b0; end
-                WAIT_GAP : begin dataout_valid <= dataout_valid; datain_ready <= datain_ready; end                
-                    //For spi write: bit23 = 0 , bit22~bit21=0, bit20~8 : reg address(13bit), bit7~0 : reg data   
-                WR_STA_0   : begin r_wr_infodata <= {4'b0000,12'h000,8'h3C};  r_wrrd_mode_sel <= SPI_WRITE_MODE;  end  // reset, MSB first         
+                WAIT_GAP : begin dataout_valid <= dataout_valid; datain_ready <= datain_ready; end
+                    //For spi write: bit23 = 0 , bit22~bit21=0, bit20~8 : reg address(13bit), bit7~0 : reg data
+                WR_STA_0   : begin r_wr_infodata <= {4'b0000,12'h000,8'h3C};  r_wrrd_mode_sel <= SPI_WRITE_MODE;  end  // reset, MSB first
                 WR_STA_1   : begin  r_dac_spi_delay_cnt <= 16'd100;        r_wrrd_mode_sel <= SPI_DELAY_MODE;  end
                 WR_STA_2   : begin r_wr_infodata <= {3'b000,13'h05F,8'h15};  r_wrrd_mode_sel <= SPI_WRITE_MODE;  end   // disable jesd204b phy
                 WR_STA_3   : begin r_wr_infodata <= {3'b000,13'h005,8'h03}; end  // wirte to chA and chB
@@ -181,8 +181,8 @@ always@ (posedge clk_in) begin
                 WR_STA_5   : begin r_wr_infodata <= {3'b000,13'h018,8'h0F}; end  // full-scale Vref 2.087Vpp
                 WR_STA_6  :  begin r_wr_infodata <= {3'b000,13'h0FF,8'h01};end  // Transfer update
                 WR_STA_7  :  begin r_wr_infodata <= {3'b000,13'h00B,8'h00}; end// input clock devide-1
-                WR_STA_8 : begin r_wr_infodata <= {3'b000,13'h0FF,8'h01};end  // 
-                WR_STA_9 : begin r_wr_infodata <= {3'b000,13'h05E,8'h22};end  // M = 2, L = 2 
+                WR_STA_8 : begin r_wr_infodata <= {3'b000,13'h0FF,8'h01};end  //
+                WR_STA_9 : begin r_wr_infodata <= {3'b000,13'h05E,8'h22};end  // M = 2, L = 2
                 WR_STA_10: begin r_wr_infodata <= {3'b000,13'h0EE,8'h80};end  // enable internal
                 WR_STA_11: begin r_wr_infodata <= {3'b000,13'h021,8'h00};end  // pll set, lane rate >2Gbps
                 WR_STA_12: begin r_wr_infodata <= {3'b000,13'h014,8'h01};end  // no inverted adc data, twos complement
@@ -192,7 +192,7 @@ always@ (posedge clk_in) begin
                 WR_STA_16: begin r_wr_infodata <= {3'b000,13'h06E,8'h81};end  // L = 2, enable SCR
                 WR_STA_17: begin r_wr_infodata <= {3'b000,13'h070,8'h1F};end  // K = 32
                 WR_STA_18: begin r_wr_infodata <= {3'b000,13'h08B,8'h00};end  // LMFC offset = 0
-                WR_STA_19: begin r_wr_infodata <= {3'b000,13'h0FF,8'h01};end  //  
+                WR_STA_19: begin r_wr_infodata <= {3'b000,13'h0FF,8'h01};end  //
                 WR_STA_20: begin r_wr_infodata <= {3'b000,13'h03A,8'h13};end  // sysref buffer enable and use sysref pins continuies mode
                 WR_STA_21: begin r_wr_infodata <= {3'b000,13'h0FF,8'h01};end  //
                 WR_STA_22: begin r_wr_infodata <= {3'b000,13'h03A,8'h03};end  // conutiues sysref mode, SYNCIN normal mode
@@ -201,29 +201,29 @@ always@ (posedge clk_in) begin
                 WR_STA_25: begin r_wr_infodata <= {3'b000,13'h05F,8'h14};r_wrrd_mode_sel <= SPI_WRITE_MODE; end  // enable jesd204b PHY , begin CGS link
                 WR_STA_26: begin r_wr_infodata <= {3'b000,13'h0F3,8'hFF};end  // force a internal fifo alignment
                 WR_STA_27: begin r_wr_infodata <= {3'b000,13'h0FF,8'h01};end  // force a internal fifo alignment
-                WR_STA_28: begin r_wr_infodata <= {3'b000,13'h0FF,8'h01};end  // 
-                WR_STA_29: begin r_wr_infodata <= {3'b000,13'h0EE,8'h81};end  // 
-                WR_STA_28: begin r_wr_infodata <= {3'b000,13'h0EF,8'h81};end  // 
-                WR_STA_29: begin r_wr_infodata <= {3'b000,13'h0EE,8'h82};end  // 
-                WR_STA_30: begin r_wr_infodata <= {3'b000,13'h0EF,8'h82};end  // 
-                WR_STA_31: begin r_wr_infodata <= {3'b000,13'h0EE,8'h83};end  // 
-                WR_STA_32: begin r_wr_infodata <= {3'b000,13'h0EF,8'h83};end  // 
-                WR_STA_33: begin r_wr_infodata <= {3'b000,13'h0EE,8'h84};end  // 
-                WR_STA_34: begin r_wr_infodata <= {3'b000,13'h0EF,8'h84};end  // 
-                WR_STA_35: begin r_wr_infodata <= {3'b000,13'h0EE,8'h85};end  // 
-                WR_STA_36: begin r_wr_infodata <= {3'b000,13'h0EF,8'h85};end  // 
-                WR_STA_37: begin r_wr_infodata <= {3'b000,13'h0EE,8'h86};end  // 
-                WR_STA_38: begin r_wr_infodata <= {3'b000,13'h0EF,8'h86};end  // 
-                WR_STA_39: begin r_wr_infodata <= {3'b000,13'h0EE,8'h87};end  // 
-                WR_STA_40: begin r_wr_infodata <= {3'b000,13'h0EF,8'h87};end  //                                                                                 
-                END : begin dataout_valid <= 1'b0; datain_ready <= 1'b0; rst_delay_cnt <= 10'd0; r_wrrd_mode_sel <= SPI_WRITE_MODE;end                       
-            endcase                                                   
+                WR_STA_28: begin r_wr_infodata <= {3'b000,13'h0FF,8'h01};end  //
+                WR_STA_29: begin r_wr_infodata <= {3'b000,13'h0EE,8'h81};end  //
+                WR_STA_28: begin r_wr_infodata <= {3'b000,13'h0EF,8'h81};end  //
+                WR_STA_29: begin r_wr_infodata <= {3'b000,13'h0EE,8'h82};end  //
+                WR_STA_30: begin r_wr_infodata <= {3'b000,13'h0EF,8'h82};end  //
+                WR_STA_31: begin r_wr_infodata <= {3'b000,13'h0EE,8'h83};end  //
+                WR_STA_32: begin r_wr_infodata <= {3'b000,13'h0EF,8'h83};end  //
+                WR_STA_33: begin r_wr_infodata <= {3'b000,13'h0EE,8'h84};end  //
+                WR_STA_34: begin r_wr_infodata <= {3'b000,13'h0EF,8'h84};end  //
+                WR_STA_35: begin r_wr_infodata <= {3'b000,13'h0EE,8'h85};end  //
+                WR_STA_36: begin r_wr_infodata <= {3'b000,13'h0EF,8'h85};end  //
+                WR_STA_37: begin r_wr_infodata <= {3'b000,13'h0EE,8'h86};end  //
+                WR_STA_38: begin r_wr_infodata <= {3'b000,13'h0EF,8'h86};end  //
+                WR_STA_39: begin r_wr_infodata <= {3'b000,13'h0EE,8'h87};end  //
+                WR_STA_40: begin r_wr_infodata <= {3'b000,13'h0EF,8'h87};end  //
+                END : begin dataout_valid <= 1'b0; datain_ready <= 1'b0; rst_delay_cnt <= 10'd0; r_wrrd_mode_sel <= SPI_WRITE_MODE;end
+            endcase
         end
-end  
+end
 
 wire  w_sda_dir;
 wire w_o_sda;
-assign io_sda = w_sda_dir ? 1'bz: w_o_sda;  
+assign io_sda = w_sda_dir ? 1'bz: w_o_sda;
 wire r_sclk_test, w_hold_save_read;
 
 spi_wr_rd_single #(
@@ -252,15 +252,15 @@ spi_wr_rd_single #(
 
 //myila_spi myila_ads_spi_inst (
 //	.clk(clk_in), // input wire clk
-	
-//	.probe0(o_sclk), // input wire [0:0]  probe0  
-//	.probe1(o_sen_n), // input wire [0:0]  probe1 
-//	.probe2(io_sda), // input wire [0:0]  probe2 
-//	.probe3(w_sda_dir), // input wire [0:0]  probe3 
+
+//	.probe0(o_sclk), // input wire [0:0]  probe0
+//	.probe1(o_sen_n), // input wire [0:0]  probe1
+//	.probe2(io_sda), // input wire [0:0]  probe2
+//	.probe3(w_sda_dir), // input wire [0:0]  probe3
 //	.probe4(state_cur), // input wire [7:0]  probe4
 //	.probe5({8'b0, w_rd_data}),
 //	.probe6(r_sclk_test), // input wire [7:0]  probe4
 //	.probe7(w_hold_save_read)
-	
+
 //	);// input wire [7:0]  probe5
 endmodule

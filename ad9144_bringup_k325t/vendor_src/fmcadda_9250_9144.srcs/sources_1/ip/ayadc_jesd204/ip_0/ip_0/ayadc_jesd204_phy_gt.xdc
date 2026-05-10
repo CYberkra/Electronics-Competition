@@ -5,8 +5,8 @@
 ## \   \   \/     Version : 3.6
 ##  \   \         Application : 7 Series FPGAs Transceivers Wizard
 ##  /   /         Filename : ayadc_jesd204_phy_gt.xdc
-## /___/   /\     
-## \   \  /  \ 
+## /___/   /\
+## \   \  /  \
 ##  \___\/\___\
 ##
 ##
@@ -58,11 +58,11 @@
 ## liability of any use of Xilinx products in Critical
 ## Applications, subject only to applicable laws and
 ## regulations governing limitations on product liability.
-## 
+##
 ## THIS COPYRIGHT NOTICE AND DISCLAIMER MUST BE RETAINED AS
 ## PART OF THIS FILE AT ALL TIMES.
 
- 
+
 
 ################################## Clock Constraints ##########################
 
@@ -126,8 +126,6 @@ set_false_path -to [get_cells -hierarchical -filter {NAME =~ *data_sync_reg1}]
 #create_clock -name GT2_GTREFCLK0_IN -period 10.0 [get_pins -hier -filter {name=~*gt2_ayadc_jesd204_phy_gt_i*gtxe2_i*GTREFCLK0}]
 #create_clock -name GT3_GTREFCLK0_IN -period 10.0 [get_pins -hier -filter {name=~*gt3_ayadc_jesd204_phy_gt_i*gtxe2_i*GTREFCLK0}]
 
-################################# RefClk Location constraints (Can be uncommented) ##################### 
-## set_property LOC H5 [get_ports  Q0_CLK0_GTREFCLK_PAD_N_IN ] 
+################################# RefClk Location constraints (Can be uncommented) #####################
+## set_property LOC H5 [get_ports  Q0_CLK0_GTREFCLK_PAD_N_IN ]
 ## set_property LOC H6 [get_ports  Q0_CLK0_GTREFCLK_PAD_P_IN ]
-
-

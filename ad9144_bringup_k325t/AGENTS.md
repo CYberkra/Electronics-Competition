@@ -1,6 +1,6 @@
 # AD9144 Bring-Up Package
 
-> Standalone AD9144/JESD204B bring-up for K325T + FMCADDA-9250-9144  
+> Standalone AD9144/JESD204B bring-up for K325T + FMCADDA-9250-9144
 > Verified chain: PC GUI/CLI → UART → Register Bank → DDS4 → JESD204 TX → AD9144 OUT1
 
 ## OVERVIEW

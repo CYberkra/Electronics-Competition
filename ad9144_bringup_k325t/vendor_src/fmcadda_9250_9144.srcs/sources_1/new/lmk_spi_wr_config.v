@@ -1,22 +1,22 @@
 `timescale 1ns / 1ps
 //////////////////////////////////////////////////////////////////////////////////
-// Company: 
-// Engineer: 
-// 
+// Company:
+// Engineer:
+//
 // Create Date: 2022/05/23 11:33:45
-// Design Name: 
+// Design Name:
 // Module Name: spi_wr_config
-// Project Name: 
-// Target Devices: 
-// Tool Versions: 
-// Description: 
-// 
-// Dependencies: 
-// 
+// Project Name:
+// Target Devices:
+// Tool Versions:
+// Description:
+//
+// Dependencies:
+//
 // Revision:
 // Revision 0.01 - File Created
 // Additional Comments:
-// 
+//
 //////////////////////////////////////////////////////////////////////////////////
 
 
@@ -24,16 +24,16 @@
 module lmk_spi_wr_config(
                         input clk_in,
                         input rst_n,
-                        
+
                         output o_sclk,
                         //output  o_sda,
                         inout io_sda,
                         output  o_cs_n,
                         output  o_lmk_rst,
-                        
+
                         input datain_valid,
                         output reg datain_ready
-                        );                                  
+                        );
 reg dataout_valid;
 reg[7:0] state_cur = 8'd0, state_next = 8'd0;
 wire dataout_ready;
@@ -62,7 +62,7 @@ localparam  WR_STA_17 = 8'd20 ;
 localparam  WR_STA_18 = 8'd21 ;
 localparam  WR_STA_19 = 8'd22 ;
 localparam  WR_STA_20 = 8'd23 ;
-localparam  WR_STA_21 = 8'd24 ;  
+localparam  WR_STA_21 = 8'd24 ;
 localparam  WR_STA_22 = 8'd25 ;
 localparam  WR_STA_23 = 8'd26 ;
 localparam  WR_STA_24 = 8'd27 ;
@@ -179,11 +179,11 @@ localparam  WR_STA_134 = 8'd137;
 localparam  WR_STA_135 = 8'd138;
 localparam  WR_STA_136 = 8'd139;
 localparam  WR_STA_137 = 8'd140;
-localparam  END = 8'd141;   
+localparam  END = 8'd141;
 
-localparam SPI_WRITE_MODE  = 2'b00;       
-localparam SPI_READ_MODE  = 2'b01;    
-localparam SPI_DELAY_MODE  = 2'b10; 
+localparam SPI_WRITE_MODE  = 2'b00;
+localparam SPI_READ_MODE  = 2'b01;
+localparam SPI_DELAY_MODE  = 2'b10;
 
 reg[15:0] r_rd_info;
 wire[7:0] w_rd_data;
@@ -193,14 +193,14 @@ reg[23:0] r_wr_infodata;
 always@ (posedge clk_in) begin
     if(!rst_n)
         state_cur <= IDLE;
-    else 
-        state_cur <= state_next;    
+    else
+        state_cur <= state_next;
 end
 always@ (*) begin
 case(state_cur)
         IDLE :     begin if(datain_valid) state_next = START; else state_next = IDLE; end
         START :    begin     if(dataout_ready) state_next = WAIT_GAP; else state_next = START;   end
-        WAIT_GAP : begin    state_next = WR_STA_0; end               
+        WAIT_GAP : begin    state_next = WR_STA_0; end
         WR_STA_0  :begin     if(dataout_ready) state_next = WR_STA_1  ; else state_next = WR_STA_0  ; end
         WR_STA_1  :begin     if(dataout_ready) state_next = WR_STA_2  ; else state_next = WR_STA_1  ; end
         WR_STA_2  :begin     if(dataout_ready) state_next = WR_STA_3  ; else state_next = WR_STA_2  ; end
@@ -216,7 +216,7 @@ case(state_cur)
         WR_STA_12 :begin     if(dataout_ready) state_next = WR_STA_13 ; else state_next = WR_STA_12 ; end
         WR_STA_13 :begin     if(dataout_ready) state_next = WR_STA_14 ; else state_next = WR_STA_13 ; end
         WR_STA_14 :begin     if(dataout_ready) state_next = WR_STA_15 ; else state_next = WR_STA_14 ; end
-        WR_STA_15 :begin     if(dataout_ready) state_next = WR_STA_16 ; else state_next = WR_STA_15 ; end 
+        WR_STA_15 :begin     if(dataout_ready) state_next = WR_STA_16 ; else state_next = WR_STA_15 ; end
         WR_STA_16 :begin     if(dataout_ready) state_next = WR_STA_17 ; else state_next = WR_STA_16 ; end
         WR_STA_17 :begin     if(dataout_ready) state_next = WR_STA_18 ; else state_next = WR_STA_17 ; end
         WR_STA_18 :begin     if(dataout_ready) state_next = WR_STA_19 ; else state_next = WR_STA_18 ; end
@@ -248,7 +248,7 @@ case(state_cur)
         WR_STA_44 :begin     if(dataout_ready) state_next = WR_STA_45 ; else state_next = WR_STA_44 ; end
         WR_STA_45 :begin     if(dataout_ready) state_next = WR_STA_46 ; else state_next = WR_STA_45 ; end
         WR_STA_46 :begin     if(dataout_ready) state_next = WR_STA_47 ; else state_next = WR_STA_46 ; end
-        WR_STA_47 :begin     if(dataout_ready) state_next = WR_STA_48 ; else state_next = WR_STA_47 ; end 
+        WR_STA_47 :begin     if(dataout_ready) state_next = WR_STA_48 ; else state_next = WR_STA_47 ; end
         WR_STA_48 :begin     if(dataout_ready) state_next = WR_STA_49 ; else state_next = WR_STA_48 ; end
         WR_STA_49 :begin     if(dataout_ready) state_next = WR_STA_50 ; else state_next = WR_STA_49 ; end
         WR_STA_50 :begin     if(dataout_ready) state_next = WR_STA_51 ; else state_next = WR_STA_50 ; end
@@ -264,7 +264,7 @@ case(state_cur)
         WR_STA_60 :begin     if(dataout_ready) state_next = WR_STA_61 ; else state_next = WR_STA_60 ; end
         WR_STA_61 :begin     if(dataout_ready) state_next = WR_STA_62 ; else state_next = WR_STA_61 ; end
         WR_STA_62 :begin     if(dataout_ready) state_next = WR_STA_63 ; else state_next = WR_STA_62 ; end
-        WR_STA_63 :begin     if(dataout_ready) state_next = WR_STA_64 ; else state_next = WR_STA_63 ; end 
+        WR_STA_63 :begin     if(dataout_ready) state_next = WR_STA_64 ; else state_next = WR_STA_63 ; end
         WR_STA_64 :begin     if(dataout_ready) state_next = WR_STA_65 ; else state_next = WR_STA_64 ; end
         WR_STA_65 :begin     if(dataout_ready) state_next = WR_STA_66 ; else state_next = WR_STA_65 ; end
         WR_STA_66 :begin     if(dataout_ready) state_next = WR_STA_67 ; else state_next = WR_STA_66 ; end
@@ -312,7 +312,7 @@ case(state_cur)
         WR_STA_108:begin     if(dataout_ready) state_next = WR_STA_109; else state_next = WR_STA_108; end
         WR_STA_109:begin     if(dataout_ready) state_next = WR_STA_110; else state_next = WR_STA_109; end
         WR_STA_110:begin     if(dataout_ready) state_next = WR_STA_111; else state_next = WR_STA_110; end
-        WR_STA_111:begin     if(dataout_ready) state_next = WR_STA_112; else state_next = WR_STA_111; end 
+        WR_STA_111:begin     if(dataout_ready) state_next = WR_STA_112; else state_next = WR_STA_111; end
         WR_STA_112:begin     if(dataout_ready) state_next = WR_STA_113; else state_next = WR_STA_112; end
         WR_STA_113:begin     if(dataout_ready) state_next = WR_STA_114; else state_next = WR_STA_113; end
         WR_STA_114:begin     if(dataout_ready) state_next = WR_STA_115; else state_next = WR_STA_114; end
@@ -334,18 +334,18 @@ case(state_cur)
         WR_STA_130:begin     if(dataout_ready) state_next = WR_STA_131; else state_next = WR_STA_130; end
         WR_STA_131:begin     if(dataout_ready) state_next = WR_STA_132; else state_next = WR_STA_131; end
         WR_STA_132:begin     if(dataout_ready) state_next = WR_STA_133; else state_next = WR_STA_132; end
-        WR_STA_133  :begin     if(dataout_ready) 
+        WR_STA_133  :begin     if(dataout_ready)
                                 if(w_rd_data == 8'd02 | w_rd_data == 8'd06 )
                                     state_next = WR_STA_134;
                                 else
                                     state_next = WR_STA_134;
-                              else      
-                                 state_next = WR_STA_133  ; end   
+                              else
+                                 state_next = WR_STA_133  ; end
         WR_STA_134:begin     if(dataout_ready) state_next = WR_STA_135; else state_next = WR_STA_134; end
         WR_STA_135:begin     if(dataout_ready) state_next = WR_STA_136; else state_next = WR_STA_135; end
         WR_STA_136:begin     if(dataout_ready) state_next = WR_STA_137; else state_next = WR_STA_136; end
-        WR_STA_137:begin     if(dataout_ready) state_next = END; else state_next = WR_STA_137; end                                                                                               
-        END : begin state_next = IDLE; end                           
+        WR_STA_137:begin     if(dataout_ready) state_next = END; else state_next = WR_STA_137; end
+        END : begin state_next = IDLE; end
     endcase
 end
 
@@ -493,22 +493,22 @@ always@ (posedge clk_in) begin
                 WR_STA_129 : begin r_wr_infodata <= {3'b0,13'h0188,8'h00}; end
                 WR_STA_130 : begin r_wr_infodata <= {3'b0,13'h0189,8'h00}; end
                 WR_STA_131 : begin r_wr_infodata <= {3'b0,13'h018A,8'h00}; end
-                WR_STA_132 : begin r_wr_infodata <= {3'b0,13'h018B,8'h00}; end    
-                WR_STA_133 : begin r_rd_info <= {3'b100,13'h183}; r_wrrd_mode_sel <= SPI_READ_MODE; end     
+                WR_STA_132 : begin r_wr_infodata <= {3'b0,13'h018B,8'h00}; end
+                WR_STA_133 : begin r_rd_info <= {3'b100,13'h183}; r_wrrd_mode_sel <= SPI_READ_MODE; end
                 WR_STA_134 : begin r_wr_infodata <= {3'b0,13'h144,8'hFF};  r_wrrd_mode_sel <= SPI_WRITE_MODE; end
-                WR_STA_135 : begin r_wr_infodata <= {3'b0,13'h143,8'h51}; end 
-                WR_STA_136 : begin r_wr_infodata <= {3'b0,13'h143,8'h11}; end 
-                WR_STA_137 : begin r_wr_infodata <= {3'b0,13'h139,8'h03}; end                                               
-                END : begin dataout_valid <= 1'b0; datain_ready <= 1'b0; end                       
+                WR_STA_135 : begin r_wr_infodata <= {3'b0,13'h143,8'h51}; end
+                WR_STA_136 : begin r_wr_infodata <= {3'b0,13'h143,8'h11}; end
+                WR_STA_137 : begin r_wr_infodata <= {3'b0,13'h139,8'h03}; end
+                END : begin dataout_valid <= 1'b0; datain_ready <= 1'b0; end
             endcase
         end
-end  
+end
 
 assign o_lmk_rst = 1'b0;
 
 wire  w_sda_dir;
 wire w_o_sda;
-assign io_sda = w_sda_dir ? 1'bz: w_o_sda;  
+assign io_sda = w_sda_dir ? 1'bz: w_o_sda;
 wire r_sclk_test, w_hold_save_read;
 
 spi_wr_rd_single #(
@@ -536,16 +536,16 @@ spi_wr_rd_single #(
                );
 //myila_spi myila_lmk_spi_inst (
 //	.clk(clk_in), // input wire clk
-	
-//	.probe0(o_sclk), // input wire [0:0]  probe0  
-//	.probe1(o_cs_n), // input wire [0:0]  probe1 
-//	.probe2(io_sda), // input wire [0:0]  probe2 
-//	.probe3(w_sda_dir), // input wire [0:0]  probe3 
+
+//	.probe0(o_sclk), // input wire [0:0]  probe0
+//	.probe1(o_cs_n), // input wire [0:0]  probe1
+//	.probe2(io_sda), // input wire [0:0]  probe2
+//	.probe3(w_sda_dir), // input wire [0:0]  probe3
 //	.probe4(state_cur), // input wire [7:0]  probe4
 //	.probe5({8'b0, w_rd_data}),
 //	.probe6(r_sclk_test), // input wire [7:0]  probe4
 //	.probe7(w_hold_save_read)
-	
+
 //	);// input wire [7:0]  probe5
 
 

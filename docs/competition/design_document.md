@@ -335,28 +335,28 @@ top.v
 ```python
 class AWGController:
     """AWG设备控制器"""
-    
+
     def __init__(self, port: str, baudrate: int = 115200):
         self.serial = serial.Serial(port, baudrate, timeout=1)
-    
+
     def set_frequency(self, freq_hz: float):
         """设置输出频率"""
         phase_inc = int(freq_hz * (2**48) / 1e9)
         self.write_reg(0x10, phase_inc >> 16)
         self.write_reg(0x14, phase_inc & 0xFFFF)
         self.write_reg(0x2C, 1)  # APPLY
-    
+
     def set_amplitude(self, amplitude: float):
         """设置输出幅度 (0.0 ~ 1.0)"""
         amp_q15 = int(amplitude * 32767)
         self.write_reg(0x20, amp_q15)
         self.write_reg(0x2C, 1)  # APPLY
-    
+
     def set_waveform(self, mode: int):
         """设置波形模式"""
         self.write_reg(0x28, mode)
         self.write_reg(0x2C, 1)  # APPLY
-    
+
     def read_status(self) -> dict:
         """读取设备状态"""
         return {
@@ -372,13 +372,13 @@ class AWGController:
 ```python
 class AWGSweep:
     """AWG扫描测试"""
-    
-    def frequency_sweep(self, start_freq: float, end_freq: float, 
+
+    def frequency_sweep(self, start_freq: float, end_freq: float,
                        points: int, duration: float):
         """频率扫描"""
         freqs = np.linspace(start_freq, end_freq, points)
         results = []
-        
+
         for freq in freqs:
             self.controller.set_frequency(freq)
             time.sleep(duration)
@@ -387,15 +387,15 @@ class AWGSweep:
                 'frequency': freq,
                 'status': status
             })
-        
+
         return results
-    
+
     def amplitude_sweep(self, start_amp: float, end_amp: float,
                        points: int, duration: float):
         """幅度扫描"""
         amps = np.linspace(start_amp, end_amp, points)
         results = []
-        
+
         for amp in amps:
             self.controller.set_amplitude(amp)
             time.sleep(duration)
@@ -403,7 +403,7 @@ class AWGSweep:
                 'amplitude': amp,
                 'status': self.controller.read_status()
             })
-        
+
         return results
 ```
 
@@ -509,25 +509,25 @@ class AWGAutoTest:
     def run_full_test(self):
         """执行完整测试流程"""
         results = {}
-        
+
         # 1. 设备初始化检查
         results['init'] = self.test_initialization()
-        
+
         # 2. 波形输出测试
         results['waveform'] = self.test_waveforms()
-        
+
         # 3. 频率扫描测试
         results['freq_sweep'] = self.test_frequency_sweep()
-        
+
         # 4. 幅度扫描测试
         results['amp_sweep'] = self.test_amplitude_sweep()
-        
+
         # 5. 性能指标测试
         results['performance'] = self.test_performance()
-        
+
         # 6. 生成测试报告
         self.generate_report(results)
-        
+
         return results
 ```
 

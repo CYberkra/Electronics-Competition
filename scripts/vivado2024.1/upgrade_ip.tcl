@@ -30,7 +30,7 @@ if {[llength $ips_to_upgrade] > 0} {
     foreach ip $ips_to_upgrade {
         puts "  - $ip"
     }
-    
+
     puts ""
     puts "Upgrading IPs..."
     upgrade_ip $ips_to_upgrade
