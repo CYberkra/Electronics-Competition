@@ -75,6 +75,20 @@ CLI preset:
 python tools\awg_uart_control.py --port COM7 preset --frequency 50000000 --amplitude 0x6000 --wave sine
 ```
 
+List competition demo presets without touching hardware:
+
+```powershell
+python tools\awg_uart_control.py demo --list
+python tools\awg_uart_control.py demo baseline_50m --dry-run
+```
+
+Apply a named competition demo preset:
+
+```powershell
+python tools\awg_uart_control.py --port COM7 demo baseline_50m
+python tools\awg_uart_control.py --port COM7 demo all --step-delay 2.0
+```
+
 Run a repeatable UART sweep:
 
 ```powershell
@@ -102,6 +116,8 @@ python D:\FPGA\ad9144_bringup_k325t\tools\awg_scope_measurement.py template --pr
 - GUI notes: `docs\awg_uart_panel.md`
 - Digital waveform quality: `docs\awg_wave_quality.md`
 - Scope measurement workflow: `docs\awg_scope_measurement.md`
+- Competition measurement report: `docs\competition_measurement_report.md`
+- Fixed-hardware score recovery strategy: `..\docs\competition\score_recovery_strategy.md`
 
 ## Generated Files Policy
 

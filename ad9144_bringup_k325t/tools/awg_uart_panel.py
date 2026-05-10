@@ -28,6 +28,8 @@ from awg_uart_control import (
     ADDR_STATUS,
     ADDR_VERSION,
     ADDR_WAVE_MODE,
+    DEMO_PRESETS,
+    DEMO_SEQUENCE,
     WAVE_NAMES,
     AwgUart,
     parse_int,
@@ -96,6 +98,7 @@ class AwgPanel(tk.Tk):
         self.offset_var = tk.StringVar(value="0")
         self.phase_var = tk.StringVar(value="0")
         self.wave_var = tk.StringVar(value="sine")
+        self.demo_preset_var = tk.StringVar(value="baseline_50m")
         self.sweep_profile_var = tk.StringVar(value="quick")
         self.sweep_out_var = tk.StringVar(value=str(DEFAULT_SWEEP_DIR / "gui_latest.csv"))
         self.state_var = tk.StringVar(value="Idle")
@@ -151,25 +154,34 @@ class AwgPanel(tk.Tk):
             state="readonly",
             width=18,
         ).grid(row=5, column=1, sticky=tk.EW, pady=6)
+        ttk.Label(controls, text="Demo Preset").grid(row=6, column=0, sticky=tk.W, pady=6)
+        ttk.Combobox(
+            controls,
+            textvariable=self.demo_preset_var,
+            values=DEMO_SEQUENCE,
+            state="readonly",
+            width=18,
+        ).grid(row=6, column=1, sticky=tk.EW, pady=6)
         controls.columnconfigure(1, weight=1)
 
         apply_row = ttk.Frame(controls)
-        apply_row.grid(row=6, column=0, columnspan=2, sticky=tk.EW, pady=(14, 0))
+        apply_row.grid(row=7, column=0, columnspan=2, sticky=tk.EW, pady=(14, 0))
+        ttk.Button(apply_row, text="Load Demo", command=self.load_demo_preset).pack(side=tk.LEFT)
         ttk.Button(apply_row, text="Apply Preset", command=self.apply_preset_async).pack(side=tk.LEFT)
         ttk.Button(apply_row, text="Output Off", command=self.output_off_async).pack(side=tk.LEFT, padx=(8, 0))
 
-        ttk.Separator(controls).grid(row=7, column=0, columnspan=2, sticky=tk.EW, pady=(14, 8))
-        ttk.Label(controls, text="Sweep Profile").grid(row=8, column=0, sticky=tk.W, pady=6)
+        ttk.Separator(controls).grid(row=8, column=0, columnspan=2, sticky=tk.EW, pady=(14, 8))
+        ttk.Label(controls, text="Sweep Profile").grid(row=9, column=0, sticky=tk.W, pady=6)
         ttk.Combobox(
             controls,
             textvariable=self.sweep_profile_var,
             values=["quick", "wave", "amplitude", "full"],
             state="readonly",
             width=18,
-        ).grid(row=8, column=1, sticky=tk.EW, pady=6)
-        self._add_entry(controls, 9, "Sweep CSV", self.sweep_out_var)
+        ).grid(row=9, column=1, sticky=tk.EW, pady=6)
+        self._add_entry(controls, 10, "Sweep CSV", self.sweep_out_var)
         ttk.Button(controls, text="Run Sweep", command=self.run_sweep_async).grid(
-            row=10, column=0, columnspan=2, sticky=tk.W, pady=(8, 0)
+            row=11, column=0, columnspan=2, sticky=tk.W, pady=(8, 0)
         )
 
         status = ttk.LabelFrame(main, text="Status", padding=10)
@@ -219,6 +231,16 @@ class AwgPanel(tk.Tk):
             self.port_var.set(ports[-1])
         elif not ports:
             self.port_var.set("")
+
+    def load_demo_preset(self) -> None:
+        name = self.demo_preset_var.get()
+        preset = DEMO_PRESETS[name]
+        self.frequency_var.set(str(int(float(preset["frequency"]))))
+        self.amplitude_var.set(f"0x{int(preset['amplitude']):04X}")
+        self.offset_var.set(f"0x{int(preset['offset']) & 0xFFFF:04X}")
+        self.phase_var.set(str(float(preset["phase_deg"])))
+        self.wave_var.set(str(preset["wave"]))
+        self.log(f"Loaded demo preset {name}: {preset['note']}")
 
     def _connection_args(self) -> tuple[str, int]:
         port = self.port_var.get().strip()

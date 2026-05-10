@@ -30,6 +30,93 @@ WAVE_NAMES = {
     "sawtooth": 3,
 }
 
+DEMO_PRESETS = {
+    "baseline_50m": {
+        "frequency": 50_000_000.0,
+        "amplitude": 0x6000,
+        "offset": 0,
+        "phase_deg": 0.0,
+        "wave": "sine",
+        "note": "Known-good OUT1 baseline for every board session.",
+    },
+    "low_1m": {
+        "frequency": 1_000_000.0,
+        "amplitude": 0x6000,
+        "offset": 0,
+        "phase_deg": 0.0,
+        "wave": "sine",
+        "note": "Low-frequency clean sine check.",
+    },
+    "mid_100m": {
+        "frequency": 100_000_000.0,
+        "amplitude": 0x6000,
+        "offset": 0,
+        "phase_deg": 0.0,
+        "wave": "sine",
+        "note": "Mid-band sine point for frequency-response logging.",
+    },
+    "high_300m": {
+        "frequency": 300_000_000.0,
+        "amplitude": 0x6000,
+        "offset": 0,
+        "phase_deg": 0.0,
+        "wave": "sine",
+        "note": "High-frequency point that stayed broadly usable in prior scope tests.",
+    },
+    "amp_low_50m": {
+        "frequency": 50_000_000.0,
+        "amplitude": 0x3000,
+        "offset": 0,
+        "phase_deg": 0.0,
+        "wave": "sine",
+        "note": "Amplitude-control low point.",
+    },
+    "amp_high_50m": {
+        "frequency": 50_000_000.0,
+        "amplitude": 0x7000,
+        "offset": 0,
+        "phase_deg": 0.0,
+        "wave": "sine",
+        "note": "Amplitude-control high point.",
+    },
+    "square_50m": {
+        "frequency": 50_000_000.0,
+        "amplitude": 0x6000,
+        "offset": 0,
+        "phase_deg": 0.0,
+        "wave": "square",
+        "note": "Waveform-mode demonstration: square.",
+    },
+    "triangle_50m": {
+        "frequency": 50_000_000.0,
+        "amplitude": 0x6000,
+        "offset": 0,
+        "phase_deg": 0.0,
+        "wave": "triangle",
+        "note": "Waveform-mode demonstration: triangle.",
+    },
+    "saw_50m": {
+        "frequency": 50_000_000.0,
+        "amplitude": 0x6000,
+        "offset": 0,
+        "phase_deg": 0.0,
+        "wave": "saw",
+        "note": "Waveform-mode demonstration: sawtooth.",
+    },
+}
+
+DEMO_SEQUENCE = [
+    "baseline_50m",
+    "low_1m",
+    "mid_100m",
+    "high_300m",
+    "amp_low_50m",
+    "amp_high_50m",
+    "square_50m",
+    "triangle_50m",
+    "saw_50m",
+]
+
 
 def parse_int(text: str) -> int:
     return int(text, 0)
@@ -43,6 +130,13 @@ def import_serial():
             "pyserial is required. Install it with: python -m pip install pyserial"
         ) from exc
     return serial
+
+
+def require_port(args: argparse.Namespace) -> str:
+    port = getattr(args, "port", None)
+    if not port:
+        raise SystemExit("--port is required for hardware UART commands")
+    return port
 
 
 class AwgUart:
@@ -96,6 +190,41 @@ def phase_offset_from_degrees(degrees: float) -> int:
     return int(round((degrees % 360.0) * (1 << 48) / 360.0)) & ((1 << 48) - 1)
 
 
+def format_preset_line(name: str, preset: dict[str, object], sample_rate: float) -> str:
+    phase_inc = phase_inc_from_frequency(float(preset["frequency"]), sample_rate)
+    phase_offset = phase_offset_from_degrees(float(preset["phase_deg"]))
+    return (
+        f"{name}: freq={float(preset['frequency']):.6f}Hz "
+        f"phase_inc=0x{phase_inc:012X} "
+        f"amp=0x{int(preset['amplitude']):04X} "
+        f"offset=0x{int(preset['offset']) & 0xFFFF:04X} "
+        f"phase=0x{phase_offset:012X} "
+        f"wave={preset['wave']} - {preset['note']}"
+    )
+
+
+def apply_waveform_preset(
+    dev: AwgUart,
+    *,
+    frequency: float,
+    sample_rate: float,
+    amplitude: int,
+    offset: int,
+    phase_deg: float,
+    wave: str,
+) -> tuple[int, int]:
+    phase_inc = phase_inc_from_frequency(frequency, sample_rate)
+    phase_offset = phase_offset_from_degrees(phase_deg)
+    dev.set_phase_inc(phase_inc)
+    dev.set_phase_offset(phase_offset)
+    dev.write_reg(ADDR_AMPLITUDE, amplitude & 0xFFFF)
+    dev.write_reg(ADDR_OFFSET, offset & 0xFFFF)
+    dev.write_reg(ADDR_WAVE_MODE, WAVE_NAMES[wave])
+    dev.write_reg(ADDR_CONTROL, 0x00000003)
+    dev.write_reg(ADDR_APPLY, 0x00000001)
+    return phase_inc, phase_offset
+
+
 def print_status(dev: AwgUart) -> None:
     reg_id = dev.read_reg(ADDR_ID)
     version = dev.read_reg(ADDR_VERSION)
@@ -119,7 +248,7 @@ def print_status(dev: AwgUart) -> None:
 
 
 def cmd_read(args: argparse.Namespace) -> None:
-    dev = AwgUart(args.port, args.baud, args.timeout)
+    dev = AwgUart(require_port(args), args.baud, args.timeout)
     try:
         print(f"0x{dev.read_reg(args.addr):08X}")
     finally:
@@ -127,7 +256,7 @@ def cmd_read(args: argparse.Namespace) -> None:
 
 
 def cmd_write(args: argparse.Namespace) -> None:
-    dev = AwgUart(args.port, args.baud, args.timeout)
+    dev = AwgUart(require_port(args), args.baud, args.timeout)
     try:
         dev.write_reg(args.addr, args.data)
         print("OK")
@@ -136,7 +265,7 @@ def cmd_write(args: argparse.Namespace) -> None:
 
 
 def cmd_status(args: argparse.Namespace) -> None:
-    dev = AwgUart(args.port, args.baud, args.timeout)
+    dev = AwgUart(require_port(args), args.baud, args.timeout)
     try:
         print_status(dev)
     finally:
@@ -144,7 +273,7 @@ def cmd_status(args: argparse.Namespace) -> None:
 
 
 def cmd_button(args: argparse.Namespace) -> None:
-    dev = AwgUart(args.port, args.baud, args.timeout)
+    dev = AwgUart(require_port(args), args.baud, args.timeout)
     try:
         dev.write_reg(ADDR_CONTROL, 0x00000001)
         dev.write_reg(ADDR_APPLY, 0x00000001)
@@ -154,21 +283,22 @@ def cmd_button(args: argparse.Namespace) -> None:
 
 
 def cmd_preset(args: argparse.Namespace) -> None:
-    wave = WAVE_NAMES[args.wave]
     phase_inc = phase_inc_from_frequency(args.frequency, args.sample_rate)
     phase_offset = phase_offset_from_degrees(args.phase_deg)
     amplitude = parse_int(args.amplitude) & 0xFFFF
     offset = parse_int(args.offset) & 0xFFFF
 
-    dev = AwgUart(args.port, args.baud, args.timeout)
+    dev = AwgUart(require_port(args), args.baud, args.timeout)
     try:
-        dev.set_phase_inc(phase_inc)
-        dev.set_phase_offset(phase_offset)
-        dev.write_reg(ADDR_AMPLITUDE, amplitude)
-        dev.write_reg(ADDR_OFFSET, offset)
-        dev.write_reg(ADDR_WAVE_MODE, wave)
-        dev.write_reg(ADDR_CONTROL, 0x00000003)
-        dev.write_reg(ADDR_APPLY, 0x00000001)
+        apply_waveform_preset(
+            dev,
+            frequency=args.frequency,
+            sample_rate=args.sample_rate,
+            amplitude=amplitude,
+            offset=offset,
+            phase_deg=args.phase_deg,
+            wave=args.wave,
+        )
         time.sleep(0.05)
         print(f"phase_inc=0x{phase_inc:012X}")
         print(f"phase_offset=0x{phase_offset:012X}")
@@ -178,9 +308,49 @@ def cmd_preset(args: argparse.Namespace) -> None:
         dev.close()
 
 
+def cmd_demo(args: argparse.Namespace) -> None:
+    if args.list:
+        for name in DEMO_SEQUENCE:
+            print(format_preset_line(name, DEMO_PRESETS[name], args.sample_rate))
+        return
+
+    if not args.name:
+        raise SystemExit("demo requires a preset name, 'all', or --list")
+
+    names = DEMO_SEQUENCE if args.name == "all" else [args.name]
+    for name in names:
+        if name not in DEMO_PRESETS:
+            raise SystemExit(f"unknown demo preset: {name}")
+
+    if args.dry_run:
+        for name in names:
+            print(format_preset_line(name, DEMO_PRESETS[name], args.sample_rate))
+        return
+
+    dev = AwgUart(require_port(args), args.baud, args.timeout)
+    try:
+        for name in names:
+            preset = DEMO_PRESETS[name]
+            phase_inc, phase_offset = apply_waveform_preset(
+                dev,
+                frequency=float(preset["frequency"]),
+                sample_rate=args.sample_rate,
+                amplitude=int(preset["amplitude"]),
+                offset=int(preset["offset"]),
+                phase_deg=float(preset["phase_deg"]),
+                wave=str(preset["wave"]),
+            )
+            print(f"{name}: phase_inc=0x{phase_inc:012X} phase_offset=0x{phase_offset:012X}")
+            if args.step_delay > 0:
+                time.sleep(args.step_delay)
+        print_status(dev)
+    finally:
+        dev.close()
+
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description="Control the AD9144 AWG UART variant.")
-    parser.add_argument("--port", required=True, help="Windows COM port, for example COM3")
+    parser.add_argument("--port", help="Windows COM port, for example COM3")
     parser.add_argument("--baud", type=int, default=115200)
     parser.add_argument("--timeout", type=float, default=1.0)
 
@@ -209,6 +379,14 @@ def build_parser() -> argparse.ArgumentParser:
     preset.add_argument("--phase-deg", type=float, default=0.0)
     preset.add_argument("--wave", choices=sorted(WAVE_NAMES), default="sine")
     preset.set_defaults(func=cmd_preset)
+
+    demo = sub.add_parser("demo", help="Run or print named competition demo presets")
+    demo.add_argument("name", nargs="?", help="Preset name, or 'all'")
+    demo.add_argument("--list", action="store_true", help="List available demo presets")
+    demo.add_argument("--dry-run", action="store_true", help="Print register-equivalent settings without opening UART")
+    demo.add_argument("--sample-rate", type=float, default=1_000_000_000.0)
+    demo.add_argument("--step-delay", type=float, default=0.25, help="Delay between presets when running 'all'")
+    demo.set_defaults(func=cmd_demo)
 
     return parser
 

@@ -18,6 +18,7 @@ USB-SERIAL CH340 (COM7)
 
 - `Read Status`: reads ID, version, control, status, phase increment, amplitude, and waveform mode.
 - `Apply Preset`: writes frequency, amplitude, offset, phase, waveform, then enables register control with `CONTROL=0x00000003`.
+- `Load Demo`: fills the manual fields from a named competition preset without writing hardware.
 - `Button Control`: writes `CONTROL=0x00000001`, returning control to the FPGA board buttons.
 - `Output Off`: clears `CONTROL[0]` while preserving the other control bits.
 - `Run Sweep`: runs the selected UART sweep profile, writes a CSV, restores 50 MHz sine at amplitude `0x6000`, then refreshes status.
@@ -61,3 +62,24 @@ D:\FPGA\ad9144_bringup_k325t\measurements\uart_sweeps\gui_latest.csv
 ```
 
 Use the GUI sweep when the oscilloscope is available and the CLI sweep when a repeatable scripted run is easier to archive.
+
+## Competition Demo Presets
+
+The GUI and CLI share the same named preset table. Use `Load Demo` to inspect values before applying them, or use the CLI:
+
+```powershell
+python D:\FPGA\ad9144_bringup_k325t\tools\awg_uart_control.py demo --list
+python D:\FPGA\ad9144_bringup_k325t\tools\awg_uart_control.py --port COM7 demo baseline_50m
+```
+
+Recommended live-demo order:
+
+1. `baseline_50m`
+2. `amp_low_50m`
+3. `amp_high_50m`
+4. `low_1m`
+5. `mid_100m`
+6. `high_300m`
+7. `square_50m`
+8. `triangle_50m`
+9. `saw_50m`
