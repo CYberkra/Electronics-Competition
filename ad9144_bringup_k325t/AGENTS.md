@@ -108,6 +108,16 @@ python tools/awg_uart_control.py --port COM7 demo all --step-delay 2.0
 # Quick sweep
 python tools/awg_uart_sweep.py --port COM7 --profile quick --settle 0.05
 
+# Fill scope CSV, then derive a calibration table
+python tools/awg_scope_measurement.py calibration --input measurements/scope_templates/<filled>.csv
+
+# Load calibration table to hardware
+python tools/awg_uart_control.py cal load --input measurements/calibration_tables/<filled>_calibration.csv --dry-run
+python tools/awg_uart_control.py --port COM7 cal load --input measurements/calibration_tables/<filled>_calibration.csv --enable
+
+# Dump calibration table from hardware
+python tools/awg_uart_control.py --port COM7 cal dump --out measurements/calibration_tables/<readback>.csv
+
 # Digital quality check
 python tools/awg_wave_quality.py --profile quick
 
@@ -120,4 +130,5 @@ python tools/awg_wave_quality.py --profile quick
 - **Timing**: Routed WNS ~ -3.3 ns (known vendor/debug/CDC paths). Bitstream generates but is demo-quality only.
 - **Debug**: `build_awg_button_debug.tcl` adds 384 ILA probes. Use for ILA bring-up, not release.
 - **Scope artifacts at 400 MHz**: Oscilloscope counter behavior, not FPGA register instability.
+- **Calibration workflow**: use `tools/awg_scope_measurement.py calibration` to derive `CAL_TABLE[0:15]` CSV, then `tools/awg_uart_control.py cal load` to program the entries and `cal enable/disable` to switch the compensation path.
 - **CH340 USB-UART**: Required for PC control; JTAG alone only programs bitstream.

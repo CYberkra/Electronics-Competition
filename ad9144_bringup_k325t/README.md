@@ -95,6 +95,14 @@ Run a repeatable UART sweep:
 python tools\awg_uart_sweep.py --port COM7 --profile quick --settle 0.05 --out measurements\uart_sweeps\quick_latest.csv
 ```
 
+Derive a calibration table from a filled scope CSV:
+
+```powershell
+python tools\awg_scope_measurement.py calibration --input measurements\scope_templates\<filled>.csv --out measurements\calibration_tables\<filled>_calibration.csv
+python tools\awg_uart_control.py cal load --input measurements\calibration_tables\<filled>_calibration.csv --dry-run
+python tools\awg_uart_control.py --port COM7 cal load --input measurements\calibration_tables\<filled>_calibration.csv --enable
+```
+
 Run digital waveform self-check:
 
 ```powershell
@@ -117,6 +125,7 @@ python D:\FPGA\ad9144_bringup_k325t\tools\awg_scope_measurement.py template --pr
 - Digital waveform quality: `docs\awg_wave_quality.md`
 - Scope measurement workflow: `docs\awg_scope_measurement.md`
 - Competition measurement report: `docs\competition_measurement_report.md`
+- Calibration workflow: `docs\awg_scope_measurement.md` and `tools\awg_uart_control.py cal`
 - Fixed-hardware score recovery strategy: `..\docs\competition\score_recovery_strategy.md`
 
 ## Generated Files Policy
