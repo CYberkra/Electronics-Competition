@@ -37,13 +37,13 @@ $env:VIVADO_PATH = "D:\Xilinx\Vivado\2024.1\bin\vivado.bat"
 Get-PnpDevice -PresentOnly -Class Ports
 ```
 
-6. Start the GUI:
+6. Start the Qt upper host:
 
 ```powershell
-python D:\FPGA\ad9144_bringup_k325t\tools\awg_uart_panel.py
+python ad9144_bringup_k325t\launch_upper_host.py
 ```
 
-7. In the GUI, choose the COM port, click `Read Status`, then load a known baseline:
+7. In the app, choose the COM port, click `Read Status`, then load a known baseline:
 
 ```text
 Frequency Hz: 50000000
@@ -55,6 +55,31 @@ Wave: sine
 ```
 
 ## Important Commands
+
+Install upper-host dependencies:
+
+```powershell
+python -m pip install -r ad9144_bringup_k325t\requirements-upper-host.txt
+```
+
+Run the Qt upper host:
+
+```powershell
+python ad9144_bringup_k325t\launch_upper_host.py
+```
+
+Run the no-hardware smoke check:
+
+```powershell
+$env:QT_QPA_PLATFORM = "offscreen"
+python ad9144_bringup_k325t\launch_upper_host.py --smoke
+```
+
+Build a portable EXE:
+
+```powershell
+ad9144_bringup_k325t\scripts\build_upper_host.ps1
+```
 
 Build the UART-control bitstream if the generated bit is missing or stale:
 
@@ -121,7 +146,8 @@ python D:\FPGA\ad9144_bringup_k325t\tools\awg_scope_measurement.py template --pr
 - Next board checklist: `docs\next_board_session_checklist.md`
 - UART protocol: `docs\ad9144_uart_control_protocol.md`
 - Register map: `docs\awg_register_map.md`
-- GUI notes: `docs\awg_uart_panel.md`
+- Qt upper host: `docs\upper_host_qt.md`
+- Legacy Tkinter GUI notes: `docs\awg_uart_panel.md`
 - Digital waveform quality: `docs\awg_wave_quality.md`
 - Scope measurement workflow: `docs\awg_scope_measurement.md`
 - Competition measurement report: `docs\competition_measurement_report.md`

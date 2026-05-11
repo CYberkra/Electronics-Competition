@@ -11,8 +11,12 @@ from pathlib import Path
 
 import numpy as np
 
-from awg_uart_control import WAVE_NAMES, phase_inc_from_frequency, phase_offset_from_degrees
-from awg_uart_sweep import SweepPoint, profile_points
+try:
+    from .awg_uart_control import WAVE_NAMES, phase_inc_from_frequency, phase_offset_from_degrees
+    from .awg_uart_sweep import SweepPoint, profile_points
+except ImportError:  # pragma: no cover - direct script execution fallback
+    from awg_uart_control import WAVE_NAMES, phase_inc_from_frequency, phase_offset_from_degrees
+    from awg_uart_sweep import SweepPoint, profile_points
 
 
 PHASE_BITS = 48

@@ -21,9 +21,12 @@ ad9144_bringup_k325t/
 │   └── top.v                   # 987-line top with vendor JESD init
 ├── constraints/                # XDC for K325T FMC HPC
 ├── scripts/                    # Build & program Tcl scripts
+├── upper_host/                 # PySide6/pyqtgraph upper-computer app
+├── launch_upper_host.py        # Qt app launcher
+├── requirements-upper-host.txt # Qt/serial/packaging dependencies
 ├── tools/                      # Python host utilities
 │   ├── awg_uart_control.py     # CLI register control
-│   ├── awg_uart_panel.py       # Tkinter GUI panel
+│   ├── awg_uart_panel.py       # Legacy Tkinter GUI panel
 │   ├── awg_uart_sweep.py       # Automated sweep + CSV logger
 │   ├── awg_wave_quality.py     # Digital waveform THD/spur check
 │   └── awg_scope_measurement.py# Oscilloscope measurement templates
@@ -38,7 +41,8 @@ ad9144_bringup_k325t/
 | Build bitstream | `scripts/build_awg_uart_direct.tcl` | Main UART-control variant |
 | Program board | `scripts/program_awg_uart.tcl` | Via JTAG, wait 12-15s after |
 | Control from PC | `tools/awg_uart_control.py --port COMx status` | Requires CH340 USB-UART |
-| GUI control | `tools/awg_uart_panel.py` | Tkinter, COM7 default |
+| GUI control | `launch_upper_host.py` | Main PySide6 upper host |
+| Legacy GUI | `tools/awg_uart_panel.py` | Tkinter fallback |
 | Competition demo presets | `tools/awg_uart_control.py demo --list` | Fixed sequence for scope sessions |
 | Register map | `docs/ad9144_uart_control_protocol.md` | 115200 8N1, hex addr/data |
 | Waveform quality | `tools/awg_wave_quality.py --profile quick` | Digital-only THD check |
@@ -100,6 +104,17 @@ python tools/awg_uart_control.py --port COM7 status
 # Apply 50 MHz sine preset
 python tools/awg_uart_control.py --port COM7 preset --frequency 50000000 --amplitude 0x6000 --wave sine
 
+# Install and launch the Qt upper host
+python -m pip install -r requirements-upper-host.txt
+python launch_upper_host.py
+
+# No-hardware Qt smoke check
+$env:QT_QPA_PLATFORM = "offscreen"
+python launch_upper_host.py --smoke
+
+# Build portable EXE under artifacts/upper_host/
+scripts/build_upper_host.ps1
+
 # List and run competition demo presets
 python tools/awg_uart_control.py demo --list
 python tools/awg_uart_control.py --port COM7 demo baseline_50m
@@ -132,3 +147,4 @@ python tools/awg_wave_quality.py --profile quick
 - **Scope artifacts at 400 MHz**: Oscilloscope counter behavior, not FPGA register instability.
 - **Calibration workflow**: use `tools/awg_scope_measurement.py calibration` to derive `CAL_TABLE[0:15]` CSV, then `tools/awg_uart_control.py cal load` to program the entries and `cal enable/disable` to switch the compensation path.
 - **CH340 USB-UART**: Required for PC control; JTAG alone only programs bitstream.
+- **Qt upper host**: `launch_upper_host.py` is the preferred PC UI. It uses PySide6, pyqtgraph, pyserial, numpy, and PyInstaller. It intentionally keeps oscilloscope interaction manual via CSV import/export until SCPI/VISA automation is explicitly added.
