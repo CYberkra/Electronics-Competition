@@ -1,0 +1,6 @@
+PySide6
+pyqtgraph
+pyserial
+numpy
+pyinstaller
+

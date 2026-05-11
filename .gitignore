@@ -29,6 +29,7 @@ sim/work/*.vcd
 # Build logs
 build_*.log
 rebuild_*.log
+build/
 artifacts/
 measurements/
 reports/

@@ -4,8 +4,10 @@
 from __future__ import annotations
 
 import argparse
+import csv
 import sys
 import time
+from pathlib import Path
 
 
 ADDR_ID = 0x00
@@ -21,6 +23,14 @@ ADDR_OFFSET = 0x24
 ADDR_WAVE_MODE = 0x28
 ADDR_APPLY = 0x2C
 ADDR_BUTTON_STATE = 0x30
+ADDR_RANGE_SEL = 0x34
+ADDR_OUTPUT_EN = 0x38
+ADDR_CAL_ENABLE = 0x3C
+ADDR_CAL_TABLE_BASE = 0x40
+
+CAL_TABLE_ENTRIES = 16
+CAL_ENTRY_STRIDE = 4
+CAL_GAIN_UNITY = 0x8000
 
 WAVE_NAMES = {
     "sine": 0,
@@ -117,6 +127,21 @@ DEMO_SEQUENCE = [
     "saw_50m",
 ]
 
+CAL_CSV_FIELDS = [
+    "bin_index",
+    "bin_center_frequency_hz",
+    "sample_rate_hz",
+    "target_frequency_hz",
+    "target_phase_inc_hex",
+    "measured_vpp_v",
+    "reference_vpp_v",
+    "gain_q15_hex",
+    "offset_hex",
+    "cal_word_hex",
+    "source_rows",
+    "note",
+]
+
 
 def parse_int(text: str) -> int:
     return int(text, 0)
@@ -137,6 +162,72 @@ def require_port(args: argparse.Namespace) -> str:
     if not port:
         raise SystemExit("--port is required for hardware UART commands")
     return port
+
+
+def cal_table_addr(index: int) -> int:
+    if not 0 <= index < CAL_TABLE_ENTRIES:
+        raise ValueError(f"calibration table index out of range: {index}")
+    return ADDR_CAL_TABLE_BASE + CAL_ENTRY_STRIDE * index
+
+
+def cal_bin_from_phase_inc(phase_inc: int) -> int:
+    return (phase_inc >> 44) & 0xF
+
+
+def cal_bin_center_frequency_hz(bin_index: int, sample_rate: float) -> float:
+    return ((bin_index + 0.5) * sample_rate) / float(CAL_TABLE_ENTRIES)
+
+
+def cal_word_from_fields(offset: int, gain: int) -> int:
+    return ((offset & 0xFFFF) << 16) | (gain & 0xFFFF)
+
+
+def decode_cal_word(word: int) -> tuple[int, int]:
+    offset = (word >> 16) & 0xFFFF
+    if offset & 0x8000:
+        offset -= 0x10000
+    gain = word & 0xFFFF
+    return offset, gain
+
+
+def format_cal_word(word: int) -> str:
+    return f"0x{word & 0xFFFFFFFF:08X}"
+
+
+def format_signed_hex(value: int) -> str:
+    return f"0x{value & 0xFFFF:04X}"
+
+
+def parse_csv_int(row: dict[str, str], *keys: str, default: int | None = None) -> int | None:
+    for key in keys:
+        text = (row.get(key) or "").strip()
+        if text:
+            return int(text, 0)
+    return default
+
+
+def parse_csv_float(row: dict[str, str], *keys: str, default: float | None = None) -> float | None:
+    for key in keys:
+        text = (row.get(key) or "").strip()
+        if text:
+            return float(text)
+    return default
+
+
+def read_csv_rows(path: Path) -> list[dict[str, str]]:
+    with path.open("r", newline="", encoding="utf-8-sig") as handle:
+        rows = list(csv.DictReader(handle))
+    if not rows:
+        raise ValueError(f"{path} contains no rows")
+    return rows
+
+
+def write_csv_rows(path: Path, rows: list[dict[str, str]]) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    with path.open("w", newline="", encoding="utf-8") as handle:
+        writer = csv.DictWriter(handle, fieldnames=CAL_CSV_FIELDS, extrasaction="ignore")
+        writer.writeheader()
+        writer.writerows(rows)
 
 
 class AwgUart:
@@ -178,6 +269,15 @@ class AwgUart:
         value &= (1 << 48) - 1
         self.write_reg(ADDR_PHASE_OFFSET_LO, value & 0xFFFFFFFF)
         self.write_reg(ADDR_PHASE_OFFSET_HI, (value >> 32) & 0xFFFF)
+
+    def set_cal_enable(self, enabled: bool) -> None:
+        self.write_reg(ADDR_CAL_ENABLE, 1 if enabled else 0)
+
+    def write_cal_entry(self, index: int, word: int) -> None:
+        self.write_reg(cal_table_addr(index), word & 0xFFFFFFFF)
+
+    def read_cal_entry(self, index: int) -> int:
+        return self.read_reg(cal_table_addr(index))
 
 
 def phase_inc_from_frequency(freq_hz: float, sample_rate: float) -> int:
@@ -231,6 +331,8 @@ def print_status(dev: AwgUart) -> None:
     control = dev.read_reg(ADDR_CONTROL)
     status = dev.read_reg(ADDR_STATUS)
     button = dev.read_reg(ADDR_BUTTON_STATE)
+    range_sel = dev.read_reg(ADDR_RANGE_SEL)
+    cal_enable = dev.read_reg(ADDR_CAL_ENABLE)
     phase_lo = dev.read_reg(ADDR_PHASE_INC_LO)
     phase_hi = dev.read_reg(ADDR_PHASE_INC_HI)
     amplitude = dev.read_reg(ADDR_AMPLITUDE)
@@ -242,6 +344,8 @@ def print_status(dev: AwgUart) -> None:
     print(f"CONTROL=0x{control:08X}")
     print(f"STATUS=0x{status:08X}")
     print(f"BUTTON_STATE=0x{button:08X}")
+    print(f"RANGE_SEL=0x{range_sel:08X}")
+    print(f"CAL_ENABLE=0x{cal_enable:08X}")
     print(f"PHASE_INC=0x{phase_inc:012X}")
     print(f"AMPLITUDE=0x{amplitude & 0xFFFF:04X}")
     print(f"WAVE_MODE={wave & 0x3}")
@@ -348,6 +452,131 @@ def cmd_demo(args: argparse.Namespace) -> None:
         dev.close()
 
 
+def load_calibration_rows(path: Path) -> list[tuple[int, int, int, dict[str, str]]]:
+    rows = read_csv_rows(path)
+    entries: list[tuple[int, int, int, dict[str, str]]] = []
+    for row in rows:
+        index = parse_csv_int(row, "bin_index", "index", "cal_bin")
+        if index is None:
+            raise ValueError(f"{path} row is missing bin_index")
+        if not 0 <= index < CAL_TABLE_ENTRIES:
+            raise ValueError(f"{path} row has invalid bin_index: {index}")
+
+        word = parse_csv_int(row, "cal_word_hex", "cal_word")
+        if word is None:
+            gain = parse_csv_int(row, "gain_q15_hex", "gain_q15", "gain", default=CAL_GAIN_UNITY)
+            offset = parse_csv_int(row, "offset_hex", "offset", default=0)
+            if gain is None:
+                gain = CAL_GAIN_UNITY
+            if offset is None:
+                offset = 0
+            word = cal_word_from_fields(offset, gain)
+
+        offset, gain = decode_cal_word(word)
+        entries.append((index, offset, gain, row))
+    return entries
+
+
+def format_calibration_line(
+    index: int,
+    word: int,
+    sample_rate: float,
+    note: str = "",
+) -> str:
+    offset, gain = decode_cal_word(word)
+    center = cal_bin_center_frequency_hz(index, sample_rate)
+    suffix = f" - {note}" if note else ""
+    return (
+        f"bin {index:02d} center={center:.3f} Hz "
+        f"word=0x{word & 0xFFFFFFFF:08X} "
+        f"offset=0x{offset & 0xFFFF:04X} "
+        f"gain=0x{gain:04X}{suffix}"
+    )
+
+
+def cmd_cal_dump(args: argparse.Namespace) -> None:
+    dev = AwgUart(require_port(args), args.baud, args.timeout)
+    try:
+        rows: list[dict[str, str]] = []
+        for index in range(CAL_TABLE_ENTRIES):
+            word = dev.read_cal_entry(index)
+            offset, gain = decode_cal_word(word)
+            rows.append(
+                {
+                    "bin_index": str(index),
+                    "bin_center_frequency_hz": f"{cal_bin_center_frequency_hz(index, args.sample_rate):.6f}",
+                    "sample_rate_hz": f"{args.sample_rate:.6f}",
+                    "gain_q15_hex": f"0x{gain:04X}",
+                    "offset_hex": format_signed_hex(offset),
+                    "cal_word_hex": format_cal_word(word),
+                    "note": "readback",
+                }
+            )
+        if args.out:
+            write_csv_rows(args.out, rows)
+            print(f"CAL_CSV={args.out}")
+            return
+        for row in rows:
+            print(
+                format_calibration_line(
+                    int(row["bin_index"]),
+                    int(row["cal_word_hex"], 16),
+                    args.sample_rate,
+                    row["note"],
+                )
+            )
+    finally:
+        dev.close()
+
+
+def cmd_cal_load(args: argparse.Namespace) -> None:
+    entries = load_calibration_rows(args.input)
+    if args.dry_run:
+        for index, offset, gain, row in entries:
+            word = cal_word_from_fields(offset, gain)
+            note = row.get("note", "")
+            print(format_calibration_line(index, word, args.sample_rate, note))
+        return
+
+    dev = AwgUart(require_port(args), args.baud, args.timeout)
+    try:
+        for index, offset, gain, row in entries:
+            word = cal_word_from_fields(offset, gain)
+            dev.write_cal_entry(index, word)
+            note = row.get("note", "")
+            print(format_calibration_line(index, word, args.sample_rate, note))
+        if args.enable:
+            dev.set_cal_enable(True)
+        elif args.disable:
+            dev.set_cal_enable(False)
+        time.sleep(0.05)
+        print_status(dev)
+    finally:
+        dev.close()
+
+
+def cmd_cal_enable(args: argparse.Namespace) -> None:
+    dev = AwgUart(require_port(args), args.baud, args.timeout)
+    try:
+        dev.set_cal_enable(True)
+        time.sleep(0.05)
+        print("calibration enabled")
+        print_status(dev)
+    finally:
+        dev.close()
+
+
+def cmd_cal_disable(args: argparse.Namespace) -> None:
+    dev = AwgUart(require_port(args), args.baud, args.timeout)
+    try:
+        dev.set_cal_enable(False)
+        time.sleep(0.05)
+        print("calibration disabled")
+        print_status(dev)
+    finally:
+        dev.close()
+
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description="Control the AD9144 AWG UART variant.")
     parser.add_argument("--port", help="Windows COM port, for example COM3")
@@ -387,6 +616,29 @@ def build_parser() -> argparse.ArgumentParser:
     demo.add_argument("--sample-rate", type=float, default=1_000_000_000.0)
     demo.add_argument("--step-delay", type=float, default=0.25, help="Delay between presets when running 'all'")
     demo.set_defaults(func=cmd_demo)
+
+    cal = sub.add_parser("cal", help="Read, write, or toggle the calibration table")
+    cal_sub = cal.add_subparsers(dest="cal_command", required=True)
+
+    cal_dump = cal_sub.add_parser("dump", help="Read calibration table entries from hardware")
+    cal_dump.add_argument("--out", type=Path, help="Write the calibration table to CSV")
+    cal_dump.add_argument("--sample-rate", type=float, default=1_000_000_000.0)
+    cal_dump.set_defaults(func=cmd_cal_dump)
+
+    cal_load = cal_sub.add_parser("load", help="Load calibration table entries from CSV")
+    cal_load.add_argument("--input", type=Path, required=True)
+    load_mode = cal_load.add_mutually_exclusive_group()
+    load_mode.add_argument("--enable", action="store_true", help="Enable calibration after loading")
+    load_mode.add_argument("--disable", action="store_true", help="Disable calibration after loading")
+    cal_load.add_argument("--dry-run", action="store_true", help="Print parsed entries without opening UART")
+    cal_load.add_argument("--sample-rate", type=float, default=1_000_000_000.0)
+    cal_load.set_defaults(func=cmd_cal_load)
+
+    cal_enable = cal_sub.add_parser("enable", help="Enable digital calibration")
+    cal_enable.set_defaults(func=cmd_cal_enable)
+
+    cal_disable = cal_sub.add_parser("disable", help="Disable digital calibration")
+    cal_disable.set_defaults(func=cmd_cal_disable)
 
     return parser
 

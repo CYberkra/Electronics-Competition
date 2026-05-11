@@ -88,6 +88,13 @@ gain_code = round(reference_vpp / measured_vpp * 0x8000)
 4. Clamp `gain_code` to `0xFFFF`.
 5. Write each correction into the matching calibration-table bin.
 6. Repeat the sweep and compare Vpp spread before/after.
+7. After filling the scope CSV, derive the table and load it with the host tools:
+
+```powershell
+python ad9144_bringup_k325t\tools\awg_scope_measurement.py calibration --input ad9144_bringup_k325t\measurements\scope_templates\<filled>.csv
+python ad9144_bringup_k325t\tools\awg_uart_control.py cal load --input ad9144_bringup_k325t\measurements\calibration_tables\<filled>_calibration.csv --dry-run
+python ad9144_bringup_k325t\tools\awg_uart_control.py --port COM7 cal load --input ad9144_bringup_k325t\measurements\calibration_tables\<filled>_calibration.csv --enable
+```
 
 | Frequency | Before Vpp | Gain Code | After Vpp | Improvement |
 |---:|---:|---:|---:|---:|
@@ -107,4 +114,3 @@ Use only claims supported by filled measurements.
 | OUT1 verified on real hardware for multiple waveforms | Waveform mode table and screenshots | |
 | Amplitude calibration path exists and can reduce measured roll-off | Calibration experiment table | |
 | Full 5 GSa/s / 1 GHz analog performance is limited by fixed hardware | Hardware boundary table | |
-

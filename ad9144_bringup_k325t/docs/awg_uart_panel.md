@@ -2,6 +2,9 @@
 
 This is the first PC-side control panel for the K325T AD9144 AWG UART-control bit.
 
+> Current preferred UI: `python ad9144_bringup_k325t\launch_upper_host.py`.
+> Keep this Tkinter panel as a lightweight fallback.
+
 ## Launch
 
 ```powershell
@@ -19,6 +22,7 @@ USB-SERIAL CH340 (COM7)
 - `Read Status`: reads ID, version, control, status, phase increment, amplitude, and waveform mode.
 - `Apply Preset`: writes frequency, amplitude, offset, phase, waveform, then enables register control with `CONTROL=0x00000003`.
 - `Load Demo`: fills the manual fields from a named competition preset without writing hardware.
+- `Cal Enable`: toggles the digital calibration path exposed by `CAL_ENABLE`.
 - `Button Control`: writes `CONTROL=0x00000001`, returning control to the FPGA board buttons.
 - `Output Off`: clears `CONTROL[0]` while preserving the other control bits.
 - `Run Sweep`: runs the selected UART sweep profile, writes a CSV, restores 50 MHz sine at amplitude `0x6000`, then refreshes status.
@@ -37,6 +41,11 @@ WAVE_MODE=0
 ```
 
 The user confirmed the oscilloscope shows a normal 50 MHz sine wave on AD9144 OUT1.
+
+The status pane also exposes:
+
+- `Range`: the current analog frontend range selector.
+- `Cal`: whether the calibration table path is enabled.
 
 ## Sweep Logger
 

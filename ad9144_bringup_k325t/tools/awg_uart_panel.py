@@ -13,29 +13,58 @@ from pathlib import Path
 from tkinter import messagebox, ttk
 from typing import Any, Callable
 
-from awg_uart_sweep import run_profile
-from awg_uart_control import (
-    ADDR_AMPLITUDE,
-    ADDR_APPLY,
-    ADDR_BUTTON_STATE,
-    ADDR_CONTROL,
-    ADDR_ID,
-    ADDR_OFFSET,
-    ADDR_PHASE_INC_HI,
-    ADDR_PHASE_INC_LO,
-    ADDR_PHASE_OFFSET_HI,
-    ADDR_PHASE_OFFSET_LO,
-    ADDR_STATUS,
-    ADDR_VERSION,
-    ADDR_WAVE_MODE,
-    DEMO_PRESETS,
-    DEMO_SEQUENCE,
-    WAVE_NAMES,
-    AwgUart,
-    parse_int,
-    phase_inc_from_frequency,
-    phase_offset_from_degrees,
-)
+try:
+    from .awg_uart_sweep import run_profile
+    from .awg_uart_control import (
+        ADDR_AMPLITUDE,
+        ADDR_APPLY,
+        ADDR_BUTTON_STATE,
+        ADDR_CAL_ENABLE,
+        ADDR_CONTROL,
+        ADDR_ID,
+        ADDR_OFFSET,
+        ADDR_RANGE_SEL,
+        ADDR_PHASE_INC_HI,
+        ADDR_PHASE_INC_LO,
+        ADDR_PHASE_OFFSET_HI,
+        ADDR_PHASE_OFFSET_LO,
+        ADDR_STATUS,
+        ADDR_VERSION,
+        ADDR_WAVE_MODE,
+        DEMO_PRESETS,
+        DEMO_SEQUENCE,
+        WAVE_NAMES,
+        AwgUart,
+        parse_int,
+        phase_inc_from_frequency,
+        phase_offset_from_degrees,
+    )
+except ImportError:  # pragma: no cover - direct script execution fallback
+    from awg_uart_sweep import run_profile
+    from awg_uart_control import (
+        ADDR_AMPLITUDE,
+        ADDR_APPLY,
+        ADDR_BUTTON_STATE,
+        ADDR_CAL_ENABLE,
+        ADDR_CONTROL,
+        ADDR_ID,
+        ADDR_OFFSET,
+        ADDR_RANGE_SEL,
+        ADDR_PHASE_INC_HI,
+        ADDR_PHASE_INC_LO,
+        ADDR_PHASE_OFFSET_HI,
+        ADDR_PHASE_OFFSET_LO,
+        ADDR_STATUS,
+        ADDR_VERSION,
+        ADDR_WAVE_MODE,
+        DEMO_PRESETS,
+        DEMO_SEQUENCE,
+        WAVE_NAMES,
+        AwgUart,
+        parse_int,
+        phase_inc_from_frequency,
+        phase_offset_from_degrees,
+    )
 
 
 DEFAULT_BAUD = 115200
@@ -64,6 +93,8 @@ def read_status(dev: AwgUart) -> dict[str, int]:
         "control": dev.read_reg(ADDR_CONTROL),
         "status": dev.read_reg(ADDR_STATUS),
         "button_state": dev.read_reg(ADDR_BUTTON_STATE),
+        "range_sel": dev.read_reg(ADDR_RANGE_SEL) & 0x3,
+        "cal_enable": dev.read_reg(ADDR_CAL_ENABLE) & 0x1,
         "phase_inc": ((phase_hi & 0xFFFF) << 32) | phase_lo,
         "phase_offset": ((phase_offset_hi & 0xFFFF) << 32) | phase_offset_lo,
         "amplitude": dev.read_reg(ADDR_AMPLITUDE) & 0xFFFF,
@@ -102,12 +133,15 @@ class AwgPanel(tk.Tk):
         self.sweep_profile_var = tk.StringVar(value="quick")
         self.sweep_out_var = tk.StringVar(value=str(DEFAULT_SWEEP_DIR / "gui_latest.csv"))
         self.state_var = tk.StringVar(value="Idle")
+        self.cal_enable_var = tk.BooleanVar(value=False)
 
         self.status_vars: dict[str, tk.StringVar] = {
             "id": tk.StringVar(value="-"),
             "version": tk.StringVar(value="-"),
             "control": tk.StringVar(value="-"),
             "status": tk.StringVar(value="-"),
+            "range": tk.StringVar(value="-"),
+            "cal": tk.StringVar(value="-"),
             "phase_inc": tk.StringVar(value="-"),
             "frequency": tk.StringVar(value="-"),
             "amplitude": tk.StringVar(value="-"),
@@ -169,6 +203,12 @@ class AwgPanel(tk.Tk):
         ttk.Button(apply_row, text="Load Demo", command=self.load_demo_preset).pack(side=tk.LEFT)
         ttk.Button(apply_row, text="Apply Preset", command=self.apply_preset_async).pack(side=tk.LEFT)
         ttk.Button(apply_row, text="Output Off", command=self.output_off_async).pack(side=tk.LEFT, padx=(8, 0))
+        ttk.Checkbutton(
+            apply_row,
+            text="Cal Enable",
+            variable=self.cal_enable_var,
+            command=self.cal_enable_toggle_async,
+        ).pack(side=tk.LEFT, padx=(8, 0))
 
         ttk.Separator(controls).grid(row=8, column=0, columnspan=2, sticky=tk.EW, pady=(14, 8))
         ttk.Label(controls, text="Sweep Profile").grid(row=9, column=0, sticky=tk.W, pady=6)
@@ -191,6 +231,8 @@ class AwgPanel(tk.Tk):
             ("Version", "version"),
             ("Control", "control"),
             ("Status", "status"),
+            ("Range", "range"),
+            ("Cal", "cal"),
             ("Phase Inc", "phase_inc"),
             ("Frequency", "frequency"),
             ("Amplitude", "amplitude"),
@@ -300,12 +342,15 @@ class AwgPanel(tk.Tk):
         self.status_vars["version"].set(f"0x{data['version']:08X}")
         self.status_vars["control"].set(f"0x{data['control']:08X}")
         self.status_vars["status"].set(f"0x{data['status']:08X}")
+        self.status_vars["range"].set(f"0x{data['range_sel']:X}")
+        self.status_vars["cal"].set("on" if data["cal_enable"] else "off")
         self.status_vars["phase_inc"].set(f"0x{data['phase_inc']:012X}")
         freq = frequency_from_phase_inc(data["phase_inc"], sample_rate)
         self.status_vars["frequency"].set(f"{freq:.6f} Hz")
         self.status_vars["amplitude"].set(f"0x{data['amplitude']:04X}")
         self.status_vars["wave"].set(wave_name_from_value(data["wave_mode"]))
         self.status_vars["button"].set(f"0x{data['button_state']:08X}")
+        self.cal_enable_var.set(bool(data["cal_enable"]))
 
     def read_status_async(self) -> None:
         self.run_async("Read status", lambda: self._with_device(read_status))
@@ -359,6 +404,19 @@ class AwgPanel(tk.Tk):
             return self._with_device(apply)
 
         self.run_async("Output off", task)
+
+    def cal_enable_toggle_async(self) -> None:
+        enabled = bool(self.cal_enable_var.get())
+
+        def task() -> dict[str, int]:
+            def apply(dev: AwgUart) -> dict[str, int]:
+                dev.write_reg(ADDR_CAL_ENABLE, 1 if enabled else 0)
+                time.sleep(0.05)
+                return read_status(dev)
+
+            return self._with_device(apply)
+
+        self.run_async("Cal enable" if enabled else "Cal disable", task)
 
     def _sweep_output_path(self) -> str:
         path = self.sweep_out_var.get().strip()
