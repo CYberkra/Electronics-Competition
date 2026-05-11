@@ -13,31 +13,58 @@ from pathlib import Path
 from tkinter import messagebox, ttk
 from typing import Any, Callable
 
-from awg_uart_sweep import run_profile
-from awg_uart_control import (
-    ADDR_AMPLITUDE,
-    ADDR_APPLY,
-    ADDR_BUTTON_STATE,
-    ADDR_CAL_ENABLE,
-    ADDR_CONTROL,
-    ADDR_ID,
-    ADDR_OFFSET,
-    ADDR_RANGE_SEL,
-    ADDR_PHASE_INC_HI,
-    ADDR_PHASE_INC_LO,
-    ADDR_PHASE_OFFSET_HI,
-    ADDR_PHASE_OFFSET_LO,
-    ADDR_STATUS,
-    ADDR_VERSION,
-    ADDR_WAVE_MODE,
-    DEMO_PRESETS,
-    DEMO_SEQUENCE,
-    WAVE_NAMES,
-    AwgUart,
-    parse_int,
-    phase_inc_from_frequency,
-    phase_offset_from_degrees,
-)
+try:
+    from .awg_uart_sweep import run_profile
+    from .awg_uart_control import (
+        ADDR_AMPLITUDE,
+        ADDR_APPLY,
+        ADDR_BUTTON_STATE,
+        ADDR_CAL_ENABLE,
+        ADDR_CONTROL,
+        ADDR_ID,
+        ADDR_OFFSET,
+        ADDR_RANGE_SEL,
+        ADDR_PHASE_INC_HI,
+        ADDR_PHASE_INC_LO,
+        ADDR_PHASE_OFFSET_HI,
+        ADDR_PHASE_OFFSET_LO,
+        ADDR_STATUS,
+        ADDR_VERSION,
+        ADDR_WAVE_MODE,
+        DEMO_PRESETS,
+        DEMO_SEQUENCE,
+        WAVE_NAMES,
+        AwgUart,
+        parse_int,
+        phase_inc_from_frequency,
+        phase_offset_from_degrees,
+    )
+except ImportError:  # pragma: no cover - direct script execution fallback
+    from awg_uart_sweep import run_profile
+    from awg_uart_control import (
+        ADDR_AMPLITUDE,
+        ADDR_APPLY,
+        ADDR_BUTTON_STATE,
+        ADDR_CAL_ENABLE,
+        ADDR_CONTROL,
+        ADDR_ID,
+        ADDR_OFFSET,
+        ADDR_RANGE_SEL,
+        ADDR_PHASE_INC_HI,
+        ADDR_PHASE_INC_LO,
+        ADDR_PHASE_OFFSET_HI,
+        ADDR_PHASE_OFFSET_LO,
+        ADDR_STATUS,
+        ADDR_VERSION,
+        ADDR_WAVE_MODE,
+        DEMO_PRESETS,
+        DEMO_SEQUENCE,
+        WAVE_NAMES,
+        AwgUart,
+        parse_int,
+        phase_inc_from_frequency,
+        phase_offset_from_degrees,
+    )
 
 
 DEFAULT_BAUD = 115200

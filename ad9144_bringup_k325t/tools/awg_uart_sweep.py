@@ -11,22 +11,40 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Iterable
 
-from awg_uart_control import (
-    ADDR_AMPLITUDE,
-    ADDR_APPLY,
-    ADDR_CONTROL,
-    ADDR_OFFSET,
-    ADDR_PHASE_INC_HI,
-    ADDR_PHASE_INC_LO,
-    ADDR_PHASE_OFFSET_HI,
-    ADDR_PHASE_OFFSET_LO,
-    ADDR_STATUS,
-    ADDR_WAVE_MODE,
-    WAVE_NAMES,
-    AwgUart,
-    phase_inc_from_frequency,
-    phase_offset_from_degrees,
-)
+try:
+    from .awg_uart_control import (
+        ADDR_AMPLITUDE,
+        ADDR_APPLY,
+        ADDR_CONTROL,
+        ADDR_OFFSET,
+        ADDR_PHASE_INC_HI,
+        ADDR_PHASE_INC_LO,
+        ADDR_PHASE_OFFSET_HI,
+        ADDR_PHASE_OFFSET_LO,
+        ADDR_STATUS,
+        ADDR_WAVE_MODE,
+        WAVE_NAMES,
+        AwgUart,
+        phase_inc_from_frequency,
+        phase_offset_from_degrees,
+    )
+except ImportError:  # pragma: no cover - direct script execution fallback
+    from awg_uart_control import (
+        ADDR_AMPLITUDE,
+        ADDR_APPLY,
+        ADDR_CONTROL,
+        ADDR_OFFSET,
+        ADDR_PHASE_INC_HI,
+        ADDR_PHASE_INC_LO,
+        ADDR_PHASE_OFFSET_HI,
+        ADDR_PHASE_OFFSET_LO,
+        ADDR_STATUS,
+        ADDR_WAVE_MODE,
+        WAVE_NAMES,
+        AwgUart,
+        phase_inc_from_frequency,
+        phase_offset_from_degrees,
+    )
 
 
 DEFAULT_SAMPLE_RATE = 1_000_000_000.0

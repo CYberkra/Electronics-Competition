@@ -2,6 +2,9 @@
 
 This is the first PC-side control panel for the K325T AD9144 AWG UART-control bit.
 
+> Current preferred UI: `python ad9144_bringup_k325t\launch_upper_host.py`.
+> Keep this Tkinter panel as a lightweight fallback.
+
 ## Launch
 
 ```powershell

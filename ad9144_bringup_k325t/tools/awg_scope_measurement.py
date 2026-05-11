@@ -10,7 +10,10 @@ import time
 from dataclasses import dataclass
 from pathlib import Path
 
-from awg_uart_control import CAL_CSV_FIELDS, cal_bin_from_phase_inc, phase_inc_from_frequency
+try:
+    from .awg_uart_control import CAL_CSV_FIELDS, cal_bin_from_phase_inc, phase_inc_from_frequency
+except ImportError:  # pragma: no cover - direct script execution fallback
+    from awg_uart_control import CAL_CSV_FIELDS, cal_bin_from_phase_inc, phase_inc_from_frequency
 
 
 DEFAULT_SAMPLE_RATE = 1_000_000_000.0
