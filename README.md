@@ -116,6 +116,16 @@ python scripts/launch_vivado.py
 & D:\vivado\Vivado\2024.1\bin\vivado.bat -mode batch -source run_simulation.tcl
 ```
 
+### 7. 上位机无硬件自检
+
+修改 Qt 上位机、UART 工具或测量脚本后，先运行：
+
+```powershell
+powershell -NoProfile -ExecutionPolicy Bypass -File ad9144_bringup_k325t\scripts\check_upper_host.ps1
+```
+
+看到 `UPPER_HOST_CHECK_OK` 表示 Python 编译、后端回归测试和 Qt offscreen smoke 均通过。
+
 ---
 
 ## 仓库结构

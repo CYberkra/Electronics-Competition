@@ -43,7 +43,19 @@ python ad9144_bringup_k325t\tools\awg_uart_panel.py
 
 ## Smoke Check
 
-This check does not touch hardware. It creates the Qt window offscreen, generates a preview waveform, creates a scope template/report/calibration CSV, and runs a digital waveform QA CSV.
+The preferred no-hardware check compiles the upper-host modules, runs backend regression tests, then runs the Qt window offscreen. Use it before pushing changes to the PC-side tooling.
+
+```powershell
+powershell -NoProfile -ExecutionPolicy Bypass -File ad9144_bringup_k325t\scripts\check_upper_host.ps1
+```
+
+Expected terminal marker:
+
+```text
+UPPER_HOST_CHECK_OK
+```
+
+The lower-level Qt smoke check can still be run directly. It creates the Qt window offscreen, generates a preview waveform, creates a scope template/report/calibration CSV, and runs a digital waveform QA CSV.
 
 ```powershell
 $env:QT_QPA_PLATFORM = "offscreen"
@@ -128,4 +140,3 @@ Get-PnpDevice -PresentOnly -Class Ports
 - `tools/*.py` now support both direct script execution and package import.
 - Qt binding is forced to PySide6 for pyqtgraph compatibility.
 - All generated measurements, reports, and EXE outputs remain ignored by Git.
-
