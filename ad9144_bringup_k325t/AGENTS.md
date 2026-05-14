@@ -108,6 +108,9 @@ python tools/awg_uart_control.py --port COM7 preset --frequency 50000000 --ampli
 python -m pip install -r requirements-upper-host.txt
 python launch_upper_host.py
 
+# Full no-hardware upper-host regression/smoke check
+powershell -NoProfile -ExecutionPolicy Bypass -File scripts\check_upper_host.ps1
+
 # No-hardware Qt smoke check
 $env:QT_QPA_PLATFORM = "offscreen"
 python launch_upper_host.py --smoke
@@ -148,3 +151,4 @@ python tools/awg_wave_quality.py --profile quick
 - **Calibration workflow**: use `tools/awg_scope_measurement.py calibration` to derive `CAL_TABLE[0:15]` CSV, then `tools/awg_uart_control.py cal load` to program the entries and `cal enable/disable` to switch the compensation path.
 - **CH340 USB-UART**: Required for PC control; JTAG alone only programs bitstream.
 - **Qt upper host**: `launch_upper_host.py` is the preferred PC UI. It uses PySide6, pyqtgraph, pyserial, numpy, and PyInstaller. It intentionally keeps oscilloscope interaction manual via CSV import/export until SCPI/VISA automation is explicitly added.
+- **Upper-host regression check**: `scripts\check_upper_host.ps1` is the standard no-hardware gate before pushing PC-side changes. It runs `compileall`, `unittest` tests under `tests/`, and the Qt `--smoke` path with `QT_QPA_PLATFORM=offscreen`.

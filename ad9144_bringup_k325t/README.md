@@ -62,6 +62,12 @@ Install upper-host dependencies:
 python -m pip install -r ad9144_bringup_k325t\requirements-upper-host.txt
 ```
 
+Run the full no-hardware upper-host check:
+
+```powershell
+powershell -NoProfile -ExecutionPolicy Bypass -File ad9144_bringup_k325t\scripts\check_upper_host.ps1
+```
+
 Run the Qt upper host:
 
 ```powershell
@@ -137,7 +143,7 @@ python tools\awg_wave_quality.py --profile quick --out reports\wave_quality\quic
 Create a fillable oscilloscope measurement sheet:
 
 ```powershell
-python D:\FPGA\ad9144_bringup_k325t\tools\awg_scope_measurement.py template --profile freq_response
+python tools\awg_scope_measurement.py template --profile freq_response
 ```
 
 ## Documentation Map
