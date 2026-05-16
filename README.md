@@ -126,6 +126,16 @@ powershell -NoProfile -ExecutionPolicy Bypass -File ad9144_bringup_k325t\scripts
 
 看到 `UPPER_HOST_CHECK_OK` 表示 Python 编译、后端回归测试和 Qt offscreen smoke 均通过。
 
+### 8. 项目健康检查
+
+准备提交或开 PR 前，优先运行顶层健康检查：
+
+```powershell
+powershell -NoProfile -ExecutionPolicy Bypass -File scripts\check_project_health.ps1
+```
+
+看到 `PROJECT_HEALTH_OK` 表示上位机自检、AD9144 静态 RTL wiring 检查和 Git 空白检查均通过。该命令不烧录板子、不生成 bitstream。
+
 ---
 
 ## 仓库结构

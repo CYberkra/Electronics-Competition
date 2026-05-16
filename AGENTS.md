@@ -58,6 +58,14 @@ Electronics-Competition/
 | 模块架构图 | `obsidian/01-系统架构/` |
 | 引脚速查 | [9.3 常用引脚速查](#93-常用引脚速查) |
 
+### 提交前健康检查
+
+```powershell
+powershell -NoProfile -ExecutionPolicy Bypass -File scripts\check_project_health.ps1
+```
+
+看到 `PROJECT_HEALTH_OK` 表示当前 checkout 的上位机无硬件自检、AD9144 静态 wiring 检查和 Git 空白检查均通过。该命令不烧录 FPGA、不生成 bitstream。
+
 ### 关键文件速查
 
 | 文件 | 用途 |

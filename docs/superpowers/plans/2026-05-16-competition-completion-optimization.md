@@ -14,6 +14,8 @@
 
 This plan was written against branch `codex/upper-host-smoke-checks` at commit `12aba67`, with PR #5 open against `main`.
 
+Execution note: at the user's request, implementation starts on an isolated branch based on `12aba67` before PR #5 is merged. This keeps `main`, `codex/upper-host-smoke-checks`, and other collaborators' branches untouched while preserving the option to merge or rebase later.
+
 Fresh no-hardware checks run during review:
 
 ```powershell
