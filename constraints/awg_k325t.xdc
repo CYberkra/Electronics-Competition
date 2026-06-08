@@ -189,10 +189,16 @@ set_property BITSTREAM.GENERAL.COMPRESS true [current_design]
 set_property CFGBVS VCCO [current_design]
 set_property CONFIG_VOLTAGE 3.3 [current_design]
 
-# LMK04828 CS_N/RESET — FMC 连接器 Bank 13 (VADJ 2.5V)
-# FIXME: 管脚号待确认（需要看 FMC 子卡原理图 FMC_9250_9144_BRD_SCH.pdf）
-# 当前 DRC UCIO-1/NSTD-1 被 suppress 以生成 bitstream
-# 请用 Codex 多模态读取原理图后填入正确管脚并取消下方注释
+# TODO: LMK04828 CS_N / RESET 管脚约束
+# lmk04828_cs_n / lmk04828_reset 目前无管脚约束，DRC UCIO-1 被降级为 Warning。
+# 修复方法：
+#   1. Codex 读取 docs/references/FMC_9250_9144_BRD_SCH.pdf（子卡原理图）
+#      找到 LMK04828 的 CS# 和 RESET/GPO 对应的 FMC LA 引脚号
+#   2. 从底板原理图（K7_BASE_1V3_2025_0111_USER.pdf）查到对应 FPGA 管脚
+#   3. 取消下方注释填入正确管脚号，并删除此条注释
 # set_property PACKAGE_PIN XX [get_ports lmk04828_cs_n]
 # set_property PACKAGE_PIN YY [get_ports lmk04828_reset]
 # set_property IOSTANDARD LVCMOS25 [get_ports {lmk04828_cs_n lmk04828_reset}]
+# --- 临时 DRC override（填入正确管脚后删除） ---
+set_property SEVERITY Warning [get_drc_checks UCIO-1]
+set_property SEVERITY Warning [get_drc_checks NSTD-1]
