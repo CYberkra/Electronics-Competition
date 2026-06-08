@@ -81,6 +81,9 @@ ad9144_bringup_k325t/vendor_src/**/example_design/
 # AI rollback artifacts
 .ai-slop-rollback.patch
 
+# MCP server config (local machine paths)
+.mcp.json
+
 # KiCad backup and generated files
 *.kicad_sch-bak
 *.kicad_pcb-bak
@@ -88,3 +91,7 @@ ad9144_bringup_k325t/vendor_src/**/example_design/
 *.kicad_prl
 fp-info-cache
 *.lck
+.claude/
+vivado/*.log
+vivado/*.jou
+kicad/.history/

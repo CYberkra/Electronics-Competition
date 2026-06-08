@@ -1,0 +1,33 @@
+{
+  "version": 1,
+  "run_name": "dds_compiler_0_synth_1",
+  "report": {
+    "errors": 2,
+    "critical_warnings": 0,
+    "warnings": 1,
+    "groups": [],
+    "error_groups": [
+      {
+        "warning_id": "Synth 8-439",
+        "category": "PORT_MISSING",
+        "count": 1,
+        "first_line": 37,
+        "message_template": "ERROR: [Synth 8-439] module 'dds_compiler_0' not found",
+        "affected_ports": [],
+        "source_files": [],
+        "suggestion": "实例化模块端口缺失或不匹配。检查模块声明和实例化端口列表是否一致。"
+      },
+      {
+        "warning_id": "Common 17-69",
+        "category": "UNKNOWN",
+        "count": 1,
+        "first_line": 45,
+        "message_template": "ERROR: [Common 17-69] Command failed: Synthesis failed - please see the console or run log file for details",
+        "affected_ports": [],
+        "source_files": [],
+        "suggestion": "未知警告类型，请查阅 Vivado 日志获取详细信息。"
+      }
+    ]
+  },
+  "raw_cws": []
+}
