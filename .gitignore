@@ -95,3 +95,4 @@ fp-info-cache
 vivado/*.log
 vivado/*.jou
 kicad/.history/
+vivado_pid*.str
