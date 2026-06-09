@@ -21,27 +21,27 @@
 ## 工程路径
 
 ```text
-D:\FPGA\ad9144_bringup_k325t
+
 ```
 
 关键文件：
 
 ```text
-D:\FPGA\ad9144_bringup_k325t\constraints\top_k325t_fmc.xdc
-D:\FPGA\ad9144_bringup_k325t\scripts\build_direct.tcl
-D:\FPGA\ad9144_bringup_k325t\scripts\build_cfg_debug_direct.tcl
-D:\FPGA\ad9144_bringup_k325t\scripts\capture_cfg_debug_ila.tcl
-D:\FPGA\ad9144_bringup_k325t\scripts\probe_ila_clocks_wait.tcl
-D:\FPGA\ad9144_bringup_k325t\scripts\capture_jesd_ila_wait.tcl
-D:\FPGA\ad9144_bringup_k325t\ip_data\sine.coe
+\constraints\top_k325t_fmc.xdc
+\scripts\build_direct.tcl
+\scripts\build_cfg_debug_direct.tcl
+\scripts\capture_cfg_debug_ila.tcl
+\scripts\probe_ila_clocks_wait.tcl
+\scripts\capture_jesd_ila_wait.tcl
+\ip_data\sine.coe
 ```
 
 bit/probes：
 
 ```text
-D:\FPGA\ad9144_bringup_k325t\vivado\top_direct.bit
-D:\FPGA\ad9144_bringup_k325t\vivado\top_cfg_debug.bit
-D:\FPGA\ad9144_bringup_k325t\vivado\top_cfg_debug.ltx
+\vivado\top_direct.bit
+\vivado\top_cfg_debug.bit
+\vivado\top_cfg_debug.ltx
 ```
 
 ## 板级数字链路证据
@@ -49,7 +49,7 @@ D:\FPGA\ad9144_bringup_k325t\vivado\top_cfg_debug.ltx
 TX ILA 证据文件：
 
 ```text
-D:\FPGA\ad9144_bringup_k325t\vivado\jesd_capture_20260506\tx_ila.csv
+\vivado\jesd_capture_20260506\tx_ila.csv
 ```
 
 关键观测：
@@ -70,7 +70,7 @@ r_dds_addra_num0 changes: 00, 14, 28, 3c, 50
 RX ILA 证据文件：
 
 ```text
-D:\FPGA\ad9144_bringup_k325t\vivado\jesd_capture_20260506\rx_ila.csv
+\vivado\jesd_capture_20260506\rx_ila.csv
 ```
 
 关键观测：
@@ -107,10 +107,10 @@ w_rx_tdata[63:0] = 0000000000000000
 当前工作路径已经从 vendor ROM 过渡到四采样 DDS4：
 
 ```text
-D:\FPGA\ad9144_bringup_k325t\rtl\awg\ad9144_awg_dds4.v
-D:\FPGA\ad9144_bringup_k325t\rtl\awg\ad9144_sample_packer.v
-D:\FPGA\ad9144_bringup_k325t\variants\awg_button\top.v
-D:\FPGA\ad9144_bringup_k325t\vivado_awg_button\top_awg_button.bit
+\rtl\awg\ad9144_awg_dds4.v
+\rtl\awg\ad9144_sample_packer.v
+\variants\awg_button\top.v
+\vivado_awg_button\top_awg_button.bit
 ```
 
 按键 UI：

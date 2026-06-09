@@ -1,4 +1,4 @@
-(pcb "D:/projects/GPR/Electronics-Competition/kicad/ProPrj_研电赛优利德显示屏与旋转编码器_2026-06-08.dsn"
+(pcb "D:\projects\GPR\Electronics-Competition\kicad\ProPrj_研电赛优利德显示屏与旋转编码器_2026-06-08.dsn"
   (parser
     (string_quote ")
     (space_in_quoted_tokens on)
@@ -35,20 +35,20 @@
   )
   (placement
     (component "ProPrj_研电赛-easyedapro:R0603"
-      (place R3 111000 -85000 front -90 (PN 1k))
-      (place R1 108500 -85000 front 90 (PN 10k))
-      (place C1 94000 -85000 front 90 (PN 100nF))
-      (place R2 101500 -85000 front -90 (PN 10R))
-      (place C2 96500 -85000 front 90 (PN 100nF))
+      (place R3 109000 -85000 front -90 (PN 1k))
+      (place R1 107000 -85000 front 90 (PN 10k))
+      (place C1 95000 -85000 front 90 (PN 100nF))
+      (place R2 101200 -85000 front -90 (PN 10R))
+      (place C2 97000 -85000 front 90 (PN 100nF))
       (place C3 99000 -85000 front 90 (PN 100nF))
     )
     (component "ProPrj_研电赛-easyedapro:C0603"
-      (place C5 92500 -64000 front 180 (PN 0.1uF))
-      (place C6 92500 -72000 front 180 (PN 0.1uF))
-      (place R5 85000 -64000 front 180 (PN 4.7K))
-      (place R4 85000 -68000 front 180 (PN 4.7K))
-      (place R6 85000 -72000 front 180 (PN 4.7K))
-      (place C4 92500 -68000 front 180 (PN 0.1uF))
+      (place C5 90750 -64250 front 180 (PN 0.1uF))
+      (place C6 90750 -72250 front 180 (PN 0.1uF))
+      (place R5 83250 -64250 front 180 (PN 4.7K))
+      (place R4 83250 -68250 front 180 (PN 4.7K))
+      (place R6 83250 -72250 front 180 (PN 4.7K))
+      (place C4 90750 -68250 front 180 (PN 0.1uF))
     )
     (component "ProPrj_研电赛-easyedapro:HDR-TH_18P-P2.54-V-M-R2-C9-S2.54"
       (place H3 95340 -46230 front 90 (PN "PZ254V-12-18P"))
@@ -57,7 +57,7 @@
       (place U1 96500 -100500 front 180 (PN ST7789_12P_LCD))
     )
     (component "ProPrj_研电赛-easyedapro:SOT-23-3_L2.9-W1.3-P1.90-LS2.4-BR"
-      (place Q1 105000 -85000 front 90 (PN S8050))
+      (place Q1 104000 -85000 front 90 (PN S8050))
     )
     (component "ProPrj_研电赛-easyedapro:EC11_ROTARY_ENCODER"
       (place SW1 83000 -46500 front 0 (PN EC11N1525405))
@@ -218,15 +218,12 @@
       (pins H3-10 SW1-B R4-1 C4-2)
     )
     (net LEDK
-      (pins H3-12 U1-2)
+      (pins H3-12 U1-2 R2-2)
     )
     (net "Net-(Q1-C)"
       (pins R2-1 Q1-3)
     )
-    (net /LEDK
-      (pins R2-2)
-    )
-    (class kicad_default /LEDK "EC11-A" "EC11-B" "EC11-M" GND LEDK "Net-(Q1-B)"
+    (class kicad_default "EC11-A" "EC11-B" "EC11-M" GND LEDK "Net-(Q1-B)"
       "Net-(Q1-C)" TFT_BLK TFT_CS TFT_DC TFT_RES TFT_SCL TFT_SDA VCC
       (circuit
         (use_via "Via[0-1]_600:300_um")
@@ -238,6 +235,5 @@
     )
   )
   (wiring
-    (via "Via[0-1]_600:300_um"  94208 -71993.4 (net GND)(type route))
   )
 )
