@@ -106,18 +106,23 @@ ADK（ADDA Kit）总线是 LMK04828 的 SPI 控制总线，连接到 FMC HPC 的
 
 ## 5. 当前分配状态
 
-### 已确认正确 ✅
-- AD9144 SPI、SYNC、TXEN、RESET — 全部已约束并验证
-- AD9250 SPI、SYNC、RESET — 全部已约束并验证
-- JESD204B GTX 收发器 — 已约束
-- **LMK04828** SPI SCLK/SDIO、CS#、RESET — **全部已约束** ✅
+**全部 44 个端口已约束，零 DRC Error。** ✅
+
+| 模块 | 状态 | 验证方式 |
+|------|------|---------|
+| AD9144 SPI/SYNC/TXEN/RESET | ✅ 已约束 | 子卡用户说明 + 底板原理图 |
+| AD9250 SPI/SYNC/RESET | ✅ 已约束 | 子卡用户说明 + 底板原理图 |
+| JESD204B GTX 收发器 | ✅ 已约束 | 子卡用户说明 |
+| LMK04828 SCLK/SDIO/CS#/RESET | ✅ 已约束 | ADK 总线表 + 底板原理图 P15 |
+| 板载 UART/KEY/LED/时钟 | ✅ 已约束 | K7_IO.xdc 参考 |
 
 ## 6. 参考文件
 
 | 文件 | 位置 | 用途 |
 |------|------|------|
-| 子卡用户说明 | `D:/Documents/FMCADDA-9250-9144资料/FMCADDA-9250-9144子卡用户说明.pdf` | FMC 接口信号表 |
+| 子卡用户说明 | `docs/references/FMCADDA-9250-9144子卡用户说明.pdf` | FMC 接口信号表 |
 | 子卡原理图 | `docs/references/FMC_9250_9144_BRD_SCH.pdf` | 子卡电路详细连接 |
-| 正点原子底板原理图 | `K7_BASE_1V3_2025_0111_USER.pdf`（需获取） | FPGA 管脚→FMC 连接器映射 |
+| 正点原子底板原理图 | `docs/references/K7_BASE_1V3_2025_0111_USER.pdf` | FPGA 管脚→FMC 连接器映射 |
+| 正点原子 IO 参考 | `docs/references/K7_IO.xdc` | 板级外设引脚速查 |
 | FMC 约束 | `constraints/fmc_adda.xdc` | FPGA 管脚约束实现 |
-| 主约束 | `constraints/awg_k325t.xdc` | 系统级约束（含 DRC override） |
+| 主约束 | `constraints/awg_k325t.xdc` | 系统级约束 |
