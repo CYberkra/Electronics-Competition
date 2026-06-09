@@ -1733,6 +1733,121 @@
 			)
 			(embedded_fonts no)
 		)
+		(symbol "ProPrj_研电赛-easyedapro:PWR_FLAG"
+			(power global)
+			(pin_numbers
+				(hide yes)
+			)
+			(pin_names
+				(offset 0)
+				(hide yes)
+			)
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(in_pos_files yes)
+			(duplicate_pin_numbers_are_jumpers no)
+			(property "Reference" "#FLG"
+				(at 0 1.905 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Value" "PWR_FLAG"
+				(at 0 3.81 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Footprint" ""
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Datasheet" ""
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Description" "Special symbol for telling ERC where power comes from"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "ki_keywords" "flag power"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(symbol "PWR_FLAG_0_0"
+				(pin power_out line
+					(at 0 0 90)
+					(length 0)
+					(name ""
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(symbol "PWR_FLAG_0_1"
+				(polyline
+					(pts
+						(xy 0 0) (xy 0 1.27) (xy -1.016 1.905) (xy 0 2.54) (xy 1.016 1.905) (xy 0 1.27)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
 		(symbol "ProPrj_研电赛-easyedapro:PZ254V-12-18P"
 			(exclude_from_sim no)
 			(in_bom yes)
@@ -2630,707 +2745,6 @@
 			)
 			(embedded_fonts no)
 		)
-		(symbol "ProPrj_研电赛-easyedapro:Sheet-Symbol_A4"
-			(exclude_from_sim no)
-			(in_bom yes)
-			(on_board yes)
-			(in_pos_files yes)
-			(duplicate_pin_numbers_are_jumpers no)
-			(property "Reference" ""
-				(at 0 0 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(property "Value" ""
-				(at 0 0 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(property "Footprint" "ProPrj_研电赛-easyedapro:"
-				(at 0 0 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(hide yes)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(property "Datasheet" ""
-				(at 0 0 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(hide yes)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(property "Description" ""
-				(at 0 0 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(hide yes)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(symbol "Sheet-Symbol_A4_1_0"
-				(rectangle
-					(start 0 209.55)
-					(end 297.18 0)
-					(stroke
-						(width 0.254)
-						(type solid)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(polyline
-					(pts
-						(xy 0 154.6098) (xy 2.54 154.6098)
-					)
-					(stroke
-						(width 0.254)
-						(type solid)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(polyline
-					(pts
-						(xy 0 102.235) (xy 2.54 102.235)
-					)
-					(stroke
-						(width 0.254)
-						(type solid)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(polyline
-					(pts
-						(xy 0 49.8348) (xy 2.54 49.8348)
-					)
-					(stroke
-						(width 0.254)
-						(type solid)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(rectangle
-					(start 2.54 207.01)
-					(end 294.64 2.54)
-					(stroke
-						(width 0.254)
-						(type solid)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(polyline
-					(pts
-						(xy 52.07 209.55) (xy 52.07 207.01)
-					)
-					(stroke
-						(width 0.254)
-						(type solid)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(polyline
-					(pts
-						(xy 52.07 2.54) (xy 52.07 0)
-					)
-					(stroke
-						(width 0.254)
-						(type solid)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(polyline
-					(pts
-						(xy 101.6 209.55) (xy 101.6 207.01)
-					)
-					(stroke
-						(width 0.254)
-						(type solid)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(polyline
-					(pts
-						(xy 101.6 2.54) (xy 101.6 0)
-					)
-					(stroke
-						(width 0.254)
-						(type solid)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(rectangle
-					(start 116.332 48.26)
-					(end 294.64 2.54)
-					(stroke
-						(width 0.254)
-						(type solid)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(polyline
-					(pts
-						(xy 139.7 12.7) (xy 139.7 48.26)
-					)
-					(stroke
-						(width 0.254)
-						(type solid)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(polyline
-					(pts
-						(xy 151.13 209.55) (xy 151.13 207.01)
-					)
-					(stroke
-						(width 0.254)
-						(type solid)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(polyline
-					(pts
-						(xy 151.13 2.54) (xy 151.13 0)
-					)
-					(stroke
-						(width 0.254)
-						(type solid)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(polyline
-					(pts
-						(xy 172.212 33.02) (xy 172.212 2.54)
-					)
-					(stroke
-						(width 0.254)
-						(type solid)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(polyline
-					(pts
-						(xy 172.212 27.94) (xy 116.332 27.94)
-					)
-					(stroke
-						(width 0.254)
-						(type solid)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(polyline
-					(pts
-						(xy 172.212 22.86) (xy 116.332 22.86)
-					)
-					(stroke
-						(width 0.254)
-						(type solid)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(polyline
-					(pts
-						(xy 192.532 2.54) (xy 192.532 17.78)
-					)
-					(stroke
-						(width 0.254)
-						(type solid)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(polyline
-					(pts
-						(xy 200.66 209.55) (xy 200.66 207.01)
-					)
-					(stroke
-						(width 0.254)
-						(type solid)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(polyline
-					(pts
-						(xy 200.66 2.54) (xy 200.66 0)
-					)
-					(stroke
-						(width 0.254)
-						(type solid)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(polyline
-					(pts
-						(xy 212.852 17.78) (xy 212.852 2.54)
-					)
-					(stroke
-						(width 0.254)
-						(type solid)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(polyline
-					(pts
-						(xy 228.092 48.26) (xy 228.092 33.02)
-					)
-					(stroke
-						(width 0.254)
-						(type solid)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(polyline
-					(pts
-						(xy 250.19 209.55) (xy 250.19 207.01)
-					)
-					(stroke
-						(width 0.254)
-						(type solid)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(polyline
-					(pts
-						(xy 250.19 2.54) (xy 250.19 0)
-					)
-					(stroke
-						(width 0.254)
-						(type solid)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(polyline
-					(pts
-						(xy 253.492 33.02) (xy 253.492 48.26)
-					)
-					(stroke
-						(width 0.254)
-						(type solid)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(polyline
-					(pts
-						(xy 294.64 154.6098) (xy 297.18 154.6098)
-					)
-					(stroke
-						(width 0.254)
-						(type solid)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(polyline
-					(pts
-						(xy 294.64 102.235) (xy 297.18 102.235)
-					)
-					(stroke
-						(width 0.254)
-						(type solid)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(polyline
-					(pts
-						(xy 294.64 49.8348) (xy 297.18 49.8348)
-					)
-					(stroke
-						(width 0.254)
-						(type solid)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(polyline
-					(pts
-						(xy 294.64 43.18) (xy 228.092 43.18)
-					)
-					(stroke
-						(width 0.254)
-						(type solid)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(polyline
-					(pts
-						(xy 294.64 38.1) (xy 116.332 38.1)
-					)
-					(stroke
-						(width 0.254)
-						(type solid)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(polyline
-					(pts
-						(xy 294.64 33.02) (xy 116.332 33.02)
-					)
-					(stroke
-						(width 0.254)
-						(type solid)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(polyline
-					(pts
-						(xy 294.64 17.78) (xy 116.332 17.78)
-					)
-					(stroke
-						(width 0.254)
-						(type solid)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(polyline
-					(pts
-						(xy 294.64 12.7) (xy 116.332 12.7)
-					)
-					(stroke
-						(width 0.254)
-						(type solid)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(text "A"
-					(at 1.27 180.7972 0)
-					(effects
-						(font
-							(size 1.5748 1.5748)
-						)
-					)
-				)
-				(text "B"
-					(at 1.27 128.4224 0)
-					(effects
-						(font
-							(size 1.5748 1.5748)
-						)
-					)
-				)
-				(text "C"
-					(at 1.27 76.0222 0)
-					(effects
-						(font
-							(size 1.5748 1.5748)
-						)
-					)
-				)
-				(text "D"
-					(at 1.27 23.6474 0)
-					(effects
-						(font
-							(size 1.5748 1.5748)
-						)
-					)
-				)
-				(text "1"
-					(at 27.305 208.28 0)
-					(effects
-						(font
-							(size 1.5748 1.5748)
-						)
-					)
-				)
-				(text "1"
-					(at 27.305 1.27 0)
-					(effects
-						(font
-							(size 1.5748 1.5748)
-						)
-					)
-				)
-				(text "2"
-					(at 76.835 208.28 0)
-					(effects
-						(font
-							(size 1.5748 1.5748)
-						)
-					)
-				)
-				(text "2"
-					(at 76.835 1.27 0)
-					(effects
-						(font
-							(size 1.5748 1.5748)
-						)
-					)
-				)
-				(text "原理图"
-					(at 118.872 43.18 0)
-					(effects
-						(font
-							(size 2.3622 2.3622)
-						)
-						(justify left)
-					)
-				)
-				(text "图页"
-					(at 118.872 35.56 0)
-					(effects
-						(font
-							(size 2.3622 2.3622)
-						)
-						(justify left)
-					)
-				)
-				(text "绘制"
-					(at 118.872 30.48 0)
-					(effects
-						(font
-							(size 2.3622 2.3622)
-						)
-						(justify left)
-					)
-				)
-				(text "审阅"
-					(at 118.872 25.4 0)
-					(effects
-						(font
-							(size 2.3622 2.3622)
-						)
-						(justify left)
-					)
-				)
-				(text "3"
-					(at 126.365 208.28 0)
-					(effects
-						(font
-							(size 1.5748 1.5748)
-						)
-					)
-				)
-				(text "3"
-					(at 126.365 1.27 0)
-					(effects
-						(font
-							(size 1.5748 1.5748)
-						)
-					)
-				)
-				(text "4"
-					(at 175.895 208.28 0)
-					(effects
-						(font
-							(size 1.5748 1.5748)
-						)
-					)
-				)
-				(text "4"
-					(at 175.895 1.27 0)
-					(effects
-						(font
-							(size 1.5748 1.5748)
-						)
-					)
-				)
-				(text "版本"
-					(at 182.372 15.24 0)
-					(effects
-						(font
-							(size 2.3622 2.3622)
-						)
-					)
-				)
-				(text "尺寸"
-					(at 202.692 15.24 0)
-					(effects
-						(font
-							(size 2.3622 2.3622)
-						)
-					)
-				)
-				(text "5"
-					(at 225.425 208.28 0)
-					(effects
-						(font
-							(size 1.5748 1.5748)
-						)
-					)
-				)
-				(text "5"
-					(at 225.425 1.27 0)
-					(effects
-						(font
-							(size 1.5748 1.5748)
-						)
-					)
-				)
-				(text "更新日期"
-					(at 230.632 45.72 0)
-					(effects
-						(font
-							(size 2.3622 2.3622)
-						)
-						(justify left)
-					)
-				)
-				(text "创建日期"
-					(at 230.632 40.64 0)
-					(effects
-						(font
-							(size 2.3622 2.3622)
-						)
-						(justify left)
-					)
-				)
-				(text "物料编码"
-					(at 230.632 35.56 0)
-					(effects
-						(font
-							(size 2.3622 2.3622)
-						)
-						(justify left)
-					)
-				)
-				(text "页"
-					(at 234.95 15.494 0)
-					(effects
-						(font
-							(size 2.3622 2.3622)
-						)
-						(justify left)
-					)
-				)
-				(text "共"
-					(at 262.128 15.494 0)
-					(effects
-						(font
-							(size 2.3622 2.3622)
-						)
-						(justify left)
-					)
-				)
-				(text "6"
-					(at 274.955 208.28 0)
-					(effects
-						(font
-							(size 1.5748 1.5748)
-						)
-					)
-				)
-				(text "6"
-					(at 274.955 1.27 0)
-					(effects
-						(font
-							(size 1.5748 1.5748)
-						)
-					)
-				)
-				(text "A"
-					(at 295.91 180.7972 0)
-					(effects
-						(font
-							(size 1.5748 1.5748)
-						)
-					)
-				)
-				(text "B"
-					(at 295.91 128.4224 0)
-					(effects
-						(font
-							(size 1.5748 1.5748)
-						)
-					)
-				)
-				(text "C"
-					(at 295.91 76.0222 0)
-					(effects
-						(font
-							(size 1.5748 1.5748)
-						)
-					)
-				)
-				(text "D"
-					(at 295.91 23.6474 0)
-					(effects
-						(font
-							(size 1.5748 1.5748)
-						)
-					)
-				)
-			)
-			(embedded_fonts no)
-		)
 		(symbol "ProPrj_研电赛-easyedapro:VCC"
 			(power global)
 			(pin_numbers
@@ -3756,10 +3170,10 @@
 		(uuid "f1a74b9d-90b7-4cd5-82cc-2cb495ba06ec")
 	)
 	(junction
-		(at 72.3646 100.33)
+		(at 69.85 107.95)
 		(diameter 0)
 		(color 0 0 0 0)
-		(uuid "04f91004-b35c-4729-bf5c-430f2411aa24")
+		(uuid "24104ec3-7397-4ed6-b842-0f4fb0068b4b")
 	)
 	(junction
 		(at 35.56 110.49)
@@ -3774,40 +3188,10 @@
 		(uuid "4fba60ac-7d45-4b50-b595-8f26cc4c7ca0")
 	)
 	(junction
-		(at 72.3646 123.19)
+		(at 69.85 102.87)
 		(diameter 0)
 		(color 0 0 0 0)
-		(uuid "5c8c597a-d0c4-4027-a21b-fb121c3db5a0")
-	)
-	(junction
-		(at 72.3646 115.57)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "6d1ae3a7-1bd8-4001-b926-969c04ea8930")
-	)
-	(junction
-		(at 72.3646 120.65)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "897175ce-c560-49dd-98ab-4b8a12754c5d")
-	)
-	(junction
-		(at 72.3646 107.95)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "95885af5-faea-4f56-b6b4-47fa921f31c4")
-	)
-	(junction
-		(at 72.3646 113.03)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "a1e0241f-2853-4641-80ec-179f37b408e8")
-	)
-	(junction
-		(at 72.3646 102.87)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "b107127f-a13a-4cd0-8c67-61e81f722f6a")
+		(uuid "954ca1ad-e1ee-4334-8025-04accf6dedfc")
 	)
 	(junction
 		(at 45.72 74.93)
@@ -3816,20 +3200,54 @@
 		(uuid "b7c44bfb-0747-4dd3-8372-3b6ec7a1c46e")
 	)
 	(junction
-		(at 72.3646 118.11)
+		(at 27.94 110.49)
 		(diameter 0)
 		(color 0 0 0 0)
-		(uuid "bc791afb-0555-4e36-8e7f-f192d99d0a62")
+		(uuid "f6be9c79-e78c-45fd-bd21-e507bb976d89")
+	)
+	(no_connect
+		(at 115.57 124.46)
+		(uuid "63a73fd2-3224-4883-8843-03d713d8e10f")
+	)
+	(no_connect
+		(at 130.81 127)
+		(uuid "76ff5def-b26c-4bd9-94b8-2dbfd44c0c6e")
+	)
+	(no_connect
+		(at 115.57 121.92)
+		(uuid "95e41b86-81a7-469f-811e-2456b25b8e1e")
+	)
+	(no_connect
+		(at 130.81 121.92)
+		(uuid "a2241536-497c-4bc1-9444-6b22c32899d9")
+	)
+	(no_connect
+		(at 115.57 127)
+		(uuid "bd829732-0312-46a4-8422-798438c6650a")
+	)
+	(no_connect
+		(at 130.81 124.46)
+		(uuid "be77602d-41bd-437b-aa77-cc268fd57ecf")
 	)
 	(wire
 		(pts
-			(xy 184.15 73.66) (xy 175.26 73.66)
+			(xy 69.85 125.73) (xy 72.3646 125.73)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "09120375-a8aa-4e92-9977-b8bd41b218bf")
+		(uuid "0673123c-da5c-4dd0-8d0a-81ca45bfc230")
+	)
+	(wire
+		(pts
+			(xy 69.85 105.41) (xy 69.85 102.87)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "0b2e2102-e7f3-4ab2-8faf-20d67b1de9be")
 	)
 	(wire
 		(pts
@@ -3843,16 +3261,6 @@
 	)
 	(wire
 		(pts
-			(xy 181.61 100.33) (xy 196.85 100.33)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "10ed9c34-7539-4dcc-901e-d80ffcb366d0")
-	)
-	(wire
-		(pts
 			(xy 35.56 110.49) (xy 27.94 110.49)
 		)
 		(stroke
@@ -3860,6 +3268,36 @@
 			(type default)
 		)
 		(uuid "14736782-7e98-4bbe-be82-87c4b1a33f6e")
+	)
+	(wire
+		(pts
+			(xy 175.26 73.66) (xy 184.15 73.66)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "14acc49d-6489-44f8-8bf2-3a4424585d9b")
+	)
+	(wire
+		(pts
+			(xy 69.85 97.79) (xy 72.3646 97.79)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "19cbae7d-d855-4ced-8d3a-1db588e03c86")
+	)
+	(wire
+		(pts
+			(xy 130.81 111.76) (xy 140.97 111.76)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "1bd4866e-05f6-4681-a50e-5b1c9db5585b")
 	)
 	(wire
 		(pts
@@ -3883,17 +3321,27 @@
 	)
 	(wire
 		(pts
-			(xy 72.3646 100.33) (xy 62.23 100.33)
+			(xy 130.81 109.22) (xy 140.97 109.22)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "295de289-65fe-4934-a6aa-b63421cdaa38")
+		(uuid "24b64388-2310-48c3-8ba7-4a7e030a4dbc")
 	)
 	(wire
 		(pts
-			(xy 196.85 97.79) (xy 181.61 97.79)
+			(xy 63.5 102.87) (xy 69.85 102.87)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "25425b80-97a9-4dee-a06c-de8cf9c19f35")
+	)
+	(wire
+		(pts
+			(xy 181.61 97.79) (xy 196.85 97.79)
 		)
 		(stroke
 			(width 0)
@@ -3903,13 +3351,23 @@
 	)
 	(wire
 		(pts
-			(xy 72.3646 102.87) (xy 72.39 102.87)
+			(xy 62.23 115.57) (xy 72.3646 115.57)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "2e87e363-9ef8-4330-9a4b-164cc181a9f0")
+		(uuid "2f7cb5a6-ea38-4690-bad7-70fbf186eeec")
+	)
+	(wire
+		(pts
+			(xy 69.85 105.41) (xy 72.3646 105.41)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "344042ad-cce6-469b-8d15-ddde5d900271")
 	)
 	(wire
 		(pts
@@ -3923,23 +3381,33 @@
 	)
 	(wire
 		(pts
-			(xy 72.39 100.33) (xy 72.3646 100.33)
+			(xy 130.81 119.38) (xy 140.97 119.38)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "45892a4e-cde0-42ac-860f-4c36437ffc7f")
+		(uuid "4ac5d6f7-a1e0-4a31-88ad-fd7d882427cc")
 	)
 	(wire
 		(pts
-			(xy 184.15 78.74) (xy 175.26 78.74)
+			(xy 62.23 123.19) (xy 72.3646 123.19)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "4d301b47-9530-4a5e-a325-21e1fa78e0da")
+		(uuid "4f7c7098-1416-4988-af05-fbb032ea3c6e")
+	)
+	(wire
+		(pts
+			(xy 175.26 78.74) (xy 184.15 78.74)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "510e0a7f-e9f3-4e3f-b407-19df17b089fe")
 	)
 	(wire
 		(pts
@@ -3953,23 +3421,23 @@
 	)
 	(wire
 		(pts
-			(xy 72.39 123.19) (xy 72.3646 123.19)
+			(xy 181.61 100.33) (xy 196.85 100.33)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "55a3f331-d4ca-4cee-a9dc-63f9fc7b4ea8")
+		(uuid "591e46a0-4752-4d1b-9985-de6d38871aef")
 	)
 	(wire
 		(pts
-			(xy 72.3646 123.19) (xy 62.23 123.19)
+			(xy 69.85 102.87) (xy 72.3646 102.87)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "57bc9fbd-3b08-491b-a481-c051010d2757")
+		(uuid "5def74b0-6259-4501-8103-fc64fc0b611f")
 	)
 	(wire
 		(pts
@@ -3983,13 +3451,33 @@
 	)
 	(wire
 		(pts
-			(xy 35.56 100.33) (xy 27.94 100.33)
+			(xy 69.85 107.95) (xy 72.3646 107.95)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "68df774b-578e-4b7c-9fbe-19d6c2dd9916")
+		(uuid "5ffae350-eb8a-469b-a009-11d7a7556059")
+	)
+	(wire
+		(pts
+			(xy 130.81 114.3) (xy 140.97 114.3)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "61c0acb0-43c7-458b-abc8-f2a69e4bd1c8")
+	)
+	(wire
+		(pts
+			(xy 208.28 73.66) (xy 199.39 73.66)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "6a80cff3-0cde-4424-89fe-83305a85d2df")
 	)
 	(wire
 		(pts
@@ -4003,6 +3491,26 @@
 	)
 	(wire
 		(pts
+			(xy 105.41 114.3) (xy 115.57 114.3)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "6bf32a14-e5cb-4be9-bfb1-3a72026c7213")
+	)
+	(wire
+		(pts
+			(xy 105.41 109.22) (xy 115.57 109.22)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "6cbf1772-a5ba-4e31-9901-136a853bfcc6")
+	)
+	(wire
+		(pts
 			(xy 207.01 97.79) (xy 209.55 97.79)
 		)
 		(stroke
@@ -4010,6 +3518,16 @@
 			(type default)
 		)
 		(uuid "7bdec98e-707c-4229-b5ef-0e64edad777e")
+	)
+	(wire
+		(pts
+			(xy 69.85 107.95) (xy 69.85 110.49)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "7fa633c5-1fc5-463b-bf18-e2ee7e7f315a")
 	)
 	(wire
 		(pts
@@ -4023,23 +3541,33 @@
 	)
 	(wire
 		(pts
-			(xy 72.39 115.57) (xy 72.3646 115.57)
+			(xy 69.85 110.49) (xy 72.3646 110.49)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "83467566-b9b1-4d57-ae1c-5fc306477ace")
+		(uuid "85f739f9-f6be-438c-9b93-a1587d917894")
 	)
 	(wire
 		(pts
-			(xy 72.3646 120.65) (xy 62.23 120.65)
+			(xy 62.23 100.33) (xy 72.3646 100.33)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "8fc581ee-969d-4a96-bfe5-84e486fb83e3")
+		(uuid "94055ec5-bd5c-4b8e-8a33-99b9496b5e9d")
+	)
+	(wire
+		(pts
+			(xy 130.81 106.68) (xy 140.97 106.68)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "96efd538-18e6-4ddc-87fd-58e6a3269856")
 	)
 	(wire
 		(pts
@@ -4063,16 +3591,6 @@
 	)
 	(wire
 		(pts
-			(xy 72.39 113.03) (xy 72.3646 113.03)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "a1fb24fc-769d-4687-b1eb-5bb4b7441182")
-	)
-	(wire
-		(pts
 			(xy 35.56 69.85) (xy 30.48 69.85)
 		)
 		(stroke
@@ -4093,13 +3611,23 @@
 	)
 	(wire
 		(pts
-			(xy 72.3646 113.03) (xy 62.23 113.03)
+			(xy 105.41 111.76) (xy 115.57 111.76)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "a782ec5e-0c75-49da-930f-3883b06a2715")
+		(uuid "aa6c7f3b-666e-4e72-ba35-3c8d9704af0c")
+	)
+	(wire
+		(pts
+			(xy 63.5 107.95) (xy 69.85 107.95)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "ade3badd-986d-4988-8b3a-9baa6a2f53fd")
 	)
 	(wire
 		(pts
@@ -4113,16 +3641,6 @@
 	)
 	(wire
 		(pts
-			(xy 72.39 120.65) (xy 72.3646 120.65)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "afa21864-065b-44c0-a760-09b2e471a64e")
-	)
-	(wire
-		(pts
 			(xy 209.55 102.87) (xy 207.01 102.87)
 		)
 		(stroke
@@ -4133,43 +3651,43 @@
 	)
 	(wire
 		(pts
-			(xy 72.39 118.11) (xy 72.3646 118.11)
+			(xy 105.41 106.68) (xy 115.57 106.68)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "bf279511-2be2-4f79-8617-f472cd6944ce")
+		(uuid "c6a2523c-b4f7-46b2-a98a-10fdadcab6b1")
 	)
 	(wire
 		(pts
-			(xy 72.3646 118.11) (xy 62.23 118.11)
+			(xy 130.81 116.84) (xy 140.97 116.84)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "c2bc2428-eda3-4703-878e-aa236d3a22f6")
+		(uuid "c9700097-fab8-421c-a95a-7ae0b37e56b0")
 	)
 	(wire
 		(pts
-			(xy 72.3646 115.57) (xy 62.23 115.57)
+			(xy 105.41 119.38) (xy 115.57 119.38)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "c8a8d27c-37f4-4091-9a71-91ce4b436dc6")
+		(uuid "cd18714a-36ce-4042-a9ad-62299aa87766")
 	)
 	(wire
 		(pts
-			(xy 72.39 105.41) (xy 72.39 102.87)
+			(xy 62.23 113.03) (xy 72.3646 113.03)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "d5f261ba-4781-4513-b658-1bee081d7ab0")
+		(uuid "cf4d281c-3c63-4332-9005-ea46f02d7932")
 	)
 	(wire
 		(pts
@@ -4180,6 +3698,16 @@
 			(type default)
 		)
 		(uuid "da4ea563-d18f-4ca7-ae93-3eda0ea38e81")
+	)
+	(wire
+		(pts
+			(xy 62.23 118.11) (xy 72.3646 118.11)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "dccf7513-b927-4962-829a-fe06cfaf2d71")
 	)
 	(wire
 		(pts
@@ -4213,26 +3741,6 @@
 	)
 	(wire
 		(pts
-			(xy 72.39 107.95) (xy 72.3646 107.95)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "e73780c1-b641-457b-ba54-c75e8b06ef2e")
-	)
-	(wire
-		(pts
-			(xy 64.77 102.87) (xy 72.3646 102.87)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "e964bc3b-9535-41f7-862b-d89538772123")
-	)
-	(wire
-		(pts
 			(xy 175.26 97.79) (xy 172.72 97.79)
 		)
 		(stroke
@@ -4240,6 +3748,16 @@
 			(type default)
 		)
 		(uuid "eae41ab4-ca63-4f48-b7f0-2fa37e61d999")
+	)
+	(wire
+		(pts
+			(xy 105.41 116.84) (xy 115.57 116.84)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "ebc2a72c-dc27-4620-83c4-1e3caae7d568")
 	)
 	(wire
 		(pts
@@ -4253,13 +3771,13 @@
 	)
 	(wire
 		(pts
-			(xy 72.3646 107.95) (xy 64.77 107.95)
+			(xy 27.94 100.33) (xy 35.56 100.33)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "f2728eec-26be-4dc8-8877-d04dd4921368")
+		(uuid "f2e654b5-335b-4a0a-8a2e-eed5ce0b2f0a")
 	)
 	(wire
 		(pts
@@ -4273,17 +3791,17 @@
 	)
 	(wire
 		(pts
-			(xy 72.39 110.49) (xy 72.39 107.95)
+			(xy 62.23 120.65) (xy 72.3646 120.65)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "f9985f83-5406-45f5-9f8e-11e601d4159b")
+		(uuid "fbf02d23-75aa-4912-baa0-817b7b3eec86")
 	)
 	(wire
 		(pts
-			(xy 196.85 102.87) (xy 181.61 102.87)
+			(xy 181.61 102.87) (xy 196.85 102.87)
 		)
 		(stroke
 			(width 0)
@@ -4291,15 +3809,1040 @@
 		)
 		(uuid "fcd3da5d-e575-4fcf-b047-88a3aadfcc26")
 	)
-	(wire
-		(pts
-			(xy 199.39 73.66) (xy 209.55 73.66)
+	(table
+		(column_count 3)
+		(border
+			(external yes)
+			(header yes)
+			(stroke
+				(width 0)
+				(type solid)
+			)
 		)
-		(stroke
-			(width 0)
-			(type default)
+		(separators
+			(rows yes)
+			(cols yes)
+			(stroke
+				(width 0)
+				(type solid)
+			)
 		)
-		(uuid "fdd4a1ed-776d-425e-a555-e2be0cc2f92c")
+		(column_widths 6.35 21.59 26.67)
+		(row_heights 2.54 2.54 2.54 2.54 2.54 2.54 2.54 2.54 2.54 2.54 2.54 2.54
+			2.54 2.54 2.54 2.54 2.54 2.54 2.54
+		)
+		(uuid "10006845-8084-4174-a326-7e3a866c9cce")
+		(cells
+			(table_cell "Pin"
+				(exclude_from_sim no)
+				(at 146.05 111.76 0)
+				(size 6.35 2.54)
+				(margins 0.9525 0.9525 0.9525 0.9525)
+				(span 1 1)
+				(fill
+					(type none)
+				)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left top)
+				)
+				(uuid "f755e646-5e8f-4abd-8e19-7c5f60215a55")
+			)
+			(table_cell "H3（TFT+编码器模块）"
+				(exclude_from_sim no)
+				(at 152.4 111.76 0)
+				(size 21.59 2.54)
+				(margins 0.9525 0.9525 0.9525 0.9525)
+				(span 1 1)
+				(fill
+					(type none)
+				)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left top)
+				)
+				(uuid "f1e81f91-aef4-45b2-afd5-e26b5a5716bc")
+			)
+			(table_cell "P2(FPGA OLED/CAMERA）"
+				(exclude_from_sim no)
+				(at 173.99 111.76 0)
+				(size 26.67 2.54)
+				(margins 0.9525 0.9525 0.9525 0.9525)
+				(span 1 1)
+				(fill
+					(type none)
+				)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left top)
+				)
+				(uuid "1251a4ab-9969-4472-b997-2e13c7a42823")
+			)
+			(table_cell "1"
+				(exclude_from_sim no)
+				(at 146.05 114.3 0)
+				(size 6.35 2.54)
+				(margins 0.9525 0.9525 0.9525 0.9525)
+				(span 1 1)
+				(fill
+					(type none)
+				)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left top)
+				)
+				(uuid "07016613-d981-4506-bf7d-f92c6877d9cb")
+			)
+			(table_cell "VCC\n"
+				(exclude_from_sim no)
+				(at 152.4 114.3 0)
+				(size 21.59 2.54)
+				(margins 0.9525 0.9525 0.9525 0.9525)
+				(span 1 1)
+				(fill
+					(type none)
+				)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left top)
+				)
+				(uuid "b65579e4-6480-4fa5-a9df-72ffb2593cc3")
+			)
+			(table_cell "3V3"
+				(exclude_from_sim no)
+				(at 173.99 114.3 0)
+				(size 26.67 2.54)
+				(margins 0.9525 0.9525 0.9525 0.9525)
+				(span 1 1)
+				(fill
+					(type none)
+				)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left top)
+				)
+				(uuid "66b2f905-891d-43a2-8708-745f8accdbb2")
+			)
+			(table_cell "2"
+				(exclude_from_sim no)
+				(at 146.05 116.84 0)
+				(size 6.35 2.54)
+				(margins 0.9525 0.9525 0.9525 0.9525)
+				(span 1 1)
+				(fill
+					(type none)
+				)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left top)
+				)
+				(uuid "3e941c10-61c5-43ee-867a-bb22a89a6188")
+			)
+			(table_cell "GND"
+				(exclude_from_sim no)
+				(at 152.4 116.84 0)
+				(size 21.59 2.54)
+				(margins 0.9525 0.9525 0.9525 0.9525)
+				(span 1 1)
+				(fill
+					(type none)
+				)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left top)
+				)
+				(uuid "3f864db9-2e76-4c46-9a75-bdc66d8c290d")
+			)
+			(table_cell "GND"
+				(exclude_from_sim no)
+				(at 173.99 116.84 0)
+				(size 26.67 2.54)
+				(margins 0.9525 0.9525 0.9525 0.9525)
+				(span 1 1)
+				(fill
+					(type none)
+				)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left top)
+				)
+				(uuid "dd1c9b5f-3994-459e-8050-4eaa096823f1")
+			)
+			(table_cell "3"
+				(exclude_from_sim no)
+				(at 146.05 119.38 0)
+				(size 6.35 2.54)
+				(margins 0.9525 0.9525 0.9525 0.9525)
+				(span 1 1)
+				(fill
+					(type none)
+				)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left top)
+				)
+				(uuid "7be064f1-ee90-4e88-b254-d1c61eccea3e")
+			)
+			(table_cell "TFT_DC"
+				(exclude_from_sim no)
+				(at 152.4 119.38 0)
+				(size 21.59 2.54)
+				(margins 0.9525 0.9525 0.9525 0.9525)
+				(span 1 1)
+				(fill
+					(type none)
+				)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left top)
+				)
+				(uuid "ca961339-d866-4609-99fe-bbdb57166fd6")
+			)
+			(table_cell "CMOS_VSYNC(N27)"
+				(exclude_from_sim no)
+				(at 173.99 119.38 0)
+				(size 26.67 2.54)
+				(margins 0.9525 0.9525 0.9525 0.9525)
+				(span 1 1)
+				(fill
+					(type none)
+				)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left top)
+				)
+				(uuid "61f4736e-6c42-4ad6-abc6-16d64b040872")
+			)
+			(table_cell "4"
+				(exclude_from_sim no)
+				(at 146.05 121.92 0)
+				(size 6.35 2.54)
+				(margins 0.9525 0.9525 0.9525 0.9525)
+				(span 1 1)
+				(fill
+					(type none)
+				)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left top)
+				)
+				(uuid "16492b83-1897-4e90-9b21-b3dfa81bc1e3")
+			)
+			(table_cell "TFT_SCL"
+				(exclude_from_sim no)
+				(at 152.4 121.92 0)
+				(size 21.59 2.54)
+				(margins 0.9525 0.9525 0.9525 0.9525)
+				(span 1 1)
+				(fill
+					(type none)
+				)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left top)
+				)
+				(uuid "1e12376b-62e3-453d-ae77-b479f41a30df")
+			)
+			(table_cell "CMOS_SCL(M24)"
+				(exclude_from_sim no)
+				(at 173.99 121.92 0)
+				(size 26.67 2.54)
+				(margins 0.9525 0.9525 0.9525 0.9525)
+				(span 1 1)
+				(fill
+					(type none)
+				)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left top)
+				)
+				(uuid "965743d6-ecd6-44af-8459-e24e2f6d9c3b")
+			)
+			(table_cell "5"
+				(exclude_from_sim no)
+				(at 146.05 124.46 0)
+				(size 6.35 2.54)
+				(margins 0.9525 0.9525 0.9525 0.9525)
+				(span 1 1)
+				(fill
+					(type none)
+				)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left top)
+				)
+				(uuid "c66d0003-e0b9-4dbc-ac3d-ffdedb6fcd6f")
+			)
+			(table_cell "TFT_CS"
+				(exclude_from_sim no)
+				(at 152.4 124.46 0)
+				(size 21.59 2.54)
+				(margins 0.9525 0.9525 0.9525 0.9525)
+				(span 1 1)
+				(fill
+					(type none)
+				)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left top)
+				)
+				(uuid "d474a293-ba76-48b4-b482-0cf4976efe52")
+			)
+			(table_cell "CMOS_HREF(M27)"
+				(exclude_from_sim no)
+				(at 173.99 124.46 0)
+				(size 26.67 2.54)
+				(margins 0.9525 0.9525 0.9525 0.9525)
+				(span 1 1)
+				(fill
+					(type none)
+				)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left top)
+				)
+				(uuid "580d997c-a764-4449-879e-f38ace65f97d")
+			)
+			(table_cell "6"
+				(exclude_from_sim no)
+				(at 146.05 127 0)
+				(size 6.35 2.54)
+				(margins 0.9525 0.9525 0.9525 0.9525)
+				(span 1 1)
+				(fill
+					(type none)
+				)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left top)
+				)
+				(uuid "a6328417-1e9f-4fa7-84be-2a3f8312aa30")
+			)
+			(table_cell "TFT_SDA"
+				(exclude_from_sim no)
+				(at 152.4 127 0)
+				(size 21.59 2.54)
+				(margins 0.9525 0.9525 0.9525 0.9525)
+				(span 1 1)
+				(fill
+					(type none)
+				)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left top)
+				)
+				(uuid "813613d4-8db8-4643-818d-ad7dc92480fd")
+			)
+			(table_cell "CMOS_SDA(M25)"
+				(exclude_from_sim no)
+				(at 173.99 127 0)
+				(size 26.67 2.54)
+				(margins 0.9525 0.9525 0.9525 0.9525)
+				(span 1 1)
+				(fill
+					(type none)
+				)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left top)
+				)
+				(uuid "2e1bc2f1-a689-4341-843e-d6ef3797f27a")
+			)
+			(table_cell "7"
+				(exclude_from_sim no)
+				(at 146.05 129.54 0)
+				(size 6.35 2.54)
+				(margins 0.9525 0.9525 0.9525 0.9525)
+				(span 1 1)
+				(fill
+					(type none)
+				)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left top)
+				)
+				(uuid "40919102-f527-4607-bdc0-52fb90545b6a")
+			)
+			(table_cell "TFT_RES"
+				(exclude_from_sim no)
+				(at 152.4 129.54 0)
+				(size 21.59 2.54)
+				(margins 0.9525 0.9525 0.9525 0.9525)
+				(span 1 1)
+				(fill
+					(type none)
+				)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left top)
+				)
+				(uuid "4c974f9b-dcdc-4efd-ad66-3e2eb01a08ee")
+			)
+			(table_cell "CMOS_RESET(N29)"
+				(exclude_from_sim no)
+				(at 173.99 129.54 0)
+				(size 26.67 2.54)
+				(margins 0.9525 0.9525 0.9525 0.9525)
+				(span 1 1)
+				(fill
+					(type none)
+				)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left top)
+				)
+				(uuid "5984da45-b2df-4e53-aeb6-eaae63bfcf7d")
+			)
+			(table_cell "8"
+				(exclude_from_sim no)
+				(at 146.05 132.08 0)
+				(size 6.35 2.54)
+				(margins 0.9525 0.9525 0.9525 0.9525)
+				(span 1 1)
+				(fill
+					(type none)
+				)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left top)
+				)
+				(uuid "6bee95b2-5b08-424b-94bd-ff16298408f4")
+			)
+			(table_cell "TFT_BLK"
+				(exclude_from_sim no)
+				(at 152.4 132.08 0)
+				(size 21.59 2.54)
+				(margins 0.9525 0.9525 0.9525 0.9525)
+				(span 1 1)
+				(fill
+					(type none)
+				)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left top)
+				)
+				(uuid "4a294ebf-bf9d-4f20-bdf8-eb3ef2d17363")
+			)
+			(table_cell "CMOS_D0(M20)"
+				(exclude_from_sim no)
+				(at 173.99 132.08 0)
+				(size 26.67 2.54)
+				(margins 0.9525 0.9525 0.9525 0.9525)
+				(span 1 1)
+				(fill
+					(type none)
+				)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left top)
+				)
+				(uuid "425fefd6-c067-4097-a1bf-7df07bbb1747")
+			)
+			(table_cell "9"
+				(exclude_from_sim no)
+				(at 146.05 134.62 0)
+				(size 6.35 2.54)
+				(margins 0.9525 0.9525 0.9525 0.9525)
+				(span 1 1)
+				(fill
+					(type none)
+				)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left top)
+				)
+				(uuid "886463c4-4c40-468b-b527-ece5c3669c00")
+			)
+			(table_cell "EC11-A"
+				(exclude_from_sim no)
+				(at 152.4 134.62 0)
+				(size 21.59 2.54)
+				(margins 0.9525 0.9525 0.9525 0.9525)
+				(span 1 1)
+				(fill
+					(type none)
+				)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left top)
+				)
+				(uuid "5033a7ff-3a05-4c68-9bb8-f232f3bc936e")
+			)
+			(table_cell "CMOS_D1(L20)"
+				(exclude_from_sim no)
+				(at 173.99 134.62 0)
+				(size 26.67 2.54)
+				(margins 0.9525 0.9525 0.9525 0.9525)
+				(span 1 1)
+				(fill
+					(type none)
+				)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left top)
+				)
+				(uuid "2bf8c0d3-e43c-458f-9351-f645fd730fac")
+			)
+			(table_cell "10"
+				(exclude_from_sim no)
+				(at 146.05 137.16 0)
+				(size 6.35 2.54)
+				(margins 0.9525 0.9525 0.9525 0.9525)
+				(span 1 1)
+				(fill
+					(type none)
+				)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left top)
+				)
+				(uuid "18b4063c-9fa6-4d66-af37-933dfdf135a8")
+			)
+			(table_cell "EC11-B"
+				(exclude_from_sim no)
+				(at 152.4 137.16 0)
+				(size 21.59 2.54)
+				(margins 0.9525 0.9525 0.9525 0.9525)
+				(span 1 1)
+				(fill
+					(type none)
+				)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left top)
+				)
+				(uuid "752000c7-b529-4227-9076-f46a19fe1f83")
+			)
+			(table_cell "CMOS_D2(J21)"
+				(exclude_from_sim no)
+				(at 173.99 137.16 0)
+				(size 26.67 2.54)
+				(margins 0.9525 0.9525 0.9525 0.9525)
+				(span 1 1)
+				(fill
+					(type none)
+				)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left top)
+				)
+				(uuid "4ed0a59e-fa69-4068-a7a8-9df6e175be1e")
+			)
+			(table_cell "11"
+				(exclude_from_sim no)
+				(at 146.05 139.7 0)
+				(size 6.35 2.54)
+				(margins 0.9525 0.9525 0.9525 0.9525)
+				(span 1 1)
+				(fill
+					(type none)
+				)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left top)
+				)
+				(uuid "19b2bee9-b933-46d6-9a28-351cf11b9d12")
+			)
+			(table_cell "EC11-M"
+				(exclude_from_sim no)
+				(at 152.4 139.7 0)
+				(size 21.59 2.54)
+				(margins 0.9525 0.9525 0.9525 0.9525)
+				(span 1 1)
+				(fill
+					(type none)
+				)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left top)
+				)
+				(uuid "faecb01b-adf5-486c-b61a-a7fe3327e860")
+			)
+			(table_cell "CMOS_D3(J22)"
+				(exclude_from_sim no)
+				(at 173.99 139.7 0)
+				(size 26.67 2.54)
+				(margins 0.9525 0.9525 0.9525 0.9525)
+				(span 1 1)
+				(fill
+					(type none)
+				)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left top)
+				)
+				(uuid "428f6927-19be-40d7-81ea-e16f01d226fd")
+			)
+			(table_cell "12"
+				(exclude_from_sim no)
+				(at 146.05 142.24 0)
+				(size 6.35 2.54)
+				(margins 0.9525 0.9525 0.9525 0.9525)
+				(span 1 1)
+				(fill
+					(type none)
+				)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left top)
+				)
+				(uuid "aa61962f-1980-421b-bb04-fc83238443b9")
+			)
+			(table_cell "LEDK"
+				(exclude_from_sim no)
+				(at 152.4 142.24 0)
+				(size 21.59 2.54)
+				(margins 0.9525 0.9525 0.9525 0.9525)
+				(span 1 1)
+				(fill
+					(type none)
+				)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left top)
+				)
+				(uuid "62df7eea-cbc0-4628-94c3-0dc897ff10ab")
+			)
+			(table_cell "CMOS_D4(L30)"
+				(exclude_from_sim no)
+				(at 173.99 142.24 0)
+				(size 26.67 2.54)
+				(margins 0.9525 0.9525 0.9525 0.9525)
+				(span 1 1)
+				(fill
+					(type none)
+				)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left top)
+				)
+				(uuid "141e6476-4ef1-41d8-9834-e431e534034a")
+			)
+			(table_cell "13"
+				(exclude_from_sim no)
+				(at 146.05 144.78 0)
+				(size 6.35 2.54)
+				(margins 0.9525 0.9525 0.9525 0.9525)
+				(span 1 1)
+				(fill
+					(type none)
+				)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left top)
+				)
+				(uuid "8c7aab03-a7f2-41b9-b0ec-594c5b8b2c90")
+			)
+			(table_cell "NC"
+				(exclude_from_sim no)
+				(at 152.4 144.78 0)
+				(size 21.59 2.54)
+				(margins 0.9525 0.9525 0.9525 0.9525)
+				(span 1 1)
+				(fill
+					(type none)
+				)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left top)
+				)
+				(uuid "949d783a-7912-4210-9311-6435dda2abeb")
+			)
+			(table_cell "CMOS_D5(K30)"
+				(exclude_from_sim no)
+				(at 173.99 144.78 0)
+				(size 26.67 2.54)
+				(margins 0.9525 0.9525 0.9525 0.9525)
+				(span 1 1)
+				(fill
+					(type none)
+				)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left top)
+				)
+				(uuid "0a732b6c-f7d7-4134-aec1-79fd18d02695")
+			)
+			(table_cell "14"
+				(exclude_from_sim no)
+				(at 146.05 147.32 0)
+				(size 6.35 2.54)
+				(margins 0.9525 0.9525 0.9525 0.9525)
+				(span 1 1)
+				(fill
+					(type none)
+				)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left top)
+				)
+				(uuid "1e074afe-e81e-46bb-8e3d-a852663a5fff")
+			)
+			(table_cell "NC"
+				(exclude_from_sim no)
+				(at 152.4 147.32 0)
+				(size 21.59 2.54)
+				(margins 0.9525 0.9525 0.9525 0.9525)
+				(span 1 1)
+				(fill
+					(type none)
+				)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left top)
+				)
+				(uuid "de739893-eff9-4d0a-97e5-b914eb748324")
+			)
+			(table_cell "CMOS_D6(L21)"
+				(exclude_from_sim no)
+				(at 173.99 147.32 0)
+				(size 26.67 2.54)
+				(margins 0.9525 0.9525 0.9525 0.9525)
+				(span 1 1)
+				(fill
+					(type none)
+				)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left top)
+				)
+				(uuid "a5b3027e-389d-426b-9494-03118b566193")
+			)
+			(table_cell "15"
+				(exclude_from_sim no)
+				(at 146.05 149.86 0)
+				(size 6.35 2.54)
+				(margins 0.9525 0.9525 0.9525 0.9525)
+				(span 1 1)
+				(fill
+					(type none)
+				)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left top)
+				)
+				(uuid "04bbed26-66d4-4e97-ad21-dc5ee08d838b")
+			)
+			(table_cell "NC"
+				(exclude_from_sim no)
+				(at 152.4 149.86 0)
+				(size 21.59 2.54)
+				(margins 0.9525 0.9525 0.9525 0.9525)
+				(span 1 1)
+				(fill
+					(type none)
+				)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left top)
+				)
+				(uuid "a4d1c71e-361c-4821-b315-15e214d322bb")
+			)
+			(table_cell "CMOS_D7(K21)"
+				(exclude_from_sim no)
+				(at 173.99 149.86 0)
+				(size 26.67 2.54)
+				(margins 0.9525 0.9525 0.9525 0.9525)
+				(span 1 1)
+				(fill
+					(type none)
+				)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left top)
+				)
+				(uuid "8b69c7ad-0d46-46f7-b0b9-a276a44038af")
+			)
+			(table_cell "16"
+				(exclude_from_sim no)
+				(at 146.05 152.4 0)
+				(size 6.35 2.54)
+				(margins 0.9525 0.9525 0.9525 0.9525)
+				(span 1 1)
+				(fill
+					(type none)
+				)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left top)
+				)
+				(uuid "2e51758d-b1ea-474c-ae5f-1a355c1c2595")
+			)
+			(table_cell "NC"
+				(exclude_from_sim no)
+				(at 152.4 152.4 0)
+				(size 21.59 2.54)
+				(margins 0.9525 0.9525 0.9525 0.9525)
+				(span 1 1)
+				(fill
+					(type none)
+				)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left top)
+				)
+				(uuid "dc7e8f58-6d6e-4ca6-a162-ed31e1e5ad00")
+			)
+			(table_cell "CMOS_PCLK(L26)"
+				(exclude_from_sim no)
+				(at 173.99 152.4 0)
+				(size 26.67 2.54)
+				(margins 0.9525 0.9525 0.9525 0.9525)
+				(span 1 1)
+				(fill
+					(type none)
+				)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left top)
+				)
+				(uuid "cadb76c0-b319-442c-a4bf-3429805f2ead")
+			)
+			(table_cell "17"
+				(exclude_from_sim no)
+				(at 146.05 154.94 0)
+				(size 6.35 2.54)
+				(margins 0.9525 0.9525 0.9525 0.9525)
+				(span 1 1)
+				(fill
+					(type none)
+				)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left top)
+				)
+				(uuid "09a968fb-2a7c-49f9-a7f9-b0c3926ab6fc")
+			)
+			(table_cell "NC"
+				(exclude_from_sim no)
+				(at 152.4 154.94 0)
+				(size 21.59 2.54)
+				(margins 0.9525 0.9525 0.9525 0.9525)
+				(span 1 1)
+				(fill
+					(type none)
+				)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left top)
+				)
+				(uuid "ac1d99fe-e690-454e-a65c-b5a38d78644a")
+			)
+			(table_cell "CMOS_XCLK(L27)"
+				(exclude_from_sim no)
+				(at 173.99 154.94 0)
+				(size 26.67 2.54)
+				(margins 0.9525 0.9525 0.9525 0.9525)
+				(span 1 1)
+				(fill
+					(type none)
+				)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left top)
+				)
+				(uuid "5bcc0697-5a04-44f5-8b7f-baf820e26773")
+			)
+			(table_cell "18"
+				(exclude_from_sim no)
+				(at 146.05 157.48 0)
+				(size 6.35 2.54)
+				(margins 0.9525 0.9525 0.9525 0.9525)
+				(span 1 1)
+				(fill
+					(type none)
+				)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left top)
+				)
+				(uuid "4e919537-b8c5-4e7f-b09a-695361b2d795")
+			)
+			(table_cell "NC"
+				(exclude_from_sim no)
+				(at 152.4 157.48 0)
+				(size 21.59 2.54)
+				(margins 0.9525 0.9525 0.9525 0.9525)
+				(span 1 1)
+				(fill
+					(type none)
+				)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left top)
+				)
+				(uuid "0a354231-5551-4791-9a6a-5f22d4f8e5ef")
+			)
+			(table_cell "CMOS_PWDN(N30)"
+				(exclude_from_sim no)
+				(at 173.99 157.48 0)
+				(size 26.67 2.54)
+				(margins 0.9525 0.9525 0.9525 0.9525)
+				(span 1 1)
+				(fill
+					(type none)
+				)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left top)
+				)
+				(uuid "94543f1c-aebc-48b0-aad7-52eb5302bff4")
+			)
+		)
+	)
+	(label "LEDK"
+		(at 62.23 100.33 0)
+		(effects
+			(font
+				(size 1.2446 1.2446)
+			)
+			(justify left bottom)
+		)
+		(uuid "03ce8a97-91f6-4085-b456-959e27259be0")
+	)
+	(label "TFT_CS"
+		(at 105.41 111.76 0)
+		(effects
+			(font
+				(size 1.2446 1.2446)
+			)
+			(justify left bottom)
+		)
+		(uuid "04dd0afd-ff48-4805-b2af-72cd30ac5825")
+	)
+	(label "TFT_SCL"
+		(at 140.97 109.22 180)
+		(effects
+			(font
+				(size 1.2446 1.2446)
+			)
+			(justify right bottom)
+		)
+		(uuid "0baf744d-0e4b-49a8-a65b-7859cf6e2cf7")
+	)
+	(label "TFT_DC"
+		(at 105.41 109.22 0)
+		(effects
+			(font
+				(size 1.2446 1.2446)
+			)
+			(justify left bottom)
+		)
+		(uuid "0c932abc-0197-47ad-ba82-af666fe2b3e8")
 	)
 	(label "LEDK"
 		(at 68.58 69.85 0)
@@ -4311,6 +4854,26 @@
 		)
 		(uuid "0d4aa81f-06bf-4da6-a16b-f89f7d79f04d")
 	)
+	(label "EC11-M"
+		(at 105.41 119.38 0)
+		(effects
+			(font
+				(size 1.2446 1.2446)
+			)
+			(justify left bottom)
+		)
+		(uuid "0dd33f8e-4fe2-40c4-9d1a-a31c53261fe3")
+	)
+	(label "TFT_SDA"
+		(at 140.97 111.76 180)
+		(effects
+			(font
+				(size 1.2446 1.2446)
+			)
+			(justify right bottom)
+		)
+		(uuid "18aee14a-9884-416d-a96d-0884fdc98cdc")
+	)
 	(label "TFT_BLK"
 		(at 26.67 80.01 0)
 		(effects
@@ -4321,15 +4884,15 @@
 		)
 		(uuid "2955cf60-b135-4cf4-85b1-5804ab53c0f8")
 	)
-	(label "EC11-B"
-		(at 181.61 100.33 0)
+	(label "TFT_SCL"
+		(at 62.23 118.11 0)
 		(effects
 			(font
-				(size 1.524 1.524)
+				(size 1.2446 1.2446)
 			)
 			(justify left bottom)
 		)
-		(uuid "3ae46cff-cfe2-4f9b-ac4c-378a51f2a806")
+		(uuid "2a7efce1-1014-4a0f-9be7-8ad41f3f0463")
 	)
 	(label "TFT_CS"
 		(at 62.23 115.57 0)
@@ -4339,30 +4902,60 @@
 			)
 			(justify left bottom)
 		)
-		(uuid "44b5b62e-1f4b-4f1c-81b1-cf755642ff5d")
+		(uuid "2fe29732-1b25-494f-a40c-e934715b4f24")
 	)
-	(label "TFT_SCL"
-		(at 62.23 118.11 0)
+	(label "TFT_BLK"
+		(at 140.97 114.3 180)
 		(effects
 			(font
 				(size 1.2446 1.2446)
 			)
-			(justify left bottom)
+			(justify right bottom)
 		)
-		(uuid "465f22d2-2e70-4483-904d-5f2b1123a7dd")
+		(uuid "3a4194e6-9356-4ddc-be51-5b00b85ed82d")
 	)
-	(label "EC11-M"
-		(at 199.39 73.66 0)
+	(label "EC11-B"
+		(at 189.23 100.33 0)
 		(effects
 			(font
 				(size 1.524 1.524)
 			)
 			(justify left bottom)
 		)
+		(uuid "3ae46cff-cfe2-4f9b-ac4c-378a51f2a806")
+	)
+	(label "EC11-M"
+		(at 208.28 73.66 180)
+		(effects
+			(font
+				(size 1.524 1.524)
+			)
+			(justify right bottom)
+		)
 		(uuid "51a8484b-2478-49e2-af53-54ac7d6d6c83")
 	)
+	(label "EC11-B"
+		(at 140.97 116.84 180)
+		(effects
+			(font
+				(size 1.2446 1.2446)
+			)
+			(justify right bottom)
+		)
+		(uuid "70ad5d4b-925a-4378-96af-f9a4ed8c8739")
+	)
 	(label "EC11-A"
-		(at 184.15 73.66 0)
+		(at 105.41 116.84 0)
+		(effects
+			(font
+				(size 1.2446 1.2446)
+			)
+			(justify left bottom)
+		)
+		(uuid "7768650e-7106-4939-b032-f52705405453")
+	)
+	(label "EC11-A"
+		(at 175.26 73.66 0)
 		(effects
 			(font
 				(size 1.524 1.524)
@@ -4371,8 +4964,18 @@
 		)
 		(uuid "932ae5fe-ecff-46d9-a0f5-4aa48a5ac5bd")
 	)
+	(label "TFT_RES"
+		(at 62.23 123.19 0)
+		(effects
+			(font
+				(size 1.2446 1.2446)
+			)
+			(justify left bottom)
+		)
+		(uuid "9596abd3-28cf-448b-a0a3-a4c2b4de17da")
+	)
 	(label "EC11-A"
-		(at 196.85 97.79 0)
+		(at 189.23 97.79 0)
 		(effects
 			(font
 				(size 1.524 1.524)
@@ -4389,30 +4992,10 @@
 			)
 			(justify left bottom)
 		)
-		(uuid "b9d8224a-be98-44ff-904b-5cb1bad9e061")
-	)
-	(label "TFT_DC"
-		(at 62.23 113.03 0)
-		(effects
-			(font
-				(size 1.2446 1.2446)
-			)
-			(justify left bottom)
-		)
-		(uuid "c2c94b65-7334-450a-ab62-04f8c1020839")
-	)
-	(label "TFT_RES"
-		(at 62.23 123.19 0)
-		(effects
-			(font
-				(size 1.2446 1.2446)
-			)
-			(justify left bottom)
-		)
-		(uuid "c4b4d7e8-d2f5-4a84-8435-40a8e44ab9b2")
+		(uuid "c43601f0-7749-4fda-9264-07a5cd034852")
 	)
 	(label "EC11-M"
-		(at 196.85 102.87 0)
+		(at 189.23 102.87 0)
 		(effects
 			(font
 				(size 1.524 1.524)
@@ -4422,17 +5005,17 @@
 		(uuid "d2c1f6ef-8a4e-410c-8911-db15b229afb6")
 	)
 	(label "LEDK"
-		(at 62.23 100.33 0)
+		(at 140.97 119.38 180)
 		(effects
 			(font
 				(size 1.2446 1.2446)
 			)
-			(justify left bottom)
+			(justify right bottom)
 		)
-		(uuid "da58f52f-ec13-4e8f-b2ff-abfea49d593d")
+		(uuid "d8d80415-0779-4993-9815-aba4661f9e65")
 	)
 	(label "EC11-B"
-		(at 184.15 78.74 0)
+		(at 175.26 78.74 0)
 		(effects
 			(font
 				(size 1.524 1.524)
@@ -4440,6 +5023,26 @@
 			(justify left bottom)
 		)
 		(uuid "eab32635-4ca4-4af6-87f3-cbd29554104e")
+	)
+	(label "TFT_DC"
+		(at 62.23 113.03 0)
+		(effects
+			(font
+				(size 1.2446 1.2446)
+			)
+			(justify left bottom)
+		)
+		(uuid "f90ac497-910f-4cf4-9b00-2955325ce853")
+	)
+	(label "TFT_RES"
+		(at 105.41 114.3 0)
+		(effects
+			(font
+				(size 1.2446 1.2446)
+			)
+			(justify left bottom)
+		)
+		(uuid "ff356fb7-57f7-4343-8f31-f7de1d4d3197")
 	)
 	(symbol
 		(lib_id "ProPrj_研电赛-easyedapro:0.1uF")
@@ -4452,36 +5055,6 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "0e590771-d5f9-497b-886c-aab2dc3c602a")
-		(property "Field42" ""
-			(at 0 209.55 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Field42" ""
-			(at 0 209.55 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Field42" ""
-			(at 0 209.55 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
 		(property "Reference" "C5"
 			(at 173.0756 102.4382 0)
 			(show_name no)
@@ -4504,7 +5077,7 @@
 				(justify left bottom)
 			)
 		)
-		(property "Footprint" "ProPrj_研电赛-easyedapro:"
+		(property "Footprint" "ProPrj_研电赛-easyedapro:C0603"
 			(at 177.8 102.87 0)
 			(hide yes)
 			(show_name no)
@@ -4538,6 +5111,16 @@
 				(justify left bottom)
 			)
 		)
+		(property "Field42" ""
+			(at 0 209.55 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
 		(pin "2"
 			(uuid "23438382-b2f2-46e5-9a53-935e28e2405b")
 		)
@@ -4554,6 +5137,83 @@
 		)
 	)
 	(symbol
+		(lib_id "ProPrj_研电赛-easyedapro:Ground-GND")
+		(at 69.85 97.79 180)
+		(unit 1)
+		(body_style 0)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "0fcade28-1417-4f03-b729-bc80db45697f")
+		(property "Reference" "#PWR0701"
+			(at 69.85 97.79 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "GND"
+			(at 69.85 91.44 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.5748 1.5748)
+				)
+			)
+		)
+		(property "Footprint" "ProPrj_研电赛-easyedapro:"
+			(at 69.85 97.79 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 69.85 97.79 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" ""
+			(at 69.85 97.79 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "29999fd1-61e9-4cfc-bb32-212624fe6edb")
+		)
+		(instances
+			(project "ProPrj_研电赛优利德显示屏与旋转编码器_2026-06-08"
+				(path "/a943504b-4751-4415-856a-7578cd2a2083"
+					(reference "#PWR0701")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "ProPrj_研电赛-easyedapro:RTT03100JTP")
 		(at 62.23 69.85 0)
 		(unit 1)
@@ -4564,216 +5224,6 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "2506f33b-f322-4ac3-8bf0-b2d594b7672d")
-		(property "Field42" ""
-			(at 0 209.55 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Field42" ""
-			(at 0 209.55 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Field42" ""
-			(at 0 209.55 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Field42" ""
-			(at 0 209.55 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Field42" ""
-			(at 0 209.55 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Field42" ""
-			(at 0 209.55 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Field42" ""
-			(at 0 209.55 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Field42" ""
-			(at 0 209.55 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Field42" ""
-			(at 0 209.55 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Field42" ""
-			(at 0 209.55 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Field42" ""
-			(at 0 209.55 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Field42" ""
-			(at 0 209.55 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Field42" ""
-			(at 0 209.55 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Field42" ""
-			(at 0 209.55 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Field42" ""
-			(at 0 209.55 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Field42" ""
-			(at 0 209.55 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Field42" ""
-			(at 0 209.55 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Field42" ""
-			(at 0 209.55 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Field42" ""
-			(at 0 209.55 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Field42" ""
-			(at 0 209.55 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Field42" ""
-			(at 0 209.55 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
 		(property "Reference" "R2"
 			(at 59.69 68.326 0)
 			(show_name no)
@@ -4796,7 +5246,7 @@
 				(justify left bottom)
 			)
 		)
-		(property "Footprint" "ProPrj_研电赛-easyedapro:"
+		(property "Footprint" "ProPrj_研电赛-easyedapro:R0603"
 			(at 62.23 69.85 0)
 			(hide yes)
 			(show_name no)
@@ -4831,6 +5281,16 @@
 				(justify left bottom)
 			)
 		)
+		(property "Field42" ""
+			(at 0 209.55 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
 		(pin "2"
 			(uuid "ff546e76-45a7-4291-be3e-342ba6b8056e")
 		)
@@ -4847,6 +5307,84 @@
 		)
 	)
 	(symbol
+		(lib_id "ProPrj_研电赛-easyedapro:Power-VCC")
+		(at 105.41 106.68 0)
+		(unit 1)
+		(body_style 0)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "2a9a0007-0daa-42c5-8c68-212ee66edde8")
+		(property "Reference" "#PWR0801"
+			(at 105.41 106.68 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "VCC"
+			(at 105.41 103.886 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.2446 1.2446)
+				)
+				(justify bottom)
+			)
+		)
+		(property "Footprint" "ProPrj_研电赛-easyedapro:"
+			(at 105.41 106.68 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 105.41 106.68 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" ""
+			(at 105.41 106.68 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "10fb6e3c-28eb-456a-8c48-19dbc71a297e")
+		)
+		(instances
+			(project "ProPrj_研电赛优利德显示屏与旋转编码器_2026-06-08"
+				(path "/a943504b-4751-4415-856a-7578cd2a2083"
+					(reference "#PWR0801")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "ProPrj_研电赛-easyedapro:0.1uF")
 		(at 177.8 97.79 0)
 		(unit 1)
@@ -4857,36 +5395,6 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "2bb267a5-9524-44ef-a982-638d08b1238d")
-		(property "Field42" ""
-			(at 0 209.55 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Field42" ""
-			(at 0 209.55 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Field42" ""
-			(at 0 209.55 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
 		(property "Reference" "C21"
 			(at 173.0756 97.3582 0)
 			(show_name no)
@@ -4909,7 +5417,7 @@
 				(justify left bottom)
 			)
 		)
-		(property "Footprint" "ProPrj_研电赛-easyedapro:"
+		(property "Footprint" "ProPrj_研电赛-easyedapro:C0603"
 			(at 177.8 97.79 0)
 			(hide yes)
 			(show_name no)
@@ -4943,6 +5451,16 @@
 				(justify left bottom)
 			)
 		)
+		(property "Field42" ""
+			(at 0 209.55 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
 		(pin "2"
 			(uuid "7c16b1b4-bc80-4add-a34f-6c62ee6ed8ec")
 		)
@@ -4959,8 +5477,8 @@
 		)
 	)
 	(symbol
-		(lib_id "ProPrj_研电赛-easyedapro:Ground-GND")
-		(at 35.56 110.49 0)
+		(lib_id "ProPrj_研电赛-easyedapro:Power-VCC")
+		(at 63.5 102.87 90)
 		(unit 1)
 		(body_style 0)
 		(exclude_from_sim no)
@@ -4968,9 +5486,9 @@
 		(on_board yes)
 		(in_pos_files yes)
 		(dnp no)
-		(uuid "413ab80d-4814-484b-a86b-19e665a8ed99")
-		(property "Reference" "#PWR?"
-			(at 35.56 110.49 0)
+		(uuid "3e07d5ec-eb85-474d-b409-269c95a7eacc")
+		(property "Reference" "#PWR0702"
+			(at 63.5 102.87 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -4980,18 +5498,19 @@
 				)
 			)
 		)
-		(property "Value" "GND"
-			(at 35.56 116.84 0)
+		(property "Value" "VCC"
+			(at 58.928 102.87 90)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
 				(font
-					(size 1.5748 1.5748)
+					(size 1.2446 1.2446)
 				)
+				(justify bottom)
 			)
 		)
 		(property "Footprint" "ProPrj_研电赛-easyedapro:"
-			(at 35.56 110.49 0)
+			(at 63.5 102.87 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5002,7 +5521,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 35.56 110.49 0)
+			(at 63.5 102.87 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5013,7 +5532,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 35.56 110.49 0)
+			(at 63.5 102.87 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5024,12 +5543,12 @@
 			)
 		)
 		(pin "1"
-			(uuid "aa6daeea-35e6-4d03-836b-6120afe20df7")
+			(uuid "94c24617-fba0-45b9-a074-9607a24a4a6a")
 		)
 		(instances
 			(project "ProPrj_研电赛优利德显示屏与旋转编码器_2026-06-08"
 				(path "/a943504b-4751-4415-856a-7578cd2a2083"
-					(reference "#PWR?")
+					(reference "#PWR0702")
 					(unit 1)
 				)
 			)
@@ -5046,86 +5565,6 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "4147f96f-cb1c-4ad5-ac96-c5c9ddc65a8a")
-		(property "Field42" ""
-			(at 0 209.55 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Field42" ""
-			(at 0 209.55 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Field42" ""
-			(at 0 209.55 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Field42" ""
-			(at 0 209.55 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Field42" ""
-			(at 0 209.55 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Field42" ""
-			(at 0 209.55 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Field42" ""
-			(at 0 209.55 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Field42" ""
-			(at 0 209.55 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
 		(property "Reference" "C1"
 			(at 29.21 104.14 90)
 			(show_name no)
@@ -5181,6 +5620,16 @@
 					(size 1.2446 1.2446)
 				)
 				(justify right top)
+			)
+		)
+		(property "Field42" ""
+			(at 0 209.55 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
 			)
 		)
 		(property "Manufacturer Part" "06035C104K4Z2A"
@@ -5269,36 +5718,6 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "497ea68b-88d6-4101-b152-c8945a092476")
-		(property "Field42" ""
-			(at 0 209.55 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Field42" ""
-			(at 0 209.55 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Field42" ""
-			(at 0 209.55 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
 		(property "Reference" "R5"
 			(at 205.486 102.4128 0)
 			(show_name no)
@@ -5321,7 +5740,7 @@
 				(justify left bottom)
 			)
 		)
-		(property "Footprint" "ProPrj_研电赛-easyedapro:"
+		(property "Footprint" "ProPrj_研电赛-easyedapro:R0603"
 			(at 201.93 102.87 0)
 			(hide yes)
 			(show_name no)
@@ -5355,6 +5774,16 @@
 				(justify left bottom)
 			)
 		)
+		(property "Field42" ""
+			(at 0 209.55 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
 		(pin "1"
 			(uuid "9ce74e5c-11f4-4097-a5c8-1b0c2cf916be")
 		)
@@ -5371,6 +5800,83 @@
 		)
 	)
 	(symbol
+		(lib_id "ProPrj_研电赛-easyedapro:Ground-GND")
+		(at 176.53 76.2 270)
+		(unit 1)
+		(body_style 0)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "4ec89efc-c2e9-4e9e-b1ea-2d0419d0d324")
+		(property "Reference" "#PWR0921"
+			(at 176.53 76.2 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "GND"
+			(at 169.418 76.2 90)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "ProPrj_研电赛-easyedapro:"
+			(at 176.53 76.2 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 176.53 76.2 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" ""
+			(at 176.53 76.2 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "187e9d8a-ba02-4f6e-9284-2d022d3622b9")
+		)
+		(instances
+			(project "ProPrj_研电赛优利德显示屏与旋转编码器_2026-06-08"
+				(path "/a943504b-4751-4415-856a-7578cd2a2083"
+					(reference "#PWR0921")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "ProPrj_研电赛-easyedapro:EC11N1525405")
 		(at 191.77 76.2 270)
 		(unit 1)
@@ -5381,36 +5887,6 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "5e876c74-6cd5-49a2-9371-1c5448f1a2c2")
-		(property "Field42" ""
-			(at 0 209.55 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Field42" ""
-			(at 0 209.55 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Field42" ""
-			(at 0 209.55 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
 		(property "Reference" "SW1"
 			(at 189.1792 68.1482 90)
 			(show_name no)
@@ -5433,7 +5909,7 @@
 				(justify left bottom)
 			)
 		)
-		(property "Footprint" "ProPrj_研电赛-easyedapro:"
+		(property "Footprint" "ProPrj_研电赛-easyedapro:EC11_ROTARY_ENCODER"
 			(at 191.77 76.2 0)
 			(hide yes)
 			(show_name no)
@@ -5465,6 +5941,16 @@
 					(size 1.2446 1.2446)
 				)
 				(justify left bottom)
+			)
+		)
+		(property "Field42" ""
+			(at 0 209.55 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
 			)
 		)
 		(property "Manufacturer Part" "EC11N1525405"
@@ -5541,839 +6027,6 @@
 				)
 			)
 		)
-	)
-
-	(wire
-		(pts
-			(xy 105.41 127) (xy 115.57 127)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "ec97bfc2-1849-4dc5-961b-53a5d811c0a8")
-	)
-	(symbol
-		(lib_id "ProPrj_研电赛-easyedapro:Power-VCC")
-		(at 105.41 127 0)
-		(unit 1)
-		(body_style 0)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp no)
-		(uuid "ef136ffd-981f-4ece-a453-97fddaad9eb2")
-		(property "Reference" "#PWR?"
-			(at 105.41 127 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "VCC"
-			(at 105.41 124.46 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.2446 1.2446)
-				)
-				(justify bottom)
-			)
-		)
-		(property "Footprint" "ProPrj_研电赛-easyedapro:"
-			(at 105.41 127 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" ""
-			(at 105.41 127 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" ""
-			(at 105.41 127 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(pin "1"
-			(uuid "67d1ce04-0f5f-4e5a-ba27-d582b80a3de4")
-		)
-		(instances
-			(project "ProPrj_研电赛优利德显示屏与旋转编码器_2026-06-08"
-				(path "/a943504b-4751-4415-856a-7578cd2a2083"
-					(reference "#PWR?")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(wire
-		(pts
-			(xy 130.81 127) (xy 140.97 127)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "f549ea93-5512-4537-9fca-97b0cf5dd10c")
-	)
-	(symbol
-		(lib_id "ProPrj_研电赛-easyedapro:Ground-GND")
-		(at 140.97 127 0)
-		(unit 1)
-		(body_style 0)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp no)
-		(uuid "02984ef0-4e7a-40c3-a8c6-2da99a05d0ac")
-		(property "Reference" "#PWR?"
-			(at 140.97 127 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "GND"
-			(at 143.51 127 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.5748 1.5748)
-				)
-			)
-		)
-		(property "Footprint" "ProPrj_研电赛-easyedapro:"
-			(at 140.97 127 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" ""
-			(at 140.97 127 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" ""
-			(at 140.97 127 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(pin "1"
-			(uuid "d8ed055a-07b2-4d36-bc4f-9d23ffe3b306")
-		)
-		(instances
-			(project "ProPrj_研电赛优利德显示屏与旋转编码器_2026-06-08"
-				(path "/a943504b-4751-4415-856a-7578cd2a2083"
-					(reference "#PWR?")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(wire
-		(pts
-			(xy 105.41 124.46) (xy 115.57 124.46)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "bb6f469d-0a7c-42cb-8adf-bfa4b10a91e1")
-	)
-	(label "TFT_SCL"
-		(at 105.41 124.46 0)
-		(effects
-			(font
-				(size 1.2446 1.2446)
-			)
-			(justify left bottom)
-		)
-		(uuid "d06ff4e7-f127-4763-bbb8-4381ef16ec50")
-	)
-	(wire
-		(pts
-			(xy 130.81 124.46) (xy 140.97 124.46)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "b29707e7-2d01-43cf-85d3-74c9930c3061")
-	)
-	(label "TFT_SDA"
-		(at 133.35 124.46 0)
-		(effects
-			(font
-				(size 1.2446 1.2446)
-			)
-			(justify left bottom)
-		)
-		(uuid "9d7bfc29-bbce-4528-a96f-aced9ade9d6d")
-	)
-	(wire
-		(pts
-			(xy 105.41 121.92) (xy 115.57 121.92)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "01480a85-f428-458f-88e1-8dc9270f1e63")
-	)
-	(label "TFT_RES"
-		(at 105.41 121.92 0)
-		(effects
-			(font
-				(size 1.2446 1.2446)
-			)
-			(justify left bottom)
-		)
-		(uuid "1fe16234-221f-4098-9fe9-4d66e4dac253")
-	)
-	(wire
-		(pts
-			(xy 130.81 121.92) (xy 140.97 121.92)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "0cb32273-3438-4e87-9640-e83555068c50")
-	)
-	(label "TFT_DC"
-		(at 133.35 121.92 0)
-		(effects
-			(font
-				(size 1.2446 1.2446)
-			)
-			(justify left bottom)
-		)
-		(uuid "fcf1d64a-a4d1-48a0-94ab-1500ac7bf56b")
-	)
-	(wire
-		(pts
-			(xy 105.41 119.38) (xy 115.57 119.38)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "107dbdd1-4832-48a1-bb54-d17ab293dfba")
-	)
-	(label "TFT_CS"
-		(at 105.41 119.38 0)
-		(effects
-			(font
-				(size 1.2446 1.2446)
-			)
-			(justify left bottom)
-		)
-		(uuid "2959a5bc-0d06-4602-a351-c8951d83ef93")
-	)
-	(wire
-		(pts
-			(xy 130.81 119.38) (xy 140.97 119.38)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "48cfb07f-b80d-4e3a-9353-e565521b94e8")
-	)
-	(label "TFT_BLK"
-		(at 133.35 119.38 0)
-		(effects
-			(font
-				(size 1.2446 1.2446)
-			)
-			(justify left bottom)
-		)
-		(uuid "198ee9bc-ea18-4f0a-8fb7-ada1ab25d720")
-	)
-	(wire
-		(pts
-			(xy 105.41 116.84) (xy 115.57 116.84)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "e5cdf603-154d-445e-84ce-d11c0540628a")
-	)
-	(label "EC11-A"
-		(at 105.41 116.84 0)
-		(effects
-			(font
-				(size 1.2446 1.2446)
-			)
-			(justify left bottom)
-		)
-		(uuid "2c9852a7-4be0-4e78-aa62-1fcb76f9d2a8")
-	)
-	(wire
-		(pts
-			(xy 130.81 116.84) (xy 140.97 116.84)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "89dd2a03-8243-4445-8f16-81bb5b99461e")
-	)
-	(label "EC11-B"
-		(at 133.35 116.84 0)
-		(effects
-			(font
-				(size 1.2446 1.2446)
-			)
-			(justify left bottom)
-		)
-		(uuid "8a5b8814-2d0a-431b-98c2-6c3a79d87ade")
-	)
-	(wire
-		(pts
-			(xy 105.41 114.3) (xy 115.57 114.3)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "d70db9e5-928c-41a5-818c-9d78309c7e95")
-	)
-	(label "EC11-M"
-		(at 105.41 114.3 0)
-		(effects
-			(font
-				(size 1.2446 1.2446)
-			)
-			(justify left bottom)
-		)
-		(uuid "aa84ed16-ef70-4d69-97be-ca9bc9bede0b")
-	)
-	(wire
-		(pts
-			(xy 130.81 114.3) (xy 140.97 114.3)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "3b79ee85-a766-4921-b1b1-7fc9791aa296")
-	)
-	(label "LEDK"
-		(at 133.35 114.3 0)
-		(effects
-			(font
-				(size 1.2446 1.2446)
-			)
-			(justify left bottom)
-		)
-		(uuid "48684b34-a29e-45ba-8894-926b3e0ca82d")
-	)
-	(wire
-		(pts
-			(xy 105.41 111.76) (xy 115.57 111.76)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "087860ee-7b0c-49cc-9a94-2e97a6c260aa")
-	)
-	(symbol
-		(lib_id "ProPrj_研电赛-easyedapro:Power-VCC")
-		(at 105.41 111.76 0)
-		(unit 1)
-		(body_style 0)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp no)
-		(uuid "c0611ffa-716e-47f5-a473-da92d90d73d5")
-		(property "Reference" "#PWR?"
-			(at 105.41 111.76 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "VCC"
-			(at 105.41 109.22 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.2446 1.2446)
-				)
-				(justify bottom)
-			)
-		)
-		(property "Footprint" "ProPrj_研电赛-easyedapro:"
-			(at 105.41 111.76 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" ""
-			(at 105.41 111.76 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" ""
-			(at 105.41 111.76 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(pin "1"
-			(uuid "0ae06017-eb69-4cd9-a3c9-b0b80af288d8")
-		)
-		(instances
-			(project "ProPrj_研电赛优利德显示屏与旋转编码器_2026-06-08"
-				(path "/a943504b-4751-4415-856a-7578cd2a2083"
-					(reference "#PWR?")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(wire
-		(pts
-			(xy 130.81 111.76) (xy 140.97 111.76)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "80ed1f50-cc03-487f-860f-07e9c168c7a5")
-	)
-	(symbol
-		(lib_id "ProPrj_研电赛-easyedapro:Ground-GND")
-		(at 140.97 111.76 0)
-		(unit 1)
-		(body_style 0)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp no)
-		(uuid "7c318a18-2d51-4c56-9e4c-0757b5df130c")
-		(property "Reference" "#PWR?"
-			(at 140.97 111.76 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "GND"
-			(at 143.51 111.76 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.5748 1.5748)
-				)
-			)
-		)
-		(property "Footprint" "ProPrj_研电赛-easyedapro:"
-			(at 140.97 111.76 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" ""
-			(at 140.97 111.76 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" ""
-			(at 140.97 111.76 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(pin "1"
-			(uuid "b4ebc114-b6fe-4e7f-ae78-4e117c3cc762")
-		)
-		(instances
-			(project "ProPrj_研电赛优利德显示屏与旋转编码器_2026-06-08"
-				(path "/a943504b-4751-4415-856a-7578cd2a2083"
-					(reference "#PWR?")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(wire
-		(pts
-			(xy 105.41 109.22) (xy 115.57 109.22)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "a564fd47-da82-4070-bba2-ce1a451d5f24")
-	)
-	(symbol
-		(lib_id "ProPrj_研电赛-easyedapro:Ground-GND")
-		(at 105.41 109.22 0)
-		(unit 1)
-		(body_style 0)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp no)
-		(uuid "e43a0bb1-dd89-4d2c-83d2-ec1597dd0d26")
-		(property "Reference" "#PWR?"
-			(at 105.41 109.22 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "GND"
-			(at 99.06 109.22 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.5748 1.5748)
-				)
-			)
-		)
-		(property "Footprint" "ProPrj_研电赛-easyedapro:"
-			(at 105.41 109.22 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" ""
-			(at 105.41 109.22 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" ""
-			(at 105.41 109.22 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(pin "1"
-			(uuid "7bb14ea2-5635-4549-9504-09eebb125c9e")
-		)
-		(instances
-			(project "ProPrj_研电赛优利德显示屏与旋转编码器_2026-06-08"
-				(path "/a943504b-4751-4415-856a-7578cd2a2083"
-					(reference "#PWR?")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(wire
-		(pts
-			(xy 130.81 109.22) (xy 140.97 109.22)
-		)
-	(wire
-		(pts
-			(xy 72.36 97.79) (xy 64.77 97.79)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "c4c45f87-2786-40b9-b9e9-9db1a5001360")
-	)
-	(wire
-		(pts
-			(xy 64.77 97.79) (xy 64.77 107.95)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "aa0b9def-3a3d-4003-8800-342036bfc7fc")
-	)
-	(wire
-		(pts
-			(xy 72.36 102.87) (xy 64.77 102.87)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "30f41ee9-8908-458f-a900-76ed97bae777")
-	)
-	(wire
-		(pts
-			(xy 72.36 105.41) (xy 64.77 105.41)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "47e564bd-1cb2-4410-a991-755f513e7829")
-	)
-	(wire
-		(pts
-			(xy 64.77 105.41) (xy 64.77 102.87)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "52aafb33-722e-4100-91e0-573f00437a63")
-	)
-	(wire
-		(pts
-			(xy 72.36 107.95) (xy 64.77 107.95)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "3470fbf9-8e32-4eb0-a8fd-6038618a987b")
-	)
-	(wire
-		(pts
-			(xy 72.36 110.49) (xy 64.77 110.49)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "a150a8d2-9ad0-4946-a761-ec53099b1448")
-	)
-	(wire
-		(pts
-			(xy 64.77 110.49) (xy 64.77 107.95)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "5f27fd20-3207-42d1-ad6f-7c6c8ba602c1")
-	)
-	(wire
-		(pts
-			(xy 72.36 125.73) (xy 64.77 125.73)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "05f518a6-c8f8-46d0-8d7a-6a53f78eeef6")
-	)
-	(wire
-		(pts
-			(xy 64.77 125.73) (xy 64.77 107.95)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "ae767ac1-38bc-4e5e-8df7-5ce4a0cd9743")
-	)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "6cd5ddc7-2853-489f-9593-bb2a2cf1beee")
-	)
-	(symbol
-		(lib_id "ProPrj_研电赛-easyedapro:Ground-GND")
-		(at 140.97 109.22 0)
-		(unit 1)
-		(body_style 0)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp no)
-		(uuid "f24039b7-0b1b-47ed-b984-3e5a504a9fa7")
-		(property "Reference" "#PWR?"
-			(at 140.97 109.22 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "GND"
-			(at 143.51 109.22 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.5748 1.5748)
-				)
-			)
-		)
-		(property "Footprint" "ProPrj_研电赛-easyedapro:"
-			(at 140.97 109.22 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" ""
-			(at 140.97 109.22 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" ""
-			(at 140.97 109.22 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(pin "1"
-			(uuid "92b9ae09-2dcc-4108-bd2e-6deee6b5c916")
-		)
-		(instances
-			(project "ProPrj_研电赛优利德显示屏与旋转编码器_2026-06-08"
-				(path "/a943504b-4751-4415-856a-7578cd2a2083"
-					(reference "#PWR?")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(no_connect
-		(at 115.57 106.68)
-		(uuid "8c93c700-bf99-4b2f-9ad3-264d08af1a25")
-	)
-	(no_connect
-		(at 130.81 106.68)
-		(uuid "c489a9b9-1479-4028-a296-5dc36c4666ee")
 	)
 	(symbol
 		(lib_id "ProPrj_研电赛-easyedapro:PZ254V-12-18P")
@@ -6560,86 +6213,8 @@
 		)
 	)
 	(symbol
-		(lib_id "ProPrj_研电赛-easyedapro:Power-VCC")
-		(at 35.56 100.33 0)
-		(unit 1)
-		(body_style 0)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp no)
-		(uuid "63fcb457-03ef-42de-ac09-398647b8a65d")
-		(property "Reference" "#PWR?"
-			(at 35.56 100.33 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "VCC"
-			(at 35.56 97.79 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.2446 1.2446)
-				)
-				(justify bottom)
-			)
-		)
-		(property "Footprint" "ProPrj_研电赛-easyedapro:"
-			(at 35.56 100.33 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" ""
-			(at 35.56 100.33 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" ""
-			(at 35.56 100.33 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(pin "1"
-			(uuid "e99b140f-3c33-4202-8b85-19ee17589385")
-		)
-		(instances
-			(project "ProPrj_研电赛优利德显示屏与旋转编码器_2026-06-08"
-				(path "/a943504b-4751-4415-856a-7578cd2a2083"
-					(reference "#PWR?")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
 		(lib_id "ProPrj_研电赛-easyedapro:Ground-GND")
-		(at 64.77 107.95 270)
+		(at 35.56 110.49 0)
 		(unit 1)
 		(body_style 0)
 		(exclude_from_sim no)
@@ -6647,9 +6222,9 @@
 		(on_board yes)
 		(in_pos_files yes)
 		(dnp no)
-		(uuid "64e05c19-aecd-40bf-b908-ff10e213d4cb")
-		(property "Reference" "#PWR?"
-			(at 64.77 107.95 0)
+		(uuid "6257c835-af3a-47e1-92f6-7f78f7b74f5a")
+		(property "Reference" "#PWR0902"
+			(at 35.56 110.49 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -6660,7 +6235,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 58.42 107.95 0)
+			(at 35.56 116.84 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -6670,7 +6245,7 @@
 			)
 		)
 		(property "Footprint" "ProPrj_研电赛-easyedapro:"
-			(at 64.77 107.95 0)
+			(at 35.56 110.49 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -6681,7 +6256,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 64.77 107.95 0)
+			(at 35.56 110.49 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -6692,7 +6267,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 64.77 107.95 0)
+			(at 35.56 110.49 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -6703,12 +6278,12 @@
 			)
 		)
 		(pin "1"
-			(uuid "2e9516a5-47ed-44b6-a6ea-a5ff97d46ef8")
+			(uuid "a48bd6db-f2b8-4758-94ea-169802b8e739")
 		)
 		(instances
 			(project "ProPrj_研电赛优利德显示屏与旋转编码器_2026-06-08"
 				(path "/a943504b-4751-4415-856a-7578cd2a2083"
-					(reference "#PWR?")
+					(reference "#PWR0902")
 					(unit 1)
 				)
 			)
@@ -6792,6 +6367,83 @@
 		)
 	)
 	(symbol
+		(lib_id "ProPrj_研电赛-easyedapro:Ground-GND")
+		(at 204.47 80.01 0)
+		(unit 1)
+		(body_style 0)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "6934a920-68f7-4bb3-8744-05ea4ab76c56")
+		(property "Reference" "#PWR0922"
+			(at 204.47 80.01 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "GND"
+			(at 204.47 86.36 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "ProPrj_研电赛-easyedapro:"
+			(at 204.47 80.01 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 204.47 80.01 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" ""
+			(at 204.47 80.01 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "41056911-6d61-4ce7-9cf9-17d24c559acc")
+		)
+		(instances
+			(project "ProPrj_研电赛优利德显示屏与旋转编码器_2026-06-08"
+				(path "/a943504b-4751-4415-856a-7578cd2a2083"
+					(reference "#PWR0922")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "ProPrj_研电赛-easyedapro:AR03DTCX1002")
 		(at 40.64 69.85 180)
 		(unit 1)
@@ -6802,116 +6454,6 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "6bbaa8bb-d4e6-403d-8e97-cf705203eea0")
-		(property "Field42" ""
-			(at 0 209.55 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Field42" ""
-			(at 0 209.55 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Field42" ""
-			(at 0 209.55 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Field42" ""
-			(at 0 209.55 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Field42" ""
-			(at 0 209.55 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Field42" ""
-			(at 0 209.55 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Field42" ""
-			(at 0 209.55 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Field42" ""
-			(at 0 209.55 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Field42" ""
-			(at 0 209.55 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Field42" ""
-			(at 0 209.55 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Field42" ""
-			(at 0 209.55 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
 		(property "Reference" "R1"
 			(at 38.1 68.58 0)
 			(show_name no)
@@ -6967,6 +6509,16 @@
 					(size 1.2446 1.2446)
 				)
 				(justify right top)
+			)
+		)
+		(property "Field42" ""
+			(at 0 209.55 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
 			)
 		)
 		(property "Manufacturer Part" "AR03DTCX1002"
@@ -7045,8 +6597,8 @@
 		)
 	)
 	(symbol
-		(lib_id "ProPrj_研电赛-easyedapro:Power-VCC")
-		(at 64.77 102.87 90)
+		(lib_id "ProPrj_研电赛-easyedapro:Ground-GND")
+		(at 69.85 125.73 0)
 		(unit 1)
 		(body_style 0)
 		(exclude_from_sim no)
@@ -7054,9 +6606,9 @@
 		(on_board yes)
 		(in_pos_files yes)
 		(dnp no)
-		(uuid "71a709b1-3805-418f-b7fd-02b4c206d6e2")
-		(property "Reference" "#PWR?"
-			(at 64.77 102.87 0)
+		(uuid "6ee02593-93b5-4426-b383-b5af143d7014")
+		(property "Reference" "#PWR0706"
+			(at 69.85 125.73 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -7066,19 +6618,18 @@
 				)
 			)
 		)
-		(property "Value" "VCC"
-			(at 62.23 102.87 0)
+		(property "Value" "GND"
+			(at 69.85 132.08 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
 				(font
-					(size 1.2446 1.2446)
+					(size 1.5748 1.5748)
 				)
-				(justify bottom)
 			)
 		)
 		(property "Footprint" "ProPrj_研电赛-easyedapro:"
-			(at 64.77 102.87 0)
+			(at 69.85 125.73 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -7089,7 +6640,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 64.77 102.87 0)
+			(at 69.85 125.73 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -7100,7 +6651,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 64.77 102.87 0)
+			(at 69.85 125.73 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -7111,89 +6662,12 @@
 			)
 		)
 		(pin "1"
-			(uuid "e789d97e-da63-4650-998b-579d6049111b")
+			(uuid "db7ef213-5dc6-48f6-96e3-907a963870b7")
 		)
 		(instances
 			(project "ProPrj_研电赛优利德显示屏与旋转编码器_2026-06-08"
 				(path "/a943504b-4751-4415-856a-7578cd2a2083"
-					(reference "#PWR?")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "ProPrj_研电赛-easyedapro:GND")
-		(at 191.77 85.09 0)
-		(unit 1)
-		(body_style 0)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp no)
-		(uuid "74a7d36e-aa93-4642-95f0-4e52762e3bba")
-		(property "Reference" "#PWR?"
-			(at 191.77 85.09 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" ""
-			(at 191.77 85.09 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" "ProPrj_研电赛-easyedapro:"
-			(at 191.77 85.09 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" ""
-			(at 191.77 85.09 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" ""
-			(at 191.77 85.09 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(pin "1"
-			(uuid "94bfdb3c-e7e8-4b47-8405-347515c87201")
-		)
-		(instances
-			(project "ProPrj_研电赛优利德显示屏与旋转编码器_2026-06-08"
-				(path "/a943504b-4751-4415-856a-7578cd2a2083"
-					(reference "#PWR?")
+					(reference "#PWR0706")
 					(unit 1)
 				)
 			)
@@ -7210,86 +6684,6 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "7b7fdde4-b6f5-45b1-9c8b-77f2b797ac96")
-		(property "Field42" ""
-			(at 0 209.55 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Field42" ""
-			(at 0 209.55 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Field42" ""
-			(at 0 209.55 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Field42" ""
-			(at 0 209.55 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Field42" ""
-			(at 0 209.55 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Field42" ""
-			(at 0 209.55 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Field42" ""
-			(at 0 209.55 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Field42" ""
-			(at 0 209.55 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
 		(property "Reference" "C2"
 			(at 35.56 104.14 90)
 			(show_name no)
@@ -7345,6 +6739,16 @@
 					(size 1.2446 1.2446)
 				)
 				(justify right top)
+			)
+		)
+		(property "Field42" ""
+			(at 0 209.55 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
 			)
 		)
 		(property "Manufacturer Part" "06035C104K4Z2A"
@@ -7423,18 +6827,18 @@
 		)
 	)
 	(symbol
-		(lib_id "ProPrj_研电赛-easyedapro:GND")
-		(at 176.53 76.2 270)
+		(lib_id "ProPrj_研电赛-easyedapro:PWR_FLAG")
+		(at 27.94 100.33 0)
 		(unit 1)
-		(body_style 0)
+		(body_style 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
 		(in_pos_files yes)
 		(dnp no)
-		(uuid "7f56825e-668d-46b9-87b3-ad3e18e276f7")
-		(property "Reference" "#PWR?"
-			(at 176.53 76.2 0)
+		(uuid "7db56f5d-6425-42db-8215-9caa844467ec")
+		(property "Reference" "#FLG0101"
+			(at 27.94 102.235 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -7444,8 +6848,8 @@
 				)
 			)
 		)
-		(property "Value" ""
-			(at 176.53 76.2 0)
+		(property "Value" "PWR_FLAG"
+			(at 27.94 97.028 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -7454,8 +6858,8 @@
 				)
 			)
 		)
-		(property "Footprint" "ProPrj_研电赛-easyedapro:"
-			(at 176.53 76.2 0)
+		(property "Footprint" ""
+			(at 27.94 100.33 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -7466,7 +6870,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 176.53 76.2 0)
+			(at 27.94 100.33 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -7476,8 +6880,8 @@
 				)
 			)
 		)
-		(property "Description" ""
-			(at 176.53 76.2 0)
+		(property "Description" "Special symbol for telling ERC where power comes from"
+			(at 27.94 100.33 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -7488,12 +6892,12 @@
 			)
 		)
 		(pin "1"
-			(uuid "5d0349cd-834c-4a88-ad4e-686cc9387fa5")
+			(uuid "eda37a21-85ee-40ca-8e5f-11f4525fa8a8")
 		)
 		(instances
 			(project "ProPrj_研电赛优利德显示屏与旋转编码器_2026-06-08"
 				(path "/a943504b-4751-4415-856a-7578cd2a2083"
-					(reference "#PWR?")
+					(reference "#FLG0101")
 					(unit 1)
 				)
 			)
@@ -7510,86 +6914,6 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "7fdceedd-ebb5-4f79-966a-99ebfa222a0a")
-		(property "Field42" ""
-			(at 0 209.55 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Field42" ""
-			(at 0 209.55 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Field42" ""
-			(at 0 209.55 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Field42" ""
-			(at 0 209.55 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Field42" ""
-			(at 0 209.55 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Field42" ""
-			(at 0 209.55 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Field42" ""
-			(at 0 209.55 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Field42" ""
-			(at 0 209.55 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
 		(property "Reference" "C3"
 			(at 43.18 104.14 90)
 			(show_name no)
@@ -7645,6 +6969,16 @@
 					(size 1.2446 1.2446)
 				)
 				(justify right top)
+			)
+		)
+		(property "Field42" ""
+			(at 0 209.55 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
 			)
 		)
 		(property "Manufacturer Part" "06035C104K4Z2A"
@@ -7745,8 +7079,8 @@
 				(justify left bottom)
 			)
 		)
-		(property "Value" ""
-			(at 79.9846 111.76 0)
+		(property "Value" "ST7789_12P_LCD"
+			(at 88.646 111.76 90)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -7755,7 +7089,7 @@
 				)
 			)
 		)
-		(property "Footprint" "ProPrj_研电赛-easyedapro:st7789/1.69寸-12p"
+		(property "Footprint" "ProPrj_研电赛-easyedapro:ST7789_12P_1x12_1.00mm"
 			(at 79.9846 111.76 0)
 			(hide yes)
 			(show_name no)
@@ -7835,8 +7169,8 @@
 		)
 	)
 	(symbol
-		(lib_id "ProPrj_研电赛-easyedapro:GND")
-		(at 204.47 80.01 0)
+		(lib_id "ProPrj_研电赛-easyedapro:Ground-GND")
+		(at 191.77 85.09 0)
 		(unit 1)
 		(body_style 0)
 		(exclude_from_sim no)
@@ -7844,9 +7178,9 @@
 		(on_board yes)
 		(in_pos_files yes)
 		(dnp no)
-		(uuid "82e9653b-e0e9-4202-9f86-df02dc317e48")
-		(property "Reference" "#PWR?"
-			(at 204.47 80.01 0)
+		(uuid "8230367f-88de-4f3e-82e5-f65456829986")
+		(property "Reference" "#PWR0920"
+			(at 191.77 85.09 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -7856,8 +7190,8 @@
 				)
 			)
 		)
-		(property "Value" ""
-			(at 204.47 80.01 0)
+		(property "Value" "GND"
+			(at 191.77 91.186 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -7867,7 +7201,7 @@
 			)
 		)
 		(property "Footprint" "ProPrj_研电赛-easyedapro:"
-			(at 204.47 80.01 0)
+			(at 191.77 85.09 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -7878,7 +7212,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 204.47 80.01 0)
+			(at 191.77 85.09 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -7889,7 +7223,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 204.47 80.01 0)
+			(at 191.77 85.09 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -7900,12 +7234,166 @@
 			)
 		)
 		(pin "1"
-			(uuid "a0a8e30a-f256-41cf-b55f-43769a4f377a")
+			(uuid "2c8f29fb-6cf5-4bb8-bc7b-c9e9a2b4d30d")
 		)
 		(instances
 			(project "ProPrj_研电赛优利德显示屏与旋转编码器_2026-06-08"
 				(path "/a943504b-4751-4415-856a-7578cd2a2083"
-					(reference "#PWR?")
+					(reference "#PWR0920")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "ProPrj_研电赛-easyedapro:Ground-GND")
+		(at 63.5 107.95 270)
+		(unit 1)
+		(body_style 0)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "82e534ed-0b23-40bf-bb72-7759758c70fe")
+		(property "Reference" "#PWR0704"
+			(at 63.5 107.95 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "GND"
+			(at 56.134 107.95 90)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.5748 1.5748)
+				)
+			)
+		)
+		(property "Footprint" "ProPrj_研电赛-easyedapro:"
+			(at 63.5 107.95 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 63.5 107.95 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" ""
+			(at 63.5 107.95 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "3a27232c-aa22-403a-bf05-041af7077852")
+		)
+		(instances
+			(project "ProPrj_研电赛优利德显示屏与旋转编码器_2026-06-08"
+				(path "/a943504b-4751-4415-856a-7578cd2a2083"
+					(reference "#PWR0704")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "ProPrj_研电赛-easyedapro:Ground-GND")
+		(at 140.97 106.68 180)
+		(unit 1)
+		(body_style 0)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "8331978b-e123-4c6b-b8e8-dde823744e16")
+		(property "Reference" "#PWR0802"
+			(at 140.97 106.68 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "GND"
+			(at 140.97 100.584 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.5748 1.5748)
+				)
+			)
+		)
+		(property "Footprint" "ProPrj_研电赛-easyedapro:"
+			(at 140.97 106.68 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 140.97 106.68 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" ""
+			(at 140.97 106.68 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "d2f65b6b-0c31-422a-b85c-cd43bad6456a")
+		)
+		(instances
+			(project "ProPrj_研电赛优利德显示屏与旋转编码器_2026-06-08"
+				(path "/a943504b-4751-4415-856a-7578cd2a2083"
+					(reference "#PWR0802")
 					(unit 1)
 				)
 			)
@@ -7922,36 +7410,6 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "86d4ceaf-f9f4-4098-84e8-2b0fc79c5137")
-		(property "Field42" ""
-			(at 0 209.55 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Field42" ""
-			(at 0 209.55 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Field42" ""
-			(at 0 209.55 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
 		(property "Reference" "R6"
 			(at 205.486 97.3328 0)
 			(show_name no)
@@ -7974,7 +7432,7 @@
 				(justify left bottom)
 			)
 		)
-		(property "Footprint" "ProPrj_研电赛-easyedapro:"
+		(property "Footprint" "ProPrj_研电赛-easyedapro:R0603"
 			(at 201.93 97.79 0)
 			(hide yes)
 			(show_name no)
@@ -8006,6 +7464,16 @@
 					(size 1.2446 1.2446)
 				)
 				(justify left bottom)
+			)
+		)
+		(property "Field42" ""
+			(at 0 209.55 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
 			)
 		)
 		(pin "1"
@@ -8025,7 +7493,7 @@
 	)
 	(symbol
 		(lib_id "ProPrj_研电赛-easyedapro:Ground-GND")
-		(at 72.39 125.73 0)
+		(at 170.18 100.33 270)
 		(unit 1)
 		(body_style 0)
 		(exclude_from_sim no)
@@ -8033,9 +7501,9 @@
 		(on_board yes)
 		(in_pos_files yes)
 		(dnp no)
-		(uuid "9e2b0196-6fd7-49da-b81e-5e23357304d2")
-		(property "Reference" "#PWR?"
-			(at 72.39 125.73 0)
+		(uuid "8d79206d-8b24-4747-a2ba-e0e9839debf2")
+		(property "Reference" "#PWR0910"
+			(at 170.18 100.33 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -8046,17 +7514,17 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 72.39 132.08 0)
+			(at 163.322 100.33 90)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
 				(font
-					(size 1.5748 1.5748)
+					(size 1.27 1.27)
 				)
 			)
 		)
 		(property "Footprint" "ProPrj_研电赛-easyedapro:"
-			(at 72.39 125.73 0)
+			(at 170.18 100.33 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -8067,7 +7535,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 72.39 125.73 0)
+			(at 170.18 100.33 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -8078,7 +7546,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 72.39 125.73 0)
+			(at 170.18 100.33 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -8089,193 +7557,19 @@
 			)
 		)
 		(pin "1"
-			(uuid "9b7e34a6-3c99-4765-b5d6-a6c20e403781")
+			(uuid "246e0549-49ef-4295-9abd-53d7584eb221")
 		)
 		(instances
 			(project "ProPrj_研电赛优利德显示屏与旋转编码器_2026-06-08"
 				(path "/a943504b-4751-4415-856a-7578cd2a2083"
-					(reference "#PWR?")
+					(reference "#PWR0910")
 					(unit 1)
 				)
 			)
 		)
 	)
 	(symbol
-		(lib_id "ProPrj_研电赛-easyedapro:Sheet-Symbol_A4")
-		(at 0 209.55 0)
-		(unit 1)
-		(body_style 0)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp no)
-		(uuid "a5155eb7-2395-46fa-9862-ab4b8a48654e")
-		(property "Field42" ""
-			(at 0 209.55 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Field42" ""
-			(at 0 209.55 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Field42" ""
-			(at 0 209.55 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Field42" ""
-			(at 0 209.55 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Field42" ""
-			(at 0 209.55 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Field42" ""
-			(at 0 209.55 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Field42" ""
-			(at 0 209.55 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Field42" ""
-			(at 0 209.55 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Field42" ""
-			(at 0 209.55 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Field42" ""
-			(at 0 209.55 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Reference" "?"
-			(at 0 209.55 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" ""
-			(at 0 209.55 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" "ProPrj_研电赛-easyedapro:"
-			(at 0 209.55 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" ""
-			(at 0 209.55 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" ""
-			(at 0 209.55 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.2446 1.2446)
-				)
-				(justify left bottom)
-			)
-		)
-		(instances
-			(project "ProPrj_研电赛优利德显示屏与旋转编码器_2026-06-08"
-				(path "/a943504b-4751-4415-856a-7578cd2a2083"
-					(reference "?")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "ProPrj_研电赛-easyedapro:VCC")
+		(lib_id "ProPrj_研电赛-easyedapro:Power-VCC")
 		(at 212.09 100.33 270)
 		(unit 1)
 		(body_style 0)
@@ -8284,8 +7578,8 @@
 		(on_board yes)
 		(in_pos_files yes)
 		(dnp no)
-		(uuid "acab3cbf-0822-4677-9e82-bfbc9b9a42b6")
-		(property "Reference" "#PWR?"
+		(uuid "95be7a8b-4fe7-4f7e-acb6-661114ea2997")
+		(property "Reference" "#PWR0911"
 			(at 212.09 100.33 0)
 			(hide yes)
 			(show_name no)
@@ -8296,8 +7590,8 @@
 				)
 			)
 		)
-		(property "Value" ""
-			(at 212.09 100.33 0)
+		(property "Value" "VCC"
+			(at 216.916 100.33 90)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -8340,12 +7634,12 @@
 			)
 		)
 		(pin "1"
-			(uuid "dcbd0a36-f1b2-4c91-bcbf-3da8d3128773")
+			(uuid "6cc6b84f-a8da-45ce-abfa-955b5c61f40f")
 		)
 		(instances
 			(project "ProPrj_研电赛优利德显示屏与旋转编码器_2026-06-08"
 				(path "/a943504b-4751-4415-856a-7578cd2a2083"
-					(reference "#PWR?")
+					(reference "#PWR0911")
 					(unit 1)
 				)
 			)
@@ -8430,6 +7724,84 @@
 		)
 	)
 	(symbol
+		(lib_id "ProPrj_研电赛-easyedapro:Power-VCC")
+		(at 35.56 100.33 0)
+		(unit 1)
+		(body_style 0)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "c04c19d3-7a49-4b13-bbe7-d72707a2f94e")
+		(property "Reference" "#PWR0901"
+			(at 35.56 100.33 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "VCC"
+			(at 35.56 97.79 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.2446 1.2446)
+				)
+				(justify bottom)
+			)
+		)
+		(property "Footprint" "ProPrj_研电赛-easyedapro:"
+			(at 35.56 100.33 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 35.56 100.33 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" ""
+			(at 35.56 100.33 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "c2f18ec8-655f-47d1-bd55-f37d6e98ecbc")
+		)
+		(instances
+			(project "ProPrj_研电赛优利德显示屏与旋转编码器_2026-06-08"
+				(path "/a943504b-4751-4415-856a-7578cd2a2083"
+					(reference "#PWR0901")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "ProPrj_研电赛-easyedapro:S8050_C2992076")
 		(at 55.88 74.93 0)
 		(unit 1)
@@ -8440,56 +7812,6 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "c114fdad-633e-4cda-a6ce-191b45694a8b")
-		(property "Field42" ""
-			(at 0 209.55 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Field42" ""
-			(at 0 209.55 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Field42" ""
-			(at 0 209.55 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Field42" ""
-			(at 0 209.55 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Field42" ""
-			(at 0 209.55 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
 		(property "Reference" "Q1"
 			(at 57.404 71.882 0)
 			(show_name no)
@@ -8546,6 +7868,16 @@
 					(size 1.2446 1.2446)
 				)
 				(justify left bottom)
+			)
+		)
+		(property "Field42" ""
+			(at 0 209.55 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
 			)
 		)
 		(property "Manufacturer Part" "S8050"
@@ -8627,83 +7959,6 @@
 		)
 	)
 	(symbol
-		(lib_id "ProPrj_研电赛-easyedapro:GND")
-		(at 170.18 100.33 270)
-		(unit 1)
-		(body_style 0)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp no)
-		(uuid "c3e60101-b5e0-472e-820e-6c9e431e2dbd")
-		(property "Reference" "#PWR?"
-			(at 170.18 100.33 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" ""
-			(at 170.18 100.33 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" "ProPrj_研电赛-easyedapro:"
-			(at 170.18 100.33 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" ""
-			(at 170.18 100.33 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" ""
-			(at 170.18 100.33 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(pin "1"
-			(uuid "20bf9f05-b07b-4b44-a6ef-2196d929d31b")
-		)
-		(instances
-			(project "ProPrj_研电赛优利德显示屏与旋转编码器_2026-06-08"
-				(path "/a943504b-4751-4415-856a-7578cd2a2083"
-					(reference "#PWR?")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
 		(lib_id "ProPrj_研电赛-easyedapro:4.7K")
 		(at 201.93 100.33 0)
 		(unit 1)
@@ -8714,36 +7969,6 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "d0aeb742-7e1c-405c-989c-6c78a4a0fcc2")
-		(property "Field42" ""
-			(at 0 209.55 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Field42" ""
-			(at 0 209.55 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Field42" ""
-			(at 0 209.55 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
 		(property "Reference" "R4"
 			(at 205.486 99.8728 0)
 			(show_name no)
@@ -8766,7 +7991,7 @@
 				(justify left bottom)
 			)
 		)
-		(property "Footprint" "ProPrj_研电赛-easyedapro:"
+		(property "Footprint" "ProPrj_研电赛-easyedapro:R0603"
 			(at 201.93 100.33 0)
 			(hide yes)
 			(show_name no)
@@ -8800,6 +8025,16 @@
 				(justify left bottom)
 			)
 		)
+		(property "Field42" ""
+			(at 0 209.55 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
 		(pin "2"
 			(uuid "1a396ef8-e95d-430c-8732-f5007d00808c")
 		)
@@ -8826,106 +8061,6 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "d10d6f7a-7971-49af-a2bd-85aeead58d75")
-		(property "Field42" ""
-			(at 0 209.55 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Field42" ""
-			(at 0 209.55 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Field42" ""
-			(at 0 209.55 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Field42" ""
-			(at 0 209.55 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Field42" ""
-			(at 0 209.55 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Field42" ""
-			(at 0 209.55 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Field42" ""
-			(at 0 209.55 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Field42" ""
-			(at 0 209.55 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Field42" ""
-			(at 0 209.55 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Field42" ""
-			(at 0 209.55 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
 		(property "Reference" "R3"
 			(at 38.1 78.232 0)
 			(show_name no)
@@ -8981,6 +8116,16 @@
 					(size 1.2446 1.2446)
 				)
 				(justify left bottom)
+			)
+		)
+		(property "Field42" ""
+			(at 0 209.55 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
 			)
 		)
 		(property "Manufacturer Part" "ERJPA3F1001V"
@@ -9069,36 +8214,6 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "e3d64ef1-b183-4703-a5e1-811d3ce1585d")
-		(property "Field42" ""
-			(at 0 209.55 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Field42" ""
-			(at 0 209.55 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Field42" ""
-			(at 0 209.55 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
 		(property "Reference" "C4"
 			(at 173.0756 99.8982 0)
 			(show_name no)
@@ -9121,7 +8236,7 @@
 				(justify left bottom)
 			)
 		)
-		(property "Footprint" "ProPrj_研电赛-easyedapro:"
+		(property "Footprint" "ProPrj_研电赛-easyedapro:C0603"
 			(at 177.8 100.33 0)
 			(hide yes)
 			(show_name no)
@@ -9155,6 +8270,16 @@
 				(justify left bottom)
 			)
 		)
+		(property "Field42" ""
+			(at 0 209.55 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
 		(pin "2"
 			(uuid "06b0489b-9b1e-4ee5-8245-c8c2bf6387bf")
 		)
@@ -9171,18 +8296,18 @@
 		)
 	)
 	(symbol
-		(lib_id "ProPrj_研电赛-easyedapro:Ground-GND")
-		(at 72.39 97.79 180)
+		(lib_id "ProPrj_研电赛-easyedapro:PWR_FLAG")
+		(at 27.94 110.49 180)
 		(unit 1)
-		(body_style 0)
+		(body_style 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
 		(in_pos_files yes)
 		(dnp no)
-		(uuid "e631dd92-816f-4a7f-8b8e-3ebb23623cd0")
-		(property "Reference" "#PWR?"
-			(at 72.39 97.79 0)
+		(uuid "fe2bfe53-2bb8-4a48-994b-f3a86c2f5ceb")
+		(property "Reference" "#FLG0102"
+			(at 27.94 108.585 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -9192,18 +8317,18 @@
 				)
 			)
 		)
-		(property "Value" "GND"
-			(at 72.39 91.44 0)
+		(property "Value" "PWR_FLAG"
+			(at 27.94 113.284 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
 				(font
-					(size 1.5748 1.5748)
+					(size 1.27 1.27)
 				)
 			)
 		)
-		(property "Footprint" "ProPrj_研电赛-easyedapro:"
-			(at 72.39 97.79 0)
+		(property "Footprint" ""
+			(at 27.94 110.49 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -9214,7 +8339,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 72.39 97.79 0)
+			(at 27.94 110.49 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -9224,8 +8349,8 @@
 				)
 			)
 		)
-		(property "Description" ""
-			(at 72.39 97.79 0)
+		(property "Description" "Special symbol for telling ERC where power comes from"
+			(at 27.94 110.49 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -9236,15 +8361,20 @@
 			)
 		)
 		(pin "1"
-			(uuid "66d4f1e8-fc86-43d7-9796-30f05e871f83")
+			(uuid "dd6fe5a1-f12e-48e5-bdc0-9be8f256d59c")
 		)
 		(instances
 			(project "ProPrj_研电赛优利德显示屏与旋转编码器_2026-06-08"
 				(path "/a943504b-4751-4415-856a-7578cd2a2083"
-					(reference "#PWR?")
+					(reference "#FLG0102")
 					(unit 1)
 				)
 			)
+		)
+	)
+	(sheet_instances
+		(path "/"
+			(page "1")
 		)
 	)
 	(embedded_fonts no)

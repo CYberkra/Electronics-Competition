@@ -118,11 +118,16 @@ set_property IOSTANDARD LVCMOS25 [get_ports ad9144_txen0]
 set_property PACKAGE_PIN C16 [get_ports ad9144_txen1]
 set_property IOSTANDARD LVCMOS25 [get_ports ad9144_txen1]
 
-# LMK04828 SPI
-set_property PACKAGE_PIN AD29 [get_ports lmk04828_spi_sclk]
+# LMK04828 SPI/控制 — ADK 总线 (LA28/LA29)
+# 详见 constraints/fmc_adda.xdc 和 docs/fmc_adda_signal_map.md
+set_property PACKAGE_PIN E16 [get_ports lmk04828_spi_sclk]
 set_property IOSTANDARD LVCMOS25 [get_ports lmk04828_spi_sclk]
-set_property PACKAGE_PIN AE29 [get_ports lmk04828_spi_sdio]
+set_property PACKAGE_PIN J12 [get_ports lmk04828_spi_sdio]
 set_property IOSTANDARD LVCMOS25 [get_ports lmk04828_spi_sdio]
+set_property PACKAGE_PIN J11 [get_ports lmk04828_cs_n]
+set_property IOSTANDARD LVCMOS25 [get_ports lmk04828_cs_n]
+set_property PACKAGE_PIN F15 [get_ports lmk04828_reset]
+set_property IOSTANDARD LVCMOS25 [get_ports lmk04828_reset]
 
 #==============================================================================
 # 8. 其他控制信号
@@ -188,17 +193,3 @@ set_property BITSTREAM.CONFIG.UNUSEDPIN Pullnone [current_design]
 set_property BITSTREAM.GENERAL.COMPRESS true [current_design]
 set_property CFGBVS VCCO [current_design]
 set_property CONFIG_VOLTAGE 3.3 [current_design]
-
-# TODO: LMK04828 CS_N / RESET 管脚约束
-# lmk04828_cs_n / lmk04828_reset 目前无管脚约束，DRC UCIO-1 被降级为 Warning。
-# 修复方法：
-#   1. Codex 读取 docs/references/FMC_9250_9144_BRD_SCH.pdf（子卡原理图）
-#      找到 LMK04828 的 CS# 和 RESET/GPO 对应的 FMC LA 引脚号
-#   2. 从底板原理图（K7_BASE_1V3_2025_0111_USER.pdf）查到对应 FPGA 管脚
-#   3. 取消下方注释填入正确管脚号，并删除此条注释
-# set_property PACKAGE_PIN XX [get_ports lmk04828_cs_n]
-# set_property PACKAGE_PIN YY [get_ports lmk04828_reset]
-# set_property IOSTANDARD LVCMOS25 [get_ports {lmk04828_cs_n lmk04828_reset}]
-# --- 临时 DRC override（填入正确管脚后删除） ---
-set_property SEVERITY Warning [get_drc_checks UCIO-1]
-set_property SEVERITY Warning [get_drc_checks NSTD-1]

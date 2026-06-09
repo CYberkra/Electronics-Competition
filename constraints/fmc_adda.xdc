@@ -125,12 +125,23 @@ set_property IOSTANDARD LVCMOS25 [get_ports ad9144_txen0]
 set_property PACKAGE_PIN C16 [get_ports ad9144_txen1]
 set_property IOSTANDARD LVCMOS25 [get_ports ad9144_txen1]
 
-# LMK04828 SPI — I2C_SCL/SDA (J34A C30/C31 → AD29/AE29)
-set_property PACKAGE_PIN AD29 [get_ports lmk04828_spi_sclk]
+# LMK04828 SPI — ADK 总线 (LA28/LA29, J34B G30/G31/H31/H32)
+# 来源：底板原理图 K7_BASE_1V3_2025_0111_USER.pdf P15
+#   ADK_SCLK = LA29_N = J34B G31 → E16
+#   ADK_SDIO = LA28_N = J34B H32 → J12
+#   ADK_CSB  = LA28_P = J34B H31 → J11  (CS#, 低有效)
+#   ADK_RST  = LA29_P = J34B G30 → F15  (RESET, 低有效)
+set_property PACKAGE_PIN E16 [get_ports lmk04828_spi_sclk]
 set_property IOSTANDARD LVCMOS25 [get_ports lmk04828_spi_sclk]
 
-set_property PACKAGE_PIN AE29 [get_ports lmk04828_spi_sdio]
+set_property PACKAGE_PIN J12 [get_ports lmk04828_spi_sdio]
 set_property IOSTANDARD LVCMOS25 [get_ports lmk04828_spi_sdio]
+
+set_property PACKAGE_PIN J11 [get_ports lmk04828_cs_n]
+set_property IOSTANDARD LVCMOS25 [get_ports lmk04828_cs_n]
+
+set_property PACKAGE_PIN F15 [get_ports lmk04828_reset]
+set_property IOSTANDARD LVCMOS25 [get_ports lmk04828_reset]
 
 #==============================================================================
 # 7. 其他控制信号

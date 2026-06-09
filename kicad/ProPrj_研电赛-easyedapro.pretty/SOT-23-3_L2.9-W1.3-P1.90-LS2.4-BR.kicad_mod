@@ -1,0 +1,12 @@
+(footprint "SOT-23-3_L2.9-W1.3-P1.90-LS2.4-BR"
+	(version 20240108)
+	(generator "codex")
+	(layer "F.Cu")
+	(attr smd)
+	(fp_text reference "Q?" (at 0 -2.2 0) (layer "F.SilkS") (effects (font (size 1 1) (thickness 0.15))))
+	(fp_text value "SOT-23" (at 0 2.2 0) (layer "F.Fab") (effects (font (size 1 1) (thickness 0.15))))
+	(fp_rect (start -1.5 -1.5) (end 1.5 1.5) (stroke (width 0.12) (type solid)) (fill no) (layer "F.SilkS"))
+	(pad "1" smd roundrect (at -0.95 0.95) (size 0.8 0.9) (layers "F.Cu" "F.Paste" "F.Mask") (roundrect_rratio 0.2))
+	(pad "2" smd roundrect (at -0.95 -0.95) (size 0.8 0.9) (layers "F.Cu" "F.Paste" "F.Mask") (roundrect_rratio 0.2))
+	(pad "3" smd roundrect (at 0.95 0) (size 0.8 0.9) (layers "F.Cu" "F.Paste" "F.Mask") (roundrect_rratio 0.2))
+)
