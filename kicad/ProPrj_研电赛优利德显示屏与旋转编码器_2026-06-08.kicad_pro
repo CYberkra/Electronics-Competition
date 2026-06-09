@@ -523,9 +523,9 @@
   "pcbnew": {
     "last_paths": {
       "idf": "",
-      "netlist": "",
+      "netlist": "./",
       "plot": "",
-      "specctra_dsn": "",
+      "specctra_dsn": "ProPrj_研电赛优利德显示屏与旋转编码器_2026-06-08.dsn",
       "vrml": ""
     },
     "page_layout_descr_file": ""

@@ -6,6 +6,9 @@ open_project vivado/awg_k325t.xpr
 set_property source_mgmt_mode All [current_project]
 set_property top awg_top [current_fileset]
 
+# Enable UART control (115200 8N1 register bridge)
+set_property verilog_define {AWG_UART_CONTROL=1} [current_fileset]
+
 # Add any missing source files
 foreach f [glob -nocomplain {rtl/**/*.v} {rtl/**/*.sv}] {
     if {[get_files -quiet -of [get_filesets sources_1] -filter "NAME == \"$f\""] eq ""} {

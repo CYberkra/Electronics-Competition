@@ -34,47 +34,67 @@
     )
   )
   (placement
-    (component "ProPrj_研电赛-easyedapro:R0603"
-      (place R3 109000 -85000 front -90 (PN 1k))
-      (place R1 107000 -85000 front 90 (PN 10k))
-      (place C1 95000 -85000 front 90 (PN 100nF))
-      (place R2 101200 -85000 front -90 (PN 10R))
-      (place C2 97000 -85000 front 90 (PN 100nF))
-      (place C3 99000 -85000 front 90 (PN 100nF))
+    (component design_lib:C0603
+      (place C1 95000 -88000 back 90 (PN 100nF))
+      (place C3 99000 -88000 back 90 (PN 100nF))
+      (place R2 101200 -88000 back 270 (PN 10R))
+      (place C2 97000 -88000 back 90 (PN 100nF))
     )
-    (component "ProPrj_研电赛-easyedapro:C0603"
-      (place C5 90750 -64250 front 180 (PN 0.1uF))
-      (place C6 90750 -72250 front 180 (PN 0.1uF))
-      (place R5 83250 -64250 front 180 (PN 4.7K))
-      (place R4 83250 -68250 front 180 (PN 4.7K))
-      (place R6 83250 -72250 front 180 (PN 4.7K))
-      (place C4 90750 -68250 front 180 (PN 0.1uF))
+    (component "design_lib:SOT-23-3_L2.9-W1.3-P1.90-LS2.4-BR"
+      (place Q1 104166.666 -88000 back 90 (PN S8050))
     )
-    (component "ProPrj_研电赛-easyedapro:HDR-TH_18P-P2.54-V-M-R2-C9-S2.54"
-      (place H3 95340 -46230 front 90 (PN "PZ254V-12-18P"))
+    (component design_lib:R0603
+      (place R5 89750 -70500 front 0 (PN 4.7K))
+      (place R4 89750 -67000 front 0 (PN 4.7K))
     )
-    (component "ProPrj_研电赛-easyedapro:ST7789_12P_1x12_1.00mm"
-      (place U1 96500 -100500 front 180 (PN ST7789_12P_LCD))
+    (component design_lib:R0603::1
+      (place R3 107250 -88000 back 90 (PN 1k))
+      (place R1 109250 -88000 back 270 (PN 10k))
     )
-    (component "ProPrj_研电赛-easyedapro:SOT-23-3_L2.9-W1.3-P1.90-LS2.4-BR"
-      (place Q1 104000 -85000 front 90 (PN S8050))
+    (component design_lib:C0603::1
+      (place C5 82250 -70500 front 0 (PN 0.1uF))
+      (place C6 82250 -63500 front 0 (PN 0.1uF))
+      (place R6 89750 -63500 front 0 (PN 4.7K))
+      (place C4 82250 -67000 front 0 (PN 0.1uF))
     )
-    (component "ProPrj_研电赛-easyedapro:EC11_ROTARY_ENCODER"
+    (component "design_lib:HDR-TH_18P-P2.54-V-M-R2-C9-S2.54"
+      (place H3 95340 -46230 back 90 (PN "PZ254V-12-18P"))
+    )
+    (component design_lib:ST7789_12P_1x12_1.00mm
+      (place U1 96500 -100250 front 180 (PN ST7789_12P_LCD))
+    )
+    (component design_lib:EC11_ROTARY_ENCODER
       (place SW1 83000 -46500 front 0 (PN EC11N1525405))
     )
   )
   (library
-    (image "ProPrj_研电赛-easyedapro:R0603"
+    (image design_lib:C0603
+      (outline (path signal 120  -1600 750  -1600 -750  1600 -750  1600 750  -1600 750))
+      (pin RoundRect[T]Pad_800.000000x900.000000_160.609000_um_0.000000_0 2 800 0)
+      (pin RoundRect[T]Pad_800.000000x900.000000_160.609000_um_0.000000_0 1 -800 0)
+    )
+    (image "design_lib:SOT-23-3_L2.9-W1.3-P1.90-LS2.4-BR"
+      (outline (path signal 120  -1500 1500  -1500 -1500  1500 -1500  1500 1500  -1500 1500))
+      (pin RoundRect[T]Pad_800.000000x900.000000_160.609000_um_0.000000_0 (rotate 180) 1 950 -950)
+      (pin RoundRect[T]Pad_800.000000x900.000000_160.609000_um_0.000000_0 (rotate 180) 2 950 950)
+      (pin RoundRect[T]Pad_800.000000x900.000000_160.609000_um_0.000000_0 (rotate 180) 3 -950 0)
+    )
+    (image design_lib:R0603
+      (outline (path signal 120  -1600 750  1600 750  1600 -750  -1600 -750  -1600 750))
+      (pin RoundRect[T]Pad_800.000000x900.000000_160.609000_um_0.000000_0 2 800 0)
+      (pin RoundRect[T]Pad_800.000000x900.000000_160.609000_um_0.000000_0 1 -800 0)
+    )
+    (image design_lib:R0603::1
       (outline (path signal 120  -1600 750  -1600 -750  1600 -750  1600 750  -1600 750))
       (pin RoundRect[T]Pad_800.000000x900.000000_160.609000_um_0.000000_0 1 -800 0)
       (pin RoundRect[T]Pad_800.000000x900.000000_160.609000_um_0.000000_0 2 800 0)
     )
-    (image "ProPrj_研电赛-easyedapro:C0603"
+    (image design_lib:C0603::1
       (outline (path signal 120  -1600 750  1600 750  1600 -750  -1600 -750  -1600 750))
       (pin RoundRect[T]Pad_800.000000x900.000000_160.609000_um_0.000000_0 1 -800 0)
       (pin RoundRect[T]Pad_800.000000x900.000000_160.609000_um_0.000000_0 2 800 0)
     )
-    (image "ProPrj_研电赛-easyedapro:HDR-TH_18P-P2.54-V-M-R2-C9-S2.54"
+    (image "design_lib:HDR-TH_18P-P2.54-V-M-R2-C9-S2.54"
       (outline (path signal 120  -3300 1600  -3300 -21900  3300 -21900  3300 1600  -3300 1600))
       (pin Rect[A]Pad_1700.000000x1700.000000_um 1 1270 0)
       (pin Round[A]Pad_1700.000000_um 2 -1270 0)
@@ -95,7 +115,7 @@
       (pin Round[A]Pad_1700.000000_um 17 1270 -20320)
       (pin Round[A]Pad_1700.000000_um 18 -1270 -20320)
     )
-    (image "ProPrj_研电赛-easyedapro:ST7789_12P_1x12_1.00mm"
+    (image design_lib:ST7789_12P_1x12_1.00mm
       (outline (path signal 120  -6400 1200  6400 1200  6400 -1200  -6400 -1200  -6400 1200))
       (pin RoundRect[T]Pad_450.000000x1400.000000_90.342000_um_0.000000_0 1 -5500 0)
       (pin RoundRect[T]Pad_450.000000x1400.000000_90.342000_um_0.000000_0 2 -4500 0)
@@ -110,13 +130,7 @@
       (pin RoundRect[T]Pad_450.000000x1400.000000_90.342000_um_0.000000_0 11 4500 0)
       (pin RoundRect[T]Pad_450.000000x1400.000000_90.342000_um_0.000000_0 12 5500 0)
     )
-    (image "ProPrj_研电赛-easyedapro:SOT-23-3_L2.9-W1.3-P1.90-LS2.4-BR"
-      (outline (path signal 120  -1500 1500  -1500 -1500  1500 -1500  1500 1500  -1500 1500))
-      (pin RoundRect[T]Pad_800.000000x900.000000_160.609000_um_0.000000_0 1 -950 -950)
-      (pin RoundRect[T]Pad_800.000000x900.000000_160.609000_um_0.000000_0 2 -950 950)
-      (pin RoundRect[T]Pad_800.000000x900.000000_160.609000_um_0.000000_0 3 950 0)
-    )
-    (image "ProPrj_研电赛-easyedapro:EC11_ROTARY_ENCODER"
+    (image design_lib:EC11_ROTARY_ENCODER
       (outline (path signal 120  -6000 6000  6000 6000  6000 -4200  -6000 -4200  -6000 6000))
       (outline (path signal 120  3500 0  3480.83 -365.85  3423.52 -727.691  3328.7 -1081.56
             3197.41 -1423.58  3031.09 -1750  2831.56 -2057.25  2601.01 -2341.96
@@ -184,17 +198,17 @@
       (pins R3-1 H3-8)
     )
     (net "Net-(Q1-B)"
-      (pins R3-2 R1-1 Q1-1)
+      (pins Q1-1 R3-2 R1-1)
     )
     (net VCC
-      (pins R1-2 C1-2 H3-1 U1-3 U1-4 R5-2 R4-2 C2-2 R6-2 C3-2)
+      (pins C1-2 C3-2 C2-2 R5-2 R4-2 R1-2 H3-1 U1-3 U1-4 R6-2)
     )
     (net GND
-      (pins C5-1 C6-1 C1-1 H3-2 U1-1 U1-5 U1-6 U1-12 Q1-2 SW1-C SW1-E SW1-EH C2-1
-        C4-1 C3-1)
+      (pins C1-1 C3-1 C2-1 Q1-2 C5-1 C6-1 H3-2 U1-1 U1-5 U1-6 U1-12 SW1-C SW1-E SW1-EH
+        C4-1)
     )
     (net "EC11-M"
-      (pins C5-2 H3-11 R5-1 SW1-D)
+      (pins R5-1 C5-2 H3-11 SW1-D)
     )
     (net "EC11-A"
       (pins C6-2 H3-9 SW1-A R6-1)
@@ -215,10 +229,10 @@
       (pins H3-7 U1-11)
     )
     (net "EC11-B"
-      (pins H3-10 SW1-B R4-1 C4-2)
+      (pins R4-1 H3-10 SW1-B C4-2)
     )
     (net LEDK
-      (pins H3-12 U1-2 R2-2)
+      (pins R2-2 H3-12 U1-2)
     )
     (net "Net-(Q1-C)"
       (pins R2-1 Q1-3)

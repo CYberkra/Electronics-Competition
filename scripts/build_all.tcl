@@ -4,12 +4,8 @@ open_project vivado/awg_k325t.xpr
 set_property source_mgmt_mode All [current_project]
 set_property top awg_top [current_fileset]
 
-# Add UART pin constraints (placeholder - update with actual board pins)
-if {[llength [get_ports -quiet uart_rxd]] > 0} {
-    # K7_CORE board: UART through Pmod or FMC spare LA pins
-    # Default to unassigned (user must update)
-    puts "UART ports present - assign pins in awg_k325t.xdc"
-}
+# Enable UART control (ad9144_uart_reg_bridge on 115200 8N1)
+set_property verilog_define {AWG_UART_CONTROL=1} [current_fileset]
 
 # Check all IPs
 foreach xci [get_files *.xci] {
