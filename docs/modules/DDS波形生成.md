@@ -1,11 +1,3 @@
----
-type: module
-updated: 2026-05-06
-tags:
-  - dds
-  - waveform
-  - awg
----
 
 # DDS 波形生成
 

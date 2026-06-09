@@ -1,11 +1,3 @@
----
-type: timing
-updated: 2026-05-06
-tags:
-  - timing
-  - cdc
-  - reset
----
 
 # 时序与 CDC 风险
 

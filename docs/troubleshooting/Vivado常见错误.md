@@ -1,10 +1,3 @@
----
-type: troubleshooting
-updated: 2026-05-06
-tags:
-  - vivado
-  - errors
----
 
 # Vivado 常见错误
 

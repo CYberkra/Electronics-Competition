@@ -1,12 +1,3 @@
----
-type: module
-updated: 2026-05-07
-tags:
-  - ad9144
-  - uart
-  - awg
-  - register-control
----
 
 # AD9144 UART Control
 

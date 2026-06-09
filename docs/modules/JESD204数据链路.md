@@ -1,11 +1,3 @@
----
-type: module
-updated: 2026-05-06
-tags:
-  - jesd204
-  - ad9144
-  - gtx
----
 
 # JESD204 数据链路
 

@@ -1,12 +1,3 @@
----
-type: bringup
-updated: 2026-05-06
-tags:
-  - ad9144
-  - bringup
-  - jesd204
-  - oscilloscope
----
 
 # AD9144 Bring-Up
 

@@ -86,8 +86,14 @@ Electronics-Competition/
 ├── scripts/                # 自动化 Tcl 脚本
 ├── docs/                   # 文档
 │   ├── fmc_adda_signal_map.md  # FMC 信号映射表
-│   ├── competition/        # 竞赛文档
-│   └── references/         # 参考原理图
+│   ├── overview/          # 项目概述（硬件平台、工具链）
+│   ├── architecture/      # 系统架构（时钟树、顶层图）
+│   ├── modules/           # 模块设计笔记（AD9144/JESD/LMK/DDS）
+│   ├── timing/            # 约束与时序（CDC 风险）
+│   ├── troubleshooting/   # 问题排查（License/错误/验证流程）
+│   ├── reference/         # 参数手册、文件索引
+│   ├── competition/       # 竞赛文档
+│   └── references/        # 参考原理图 + 用户手册 PDF
 ├── sim/                    # 仿真 testbench
 ├── kicad/                  # KiCad 工程（扩展模块）
 └── constraints/            # FPGA 约束
@@ -106,10 +112,13 @@ Electronics-Competition/
 | 需求 | 位置 |
 |------|------|
 | FMC 信号总表 | `docs/fmc_adda_signal_map.md` |
+| 子卡用户说明 | `docs/references/FMCADDA-9250-9144子卡用户说明.pdf` |
 | 子卡原理图 | `docs/references/FMC_9250_9144_BRD_SCH.pdf` |
-| 底板原理图 | `K7_BASE_1V3_2025_0111_USER.pdf`（外部） |
-| 子卡用户说明 | `FMCADDA-9250-9144 子卡用户说明.pdf`（外部） |
+| 底板原理图 | `docs/references/K7_BASE_1V3_2025_0111_USER.pdf` |
+| 底板 IO 参考 | `docs/references/K7_IO.xdc` |
 | FMC 约束 | `constraints/fmc_adda.xdc` |
+| 模块设计笔记 | `docs/modules/`（AD9144/JESD/LMK/DDS） |
+| 问题排查 | `docs/troubleshooting/`（License/错误/验证） |
 | 竞赛设计文档 | `docs/competition/design_document.md` |
 
 ---
