@@ -101,3 +101,4 @@ kicad/drc_report.json
 kicad/erc_report.json
 kicad/codex_check.net
 kicad/fp-lib-table
+.Xil/
