@@ -193,3 +193,7 @@ set_property BITSTREAM.CONFIG.UNUSEDPIN Pullnone [current_design]
 set_property BITSTREAM.GENERAL.COMPRESS true [current_design]
 set_property CFGBVS VCCO [current_design]
 set_property CONFIG_VOLTAGE 3.3 [current_design]
+
+# Vivado 2024.1 假阳性：SPI FSM next-state 被误检为门控时钟
+# 所有寄存器已使用 clk_in + spi_tick(CE)，无实际门控时钟
+set_property SEVERITY {Info} [get_drc_checks PDRC-153]

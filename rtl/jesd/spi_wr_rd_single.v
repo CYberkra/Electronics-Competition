@@ -37,18 +37,15 @@ reg[2:0] state_cur = 3'd0, state_next = 3'd0;
 
 reg[7:0] i, j;
 reg[15:0] delay_cnt;
-reg r_sclk_d1;
-wire posedge_r_sclk;
+wire spi_tick;
 
 always@ (posedge clk_in) begin
     if(!rst_n) begin
         spi_cnt <= 32'd0;
         r_sclk <= 0;
         o_sclk <= 0;
-        r_sclk_d1 <= 1'b0;
         end
     else begin
-        r_sclk_d1 <= r_sclk;
         if(spi_cnt <= 32'd10) begin
             r_sclk <= 1;
             spi_cnt <= spi_cnt + 1'd1;
@@ -70,12 +67,12 @@ always@ (posedge clk_in) begin
     end
 end
 
-assign posedge_r_sclk = r_sclk & ~r_sclk_d1;
+assign spi_tick = (spi_cnt == 32'd41);
 
 always@ (posedge clk_in) begin
     if(!rst_n)
         state_cur <= IDLE;
-    else if(posedge_r_sclk)
+    else if(spi_tick)
         state_cur <= state_next;
 end
 
@@ -183,7 +180,7 @@ always@ (posedge clk_in) begin
        o_sda_dir <= 1'b0;
        delay_cnt <= 16'd0;
     end
-    else if(posedge_r_sclk) begin
+    else if(spi_tick) begin
     case(state_cur)
             IDLE : begin
                         o_sda <= 1'b0;
@@ -239,15 +236,17 @@ always@ (posedge clk_in) begin
         r_datain_ready <= 1'b0;
         r_datain_ready_temp1 <= 1'b0;
         end
-    else if(state_cur == IDLE) begin
-        r_datain_ready <= 1'b1;
-        if(datain_valid)
-            r_datain_ready_temp1 <= r_datain_ready;
-        end
-    else if(state_cur == START) begin
-        r_datain_ready <= 1'b0;
-        r_datain_ready_temp1 <= 1'b0;
-        end
+    else if(spi_tick) begin
+        if(state_cur == IDLE) begin
+            r_datain_ready <= 1'b1;
+            if(datain_valid)
+                r_datain_ready_temp1 <= r_datain_ready;
+            end
+        else if(state_cur == START) begin
+            r_datain_ready <= 1'b0;
+            r_datain_ready_temp1 <= 1'b0;
+            end
+    end
 end
 assign datain_ready = (r_datain_ready & (~r_datain_ready_temp1)) ;
 

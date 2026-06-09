@@ -5124,7 +5124,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "2bb267a5-9524-44ef-a982-638d08b1238d")
-		(property "Reference" "C21"
+		(property "Reference" "C6"
 			(at 173.0756 97.3582 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5199,7 +5199,7 @@
 		(instances
 			(project "ProPrj_研电赛优利德显示屏与旋转编码器_2026-06-08"
 				(path "/a943504b-4751-4415-856a-7578cd2a2083"
-					(reference "C21")
+					(reference "C6")
 					(unit 1)
 				)
 			)
