@@ -543,3 +543,5 @@ selectTree(PAResourceItoN.MsgTreePanel_MESSAGE_VIEW_TREE, "[, Implementation, Wr
 // WARNING: HSwingWorker (Refresh Filesets Swing Worker) is taking 720 ms. Decreasing delay to 2720 ms.
 // WARNING: HSwingWorker (Refresh Filesets Swing Worker) is taking 1597 ms. Increasing delay to 4791 ms.
 // TclEventType: FILE_SET_CHANGE
+// WARNING: HEventQueue.dispatchEvent() is taking  1183 ms.
+// HMemoryUtils.trashcanNow. Engine heap size: 1,202 MB. GUI used memory: 101 MB. Current time: 6/9/26, 10:22:44 AM CST
