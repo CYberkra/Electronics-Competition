@@ -133,9 +133,9 @@ module awg_key_ui_ctrl #(
     //--------------------------------------------------------------------------
     always @(posedge clk or negedge rst_n) begin
         if (!rst_n) begin
-            freq_sel          <= 3'd0;
+            freq_sel          <= 3'd6;   // default 1MHz (was 0=1Hz)
             wave_sel          <= 3'd0;
-            amp_sel           <= 3'd2;
+            amp_sel           <= 3'd4;   // default 100% (was 2=50%)
             offset_sel        <= 3'd2;
             ui_mode           <= 2'd0;
             freq_load         <= 1'b0;

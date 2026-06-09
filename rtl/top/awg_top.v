@@ -345,12 +345,15 @@ module awg_top (
 `ifdef AWG_UART_CONTROL
     wire awg_uart_activity;
 
+    // FIX: UART clocked by internal 100MHz (sys_clk_bufg) instead of
+    // w_tx_core_clk (external LMK glblclk). This makes UART available
+    // immediately after FPGA boot, before LMK/JESD init completes.
     ad9144_uart_reg_bridge #(
-        .CLK_HZ(250000000),
+        .CLK_HZ(100000000),
         .BAUD(115200)
     ) u_ad9144_uart_reg_bridge (
-        .clk            (w_tx_core_clk),
-        .rst_n          (w_rst_n),
+        .clk            (sys_clk_bufg),
+        .rst_n          (sys_rst_n),
         .uart_rxd       (uart_rxd),
         .uart_txd       (uart_txd),
         .cfg_wr_en      (awg_cfg_wr_en),
@@ -367,9 +370,14 @@ module awg_top (
     assign awg_cfg_wdata = 32'd0;
 `endif
 
+    // Register bank also moved to sys_clk_bufg so UART write/read pulses
+    // are in the same clock domain. CDC note: reg outputs (phase_inc,
+    // amplitude, etc.) feed the DDS in w_tx_core_clk domain via mux.
+    // These are quasi-static control values — one-sample glitch on change
+    // is invisible in the RF output at 2.8Gsps.
     ad9144_awg_reg_bank u_ad9144_awg_reg_bank (
-        .clk              (w_tx_core_clk),
-        .rst_n            (w_rst_n),
+        .clk              (sys_clk_bufg),
+        .rst_n            (sys_rst_n),
         .cfg_wr_en        (awg_cfg_wr_en),
         .cfg_addr         (awg_cfg_addr),
         .cfg_wdata        (awg_cfg_wdata),
@@ -406,7 +414,7 @@ module awg_top (
     // 4-采样每周期 DDS (JESD204B 需要 4 样本/beat)
     //==========================================================================
     ad9144_awg_dds4 #(
-        .INIT_FILE("ad9144_sine_4096.hex")
+        .INIT_FILE("../../ad9144_sine_4096.hex")
     ) u_ad9144_awg_dds4 (
         .clk           (w_tx_core_clk),
         .rst_n         (w_rst_n),

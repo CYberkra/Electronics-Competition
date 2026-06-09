@@ -176,6 +176,11 @@ set_false_path -from [get_clocks -of_objects [get_pins -hierarchical -filter {NA
 set_false_path -from [get_clocks -of_objects [get_pins -hierarchical -filter {NAME =~ *clk_sys_mmcm*clk_out1*}]] \
                -to [get_clocks -of_objects [get_pins -hierarchical -filter {NAME =~ *clk_for_glbclk*clk_out2*}]]
 
+# UART/寄存器组 (sys_clk_bufg) → DDS (tx_core_clk) CDC: quasi-static 控制值
+# 慢变化参数，单周期采样毛刺对射频输出不可见
+set_false_path -from [get_clocks sys_clk] \
+               -to [get_clocks -of_objects [get_pins -hierarchical -filter {NAME =~ *clk_for_glbclk*clk_out2*}]]
+
 #==============================================================================
 # 12. Bitstream 配置
 #==============================================================================
