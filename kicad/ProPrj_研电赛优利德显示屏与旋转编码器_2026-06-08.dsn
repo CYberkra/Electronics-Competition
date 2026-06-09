@@ -1,0 +1,264 @@
+(pcb "D:\projects\GPR\Electronics-Competition\kicad\ProPrj_研电赛优利德显示屏与旋转编码器_2026-06-08.dsn"
+  (parser
+    (string_quote ")
+    (space_in_quoted_tokens on)
+    (host_cad "KiCad's Pcbnew")
+    (host_version "10.0.3")
+  )
+  (resolution um 10)
+  (unit um)
+  (structure
+    (layer F.Cu
+      (type signal)
+      (property
+        (index 0)
+      )
+    )
+    (layer B.Cu
+      (type signal)
+      (property
+        (index 1)
+      )
+    )
+    (boundary
+      (path pcb 0  134500 -99000  59500 -99000  59500 -54000  134500 -54000
+            134500 -99000)
+    )
+    (plane GND (polygon B.Cu 0  59450 -53950  134550 -53950  134550 -99050  59450 -99050
+            59450 -53950))
+    (via "Via[0-1]_600:300_um")
+    (rule
+      (width 200)
+      (clearance 200)
+      (clearance 50 (type smd_smd))
+    )
+  )
+  (placement
+    (component "ProPrj_研电赛-easyedapro:R0603"
+      (place R3 85000 -73960 front 0 (PN 1k))
+      (place R1 85000 -69960 front 0 (PN 10k))
+      (place C5 103000 -85960 front 0 (PN 0.1uF))
+      (place C21 103000 -77960 front 0 (PN 0.1uF))
+      (place R2 94000 -70960 front 0 (PN 10R))
+      (place R5 99000 -85960 front 0 (PN 4.7K))
+      (place R4 99000 -81960 front 0 (PN 4.7K))
+      (place R6 99000 -77960 front 0 (PN 4.7K))
+      (place C4 103000 -81960 front 0 (PN 0.1uF))
+    )
+    (component "ProPrj_研电赛-easyedapro:C0603"
+      (place C1 89500 -78960 front -90 (PN 100nF))
+      (place C2 89500 -82960 front -90 (PN 100nF))
+      (place C3 89500 -86960 front -90 (PN 100nF))
+    )
+    (component "ProPrj_研电赛-easyedapro:HDR-TH_18P-P2.54-V-M-R2-C9-S2.54"
+      (place H3 127270 -74840 front 0 (PN "PZ254V-12-18P"))
+    )
+    (component "ProPrj_研电赛-easyedapro:ST7789_12P_1x12_1.00mm"
+      (place U1 73000 -77500 front 90 (PN ST7789_12P_LCD))
+    )
+    (component "ProPrj_研电赛-easyedapro:SOT-23-3_L2.9-W1.3-P1.90-LS2.4-BR"
+      (place Q1 90000 -71960 front 0 (PN S8050))
+    )
+    (component "ProPrj_研电赛-easyedapro:EC11_ROTARY_ENCODER"
+      (place SW1 124000 -61460 front 0 (PN EC11N1525405))
+    )
+  )
+  (library
+    (image "ProPrj_研电赛-easyedapro:R0603"
+      (outline (path signal 120  -1600 750  1600 750  1600 -750  -1600 -750  -1600 750))
+      (pin RoundRect[T]Pad_800.000000x900.000000_160.609000_um_0.000000_0 1 -800 0)
+      (pin RoundRect[T]Pad_800.000000x900.000000_160.609000_um_0.000000_0 2 800 0)
+    )
+    (image "ProPrj_研电赛-easyedapro:C0603"
+      (outline (path signal 120  -1600 750  -1600 -750  1600 -750  1600 750  -1600 750))
+      (pin RoundRect[T]Pad_800.000000x900.000000_160.609000_um_0.000000_0 1 -800 0)
+      (pin RoundRect[T]Pad_800.000000x900.000000_160.609000_um_0.000000_0 2 800 0)
+    )
+    (image "ProPrj_研电赛-easyedapro:HDR-TH_18P-P2.54-V-M-R2-C9-S2.54"
+      (outline (path signal 120  -3300 1600  3300 1600  3300 -21900  -3300 -21900  -3300 1600))
+      (pin Rect[A]Pad_1700.000000x1700.000000_um 1 1270 0)
+      (pin Round[A]Pad_1700.000000_um 2 -1270 0)
+      (pin Round[A]Pad_1700.000000_um 3 1270 -2540)
+      (pin Round[A]Pad_1700.000000_um 4 -1270 -2540)
+      (pin Round[A]Pad_1700.000000_um 5 1270 -5080)
+      (pin Round[A]Pad_1700.000000_um 6 -1270 -5080)
+      (pin Round[A]Pad_1700.000000_um 7 1270 -7620)
+      (pin Round[A]Pad_1700.000000_um 8 -1270 -7620)
+      (pin Round[A]Pad_1700.000000_um 9 1270 -10160)
+      (pin Round[A]Pad_1700.000000_um 10 -1270 -10160)
+      (pin Round[A]Pad_1700.000000_um 11 1270 -12700)
+      (pin Round[A]Pad_1700.000000_um 12 -1270 -12700)
+      (pin Round[A]Pad_1700.000000_um 13 1270 -15240)
+      (pin Round[A]Pad_1700.000000_um 14 -1270 -15240)
+      (pin Round[A]Pad_1700.000000_um 15 1270 -17780)
+      (pin Round[A]Pad_1700.000000_um 16 -1270 -17780)
+      (pin Round[A]Pad_1700.000000_um 17 1270 -20320)
+      (pin Round[A]Pad_1700.000000_um 18 -1270 -20320)
+    )
+    (image "ProPrj_研电赛-easyedapro:ST7789_12P_1x12_1.00mm"
+      (outline (path signal 120  -6400 1200  -6400 -1200  6400 -1200  6400 1200  -6400 1200))
+      (pin RoundRect[T]Pad_450.000000x1400.000000_90.342000_um_0.000000_0 1 -5500 0)
+      (pin RoundRect[T]Pad_450.000000x1400.000000_90.342000_um_0.000000_0 2 -4500 0)
+      (pin RoundRect[T]Pad_450.000000x1400.000000_90.342000_um_0.000000_0 3 -3500 0)
+      (pin RoundRect[T]Pad_450.000000x1400.000000_90.342000_um_0.000000_0 4 -2500 0)
+      (pin RoundRect[T]Pad_450.000000x1400.000000_90.342000_um_0.000000_0 5 -1500 0)
+      (pin RoundRect[T]Pad_450.000000x1400.000000_90.342000_um_0.000000_0 6 -500 0)
+      (pin RoundRect[T]Pad_450.000000x1400.000000_90.342000_um_0.000000_0 7 500 0)
+      (pin RoundRect[T]Pad_450.000000x1400.000000_90.342000_um_0.000000_0 8 1500 0)
+      (pin RoundRect[T]Pad_450.000000x1400.000000_90.342000_um_0.000000_0 9 2500 0)
+      (pin RoundRect[T]Pad_450.000000x1400.000000_90.342000_um_0.000000_0 10 3500 0)
+      (pin RoundRect[T]Pad_450.000000x1400.000000_90.342000_um_0.000000_0 11 4500 0)
+      (pin RoundRect[T]Pad_450.000000x1400.000000_90.342000_um_0.000000_0 12 5500 0)
+    )
+    (image "ProPrj_研电赛-easyedapro:SOT-23-3_L2.9-W1.3-P1.90-LS2.4-BR"
+      (outline (path signal 120  -1500 1500  1500 1500  1500 -1500  -1500 -1500  -1500 1500))
+      (pin RoundRect[T]Pad_800.000000x900.000000_160.609000_um_0.000000_0 1 -950 -950)
+      (pin RoundRect[T]Pad_800.000000x900.000000_160.609000_um_0.000000_0 2 -950 950)
+      (pin RoundRect[T]Pad_800.000000x900.000000_160.609000_um_0.000000_0 3 950 0)
+    )
+    (image "ProPrj_研电赛-easyedapro:EC11_ROTARY_ENCODER"
+      (outline (path signal 120  -6000 6000  6000 6000  6000 -4200  -6000 -4200  -6000 6000))
+      (outline (path signal 120  3500 0  3480.83 -365.85  3423.52 -727.691  3328.7 -1081.56
+            3197.41 -1423.58  3031.09 -1750  2831.56 -2057.25  2601.01 -2341.96
+            2341.96 -2601.01  2057.25 -2831.56  1750 -3031.09  1423.58 -3197.41
+            1081.56 -3328.7  727.691 -3423.52  365.85 -3480.83  0 -3500
+            -365.85 -3480.83  -727.691 -3423.52  -1081.56 -3328.7  -1423.58 -3197.41
+            -1750 -3031.09  -2057.25 -2831.56  -2341.96 -2601.01  -2601.01 -2341.96
+            -2831.56 -2057.25  -3031.09 -1750  -3197.41 -1423.58  -3328.7 -1081.56
+            -3423.52 -727.691  -3480.83 -365.85  -3500 0  -3480.83 365.85
+            -3423.52 727.691  -3328.7 1081.56  -3197.41 1423.58  -3031.09 1750
+            -2831.56 2057.25  -2601.01 2341.96  -2341.96 2601.01  -2057.25 2831.56
+            -1750 3031.09  -1423.58 3197.41  -1081.56 3328.7  -727.691 3423.52
+            -365.85 3480.83  0 3500  365.85 3480.83  727.691 3423.52  1081.56 3328.7
+            1423.58 3197.41  1750 3031.09  2057.25 2831.56  2341.96 2601.01
+            2601.01 2341.96  2831.56 2057.25  3031.09 1750  3197.41 1423.58
+            3328.7 1081.56  3423.52 727.691  3480.83 365.85  3500 0))
+      (pin Round[A]Pad_1800.000000_um A -5000 2500)
+      (pin Round[A]Pad_1800.000000_um B -5000 -2500)
+      (pin Round[A]Pad_1800.000000_um C -5000 0)
+      (pin Round[A]Pad_1800.000000_um D 5000 2500)
+      (pin Round[A]Pad_1800.000000_um E 5000 -2500)
+      (pin Round[A]Pad_1800.000000_um EH 0 -5500)
+    )
+    (padstack Round[A]Pad_1700.000000_um
+      (shape (circle F.Cu 1700))
+      (shape (circle B.Cu 1700))
+      (attach off)
+    )
+    (padstack Round[A]Pad_1800.000000_um
+      (shape (circle F.Cu 1800))
+      (shape (circle B.Cu 1800))
+      (attach off)
+    )
+    (padstack RoundRect[T]Pad_450.000000x1400.000000_90.342000_um_0.000000_0
+      (shape (polygon F.Cu 0  -225.342 610  -218.465 644.572  -198.881 673.881  -169.572 693.465
+            -135 700.342  135 700.342  169.572 693.465  198.881 673.881
+            218.465 644.572  225.342 610  225.342 -610  218.465 -644.572
+            198.881 -673.881  169.572 -693.465  135 -700.342  -135 -700.342
+            -169.572 -693.465  -198.881 -673.881  -218.465 -644.572  -225.342 -610
+            -225.342 610))
+      (attach off)
+    )
+    (padstack RoundRect[T]Pad_800.000000x900.000000_160.609000_um_0.000000_0
+      (shape (polygon F.Cu 0  -400.609 290  -388.383 351.462  -353.568 403.568  -301.462 438.383
+            -239.999 450.608  240 450.609  301.462 438.383  353.568 403.568
+            388.383 351.462  400.608 289.999  400.609 -290  388.383 -351.462
+            353.568 -403.568  301.462 -438.383  239.999 -450.608  -240 -450.609
+            -301.462 -438.383  -353.568 -403.568  -388.383 -351.462  -400.608 -289.999
+            -400.609 290))
+      (attach off)
+    )
+    (padstack Rect[A]Pad_1700.000000x1700.000000_um
+      (shape (rect F.Cu -850 -850 850 850))
+      (shape (rect B.Cu -850 -850 850 850))
+      (attach off)
+    )
+    (padstack "Via[0-1]_600:300_um"
+      (shape (circle F.Cu 600))
+      (shape (circle B.Cu 600))
+      (attach off)
+    )
+  )
+  (network
+    (net TFT_BLK
+      (pins R3-1 H3-8)
+    )
+    (net "Net-(Q1-B)"
+      (pins R3-2 R1-1 Q1-1)
+    )
+    (net VCC
+      (pins R1-2 C1-2 H3-1 U1-3 U1-4 R5-2 R4-2 C2-2 R6-2 C3-2)
+    )
+    (net GND
+      (pins C5-1 C21-1 C1-1 H3-2 U1-1 U1-5 U1-6 U1-12 Q1-2 SW1-C SW1-E SW1-EH C2-1
+        C4-1 C3-1)
+    )
+    (net "/EC11-M"
+      (pins C5-2 R5-1)
+    )
+    (net "/EC11-A"
+      (pins C21-2 R6-1)
+    )
+    (net TFT_DC
+      (pins H3-3 U1-7)
+    )
+    (net TFT_SCL
+      (pins H3-4 U1-9)
+    )
+    (net TFT_CS
+      (pins H3-5 U1-8)
+    )
+    (net TFT_SDA
+      (pins H3-6 U1-10)
+    )
+    (net TFT_RES
+      (pins H3-7 U1-11)
+    )
+    (net "EC11-A"
+      (pins H3-9 SW1-A)
+    )
+    (net "EC11-B"
+      (pins H3-10 SW1-B)
+    )
+    (net "EC11-M"
+      (pins H3-11 SW1-D)
+    )
+    (net LEDK
+      (pins H3-12 U1-2)
+    )
+    (net "Net-(Q1-C)"
+      (pins R2-1 Q1-3)
+    )
+    (net /LEDK
+      (pins R2-2)
+    )
+    (net "/EC11-B"
+      (pins R4-1 C4-2)
+    )
+    (class kicad_default "/EC11-A" "/EC11-B" "/EC11-M" /LEDK "EC11-A" "EC11-B"
+      "EC11-M" GND LEDK "Net-(Q1-B)" "Net-(Q1-C)" TFT_BLK TFT_CS TFT_DC TFT_RES
+      TFT_SCL TFT_SDA VCC
+      (circuit
+        (use_via "Via[0-1]_600:300_um")
+      )
+      (rule
+        (width 200)
+        (clearance 200)
+      )
+    )
+  )
+  (wiring
+    (wire (path F.Cu 300  120000 -77380  126000 -77380)(net TFT_SCL)(type route))
+    (wire (path F.Cu 300  120000 -75000  120000 -77380)(net TFT_SCL)(type route))
+    (wire (path F.Cu 300  73000 -75000  120000 -75000)(net TFT_SCL)(type route))
+    (wire (path F.Cu 300  73000 -77000  128540 -77380)(net TFT_DC)(type route))
+    (wire (path F.Cu 300  89050 -72910  85800 -73960)(net "Net-(Q1-B)")(type route))
+    (wire (path F.Cu 300  103800 -85960  128540 -87540)(net "/EC11-M")(type route))
+    (wire (path F.Cu 300  98200 -85960  128540 -87540)(net "/EC11-M")(type route))
+    (wire (path F.Cu 300  103800 -77960  128540 -85000)(net "/EC11-A")(type route))
+    (wire (path F.Cu 300  98200 -77960  128540 -85000)(net "/EC11-A")(type route))
+    (wire (path F.Cu 300  90950 -71960  93200 -70960)(net "Net-(Q1-C)")(type route))
+    (wire (path F.Cu 300  103800 -81960  126000 -85000)(net "/EC11-B")(type route))
+    (wire (path F.Cu 300  98200 -81960  126000 -85000)(net "/EC11-B")(type route))
+  )
+)

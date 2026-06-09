@@ -1,0 +1,1031 @@
+{
+  "board": "D:\\projects\\GPR\\Electronics-Competition\\kicad\\ProPrj_\u7814\u7535\u8d5b\u4f18\u5229\u5fb7\u663e\u793a\u5c4f\u4e0e\u65cb\u8f6c\u7f16\u7801\u5668_2026-06-08.kicad_pcb",
+  "timestamp": "2026-06-09T12:57:32",
+  "total_violations": 101,
+  "violation_counts": {
+    "tracks_crossing": 20,
+    "shorting_items": 3,
+    "clearance": 3,
+    "solder_mask_bridge": 57,
+    "lib_footprint_issues": 16,
+    "silk_overlap": 1,
+    "silk_over_copper": 1
+  },
+  "severity_counts": {
+    "error": 83,
+    "warning": 18,
+    "info": 0
+  },
+  "violations": [
+    {
+      "type": "tracks_crossing",
+      "severity": "error",
+      "message": "Tracks crossing",
+      "location": {
+        "x": 103.8,
+        "y": 81.96,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "tracks_crossing",
+      "severity": "error",
+      "message": "Tracks crossing",
+      "location": {
+        "x": 129.0,
+        "y": 58.96,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "shorting_items",
+      "severity": "error",
+      "message": "\u77ed\u8def\u4e86\u4e24\u4e2a\u4e0d\u540c\u7f51\u7edc\u7684\u9879\u76ee (\u7f51\u7edc GND \u548c VCC)",
+      "location": {
+        "x": 119.0,
+        "y": 61.46,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "tracks_crossing",
+      "severity": "error",
+      "message": "Tracks crossing",
+      "location": {
+        "x": 73.0,
+        "y": 75.0,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "tracks_crossing",
+      "severity": "error",
+      "message": "Tracks crossing",
+      "location": {
+        "x": 119.0,
+        "y": 63.96,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "tracks_crossing",
+      "severity": "error",
+      "message": "Tracks crossing",
+      "location": {
+        "x": 129.0,
+        "y": 58.96,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "tracks_crossing",
+      "severity": "error",
+      "message": "Tracks crossing",
+      "location": {
+        "x": 73.0,
+        "y": 76.0,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "tracks_crossing",
+      "severity": "error",
+      "message": "Tracks crossing",
+      "location": {
+        "x": 128.539999,
+        "y": 74.84,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "tracks_crossing",
+      "severity": "error",
+      "message": "Tracks crossing",
+      "location": {
+        "x": 73.0,
+        "y": 73.0,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "shorting_items",
+      "severity": "error",
+      "message": "\u77ed\u8def\u4e86\u4e24\u4e2a\u4e0d\u540c\u7f51\u7edc\u7684\u9879\u76ee (\u7f51\u7edc /LEDK \u548c )",
+      "location": {
+        "x": 94.8,
+        "y": 70.96,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "tracks_crossing",
+      "severity": "error",
+      "message": "Tracks crossing",
+      "location": {
+        "x": 119.0,
+        "y": 63.96,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "tracks_crossing",
+      "severity": "error",
+      "message": "Tracks crossing",
+      "location": {
+        "x": 73.0,
+        "y": 77.0,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "tracks_crossing",
+      "severity": "error",
+      "message": "Tracks crossing",
+      "location": {
+        "x": 103.8,
+        "y": 77.96,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "tracks_crossing",
+      "severity": "error",
+      "message": "Tracks crossing",
+      "location": {
+        "x": 89.05,
+        "y": 71.01,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "tracks_crossing",
+      "severity": "error",
+      "message": "Tracks crossing",
+      "location": {
+        "x": 129.0,
+        "y": 58.96,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "shorting_items",
+      "severity": "error",
+      "message": "\u77ed\u8def\u4e86\u4e24\u4e2a\u4e0d\u540c\u7f51\u7edc\u7684\u9879\u76ee (\u7f51\u7edc GND \u548c VCC)",
+      "location": {
+        "x": 119.0,
+        "y": 61.46,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "tracks_crossing",
+      "severity": "error",
+      "message": "Tracks crossing",
+      "location": {
+        "x": 119.0,
+        "y": 58.96,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "tracks_crossing",
+      "severity": "error",
+      "message": "Tracks crossing",
+      "location": {
+        "x": 119.0,
+        "y": 61.46,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "tracks_crossing",
+      "severity": "error",
+      "message": "Tracks crossing",
+      "location": {
+        "x": 73.0,
+        "y": 77.0,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "tracks_crossing",
+      "severity": "error",
+      "message": "Tracks crossing",
+      "location": {
+        "x": 103.8,
+        "y": 85.96,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "clearance",
+      "severity": "error",
+      "message": "\u95f4\u8ddd\u8fdd\u89c4 ( \u95f4\u8ddd 0.2000 mm; \u5b9e\u9645 0.1493 mm)",
+      "location": {
+        "x": 84.2,
+        "y": 73.96,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "clearance",
+      "severity": "error",
+      "message": "\u95f4\u8ddd\u8fdd\u89c4 ( \u95f4\u8ddd 0.2000 mm; \u5b9e\u9645 0.0188 mm)",
+      "location": {
+        "x": 89.05,
+        "y": 72.91,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "tracks_crossing",
+      "severity": "error",
+      "message": "Tracks crossing",
+      "location": {
+        "x": 128.539999,
+        "y": 74.84,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "tracks_crossing",
+      "severity": "error",
+      "message": "Tracks crossing",
+      "location": {
+        "x": 89.05,
+        "y": 71.01,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "tracks_crossing",
+      "severity": "error",
+      "message": "Tracks crossing",
+      "location": {
+        "x": 73.0,
+        "y": 83.0,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "clearance",
+      "severity": "error",
+      "message": "\u95f4\u8ddd\u8fdd\u89c4 ( \u95f4\u8ddd 0.2000 mm; \u5b9e\u9645 0.1089 mm)",
+      "location": {
+        "x": 119.0,
+        "y": 61.46,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "solder_mask_bridge",
+      "severity": "error",
+      "message": "\u9876\u5c42\u963b\u710a\u5f00\u7a97\u533a\u57df\u4e0e\u4e0d\u540c\u7f51\u7edc\u7684\u9879\u76ee\u76f8\u8fde",
+      "location": {
+        "x": 84.2,
+        "y": 73.96,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "solder_mask_bridge",
+      "severity": "error",
+      "message": "\u9876\u5c42\u963b\u710a\u5f00\u7a97\u533a\u57df\u4e0e\u4e0d\u540c\u7f51\u7edc\u7684\u9879\u76ee\u76f8\u8fde",
+      "location": {
+        "x": 84.2,
+        "y": 73.96,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "solder_mask_bridge",
+      "severity": "error",
+      "message": "\u9876\u5c42\u963b\u710a\u5f00\u7a97\u533a\u57df\u4e0e\u4e0d\u540c\u7f51\u7edc\u7684\u9879\u76ee\u76f8\u8fde",
+      "location": {
+        "x": 98.2,
+        "y": 85.96,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "solder_mask_bridge",
+      "severity": "error",
+      "message": "\u9876\u5c42\u963b\u710a\u5f00\u7a97\u533a\u57df\u4e0e\u4e0d\u540c\u7f51\u7edc\u7684\u9879\u76ee\u76f8\u8fde",
+      "location": {
+        "x": 84.2,
+        "y": 73.96,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "solder_mask_bridge",
+      "severity": "error",
+      "message": "\u9876\u5c42\u963b\u710a\u5f00\u7a97\u533a\u57df\u4e0e\u4e0d\u540c\u7f51\u7edc\u7684\u9879\u76ee\u76f8\u8fde",
+      "location": {
+        "x": 129.0,
+        "y": 58.96,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "solder_mask_bridge",
+      "severity": "error",
+      "message": "\u9876\u5c42\u963b\u710a\u5f00\u7a97\u533a\u57df\u4e0e\u4e0d\u540c\u7f51\u7edc\u7684\u9879\u76ee\u76f8\u8fde",
+      "location": {
+        "x": 98.2,
+        "y": 85.96,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "solder_mask_bridge",
+      "severity": "error",
+      "message": "\u9876\u5c42\u963b\u710a\u5f00\u7a97\u533a\u57df\u4e0e\u4e0d\u540c\u7f51\u7edc\u7684\u9879\u76ee\u76f8\u8fde",
+      "location": {
+        "x": 128.539999,
+        "y": 74.84,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "solder_mask_bridge",
+      "severity": "error",
+      "message": "\u9876\u5c42\u963b\u710a\u5f00\u7a97\u533a\u57df\u4e0e\u4e0d\u540c\u7f51\u7edc\u7684\u9879\u76ee\u76f8\u8fde",
+      "location": {
+        "x": 129.0,
+        "y": 58.96,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "solder_mask_bridge",
+      "severity": "error",
+      "message": "\u9876\u5c42\u963b\u710a\u5f00\u7a97\u533a\u57df\u4e0e\u4e0d\u540c\u7f51\u7edc\u7684\u9879\u76ee\u76f8\u8fde",
+      "location": {
+        "x": 98.2,
+        "y": 85.96,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "solder_mask_bridge",
+      "severity": "error",
+      "message": "\u9876\u5c42\u963b\u710a\u5f00\u7a97\u533a\u57df\u4e0e\u4e0d\u540c\u7f51\u7edc\u7684\u9879\u76ee\u76f8\u8fde",
+      "location": {
+        "x": 128.539999,
+        "y": 74.84,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "solder_mask_bridge",
+      "severity": "error",
+      "message": "\u9876\u5c42\u963b\u710a\u5f00\u7a97\u533a\u57df\u4e0e\u4e0d\u540c\u7f51\u7edc\u7684\u9879\u76ee\u76f8\u8fde",
+      "location": {
+        "x": 98.2,
+        "y": 85.96,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "solder_mask_bridge",
+      "severity": "error",
+      "message": "\u9876\u5c42\u963b\u710a\u5f00\u7a97\u533a\u57df\u4e0e\u4e0d\u540c\u7f51\u7edc\u7684\u9879\u76ee\u76f8\u8fde",
+      "location": {
+        "x": 128.539999,
+        "y": 74.84,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "solder_mask_bridge",
+      "severity": "error",
+      "message": "\u9876\u5c42\u963b\u710a\u5f00\u7a97\u533a\u57df\u4e0e\u4e0d\u540c\u7f51\u7edc\u7684\u9879\u76ee\u76f8\u8fde",
+      "location": {
+        "x": 129.0,
+        "y": 58.96,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "solder_mask_bridge",
+      "severity": "error",
+      "message": "\u9876\u5c42\u963b\u710a\u5f00\u7a97\u533a\u57df\u4e0e\u4e0d\u540c\u7f51\u7edc\u7684\u9879\u76ee\u76f8\u8fde",
+      "location": {
+        "x": 128.539999,
+        "y": 74.84,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "solder_mask_bridge",
+      "severity": "error",
+      "message": "\u9876\u5c42\u963b\u710a\u5f00\u7a97\u533a\u57df\u4e0e\u4e0d\u540c\u7f51\u7edc\u7684\u9879\u76ee\u76f8\u8fde",
+      "location": {
+        "x": 128.539999,
+        "y": 74.84,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "solder_mask_bridge",
+      "severity": "error",
+      "message": "\u9876\u5c42\u963b\u710a\u5f00\u7a97\u533a\u57df\u4e0e\u4e0d\u540c\u7f51\u7edc\u7684\u9879\u76ee\u76f8\u8fde",
+      "location": {
+        "x": 129.0,
+        "y": 58.96,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "solder_mask_bridge",
+      "severity": "error",
+      "message": "\u9876\u5c42\u963b\u710a\u5f00\u7a97\u533a\u57df\u4e0e\u4e0d\u540c\u7f51\u7edc\u7684\u9879\u76ee\u76f8\u8fde",
+      "location": {
+        "x": 103.8,
+        "y": 77.96,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "solder_mask_bridge",
+      "severity": "error",
+      "message": "\u9876\u5c42\u963b\u710a\u5f00\u7a97\u533a\u57df\u4e0e\u4e0d\u540c\u7f51\u7edc\u7684\u9879\u76ee\u76f8\u8fde",
+      "location": {
+        "x": 128.539999,
+        "y": 74.84,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "solder_mask_bridge",
+      "severity": "error",
+      "message": "\u9876\u5c42\u963b\u710a\u5f00\u7a97\u533a\u57df\u4e0e\u4e0d\u540c\u7f51\u7edc\u7684\u9879\u76ee\u76f8\u8fde",
+      "location": {
+        "x": 98.2,
+        "y": 81.96,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "solder_mask_bridge",
+      "severity": "error",
+      "message": "\u9876\u5c42\u963b\u710a\u5f00\u7a97\u533a\u57df\u4e0e\u4e0d\u540c\u7f51\u7edc\u7684\u9879\u76ee\u76f8\u8fde",
+      "location": {
+        "x": 98.2,
+        "y": 81.96,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "solder_mask_bridge",
+      "severity": "error",
+      "message": "\u9876\u5c42\u963b\u710a\u5f00\u7a97\u533a\u57df\u4e0e\u4e0d\u540c\u7f51\u7edc\u7684\u9879\u76ee\u76f8\u8fde",
+      "location": {
+        "x": 73.0,
+        "y": 76.0,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "solder_mask_bridge",
+      "severity": "error",
+      "message": "\u9876\u5c42\u963b\u710a\u5f00\u7a97\u533a\u57df\u4e0e\u4e0d\u540c\u7f51\u7edc\u7684\u9879\u76ee\u76f8\u8fde",
+      "location": {
+        "x": 98.2,
+        "y": 81.96,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "solder_mask_bridge",
+      "severity": "error",
+      "message": "\u9876\u5c42\u963b\u710a\u5f00\u7a97\u533a\u57df\u4e0e\u4e0d\u540c\u7f51\u7edc\u7684\u9879\u76ee\u76f8\u8fde",
+      "location": {
+        "x": 73.0,
+        "y": 76.0,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "solder_mask_bridge",
+      "severity": "error",
+      "message": "\u9876\u5c42\u963b\u710a\u5f00\u7a97\u533a\u57df\u4e0e\u4e0d\u540c\u7f51\u7edc\u7684\u9879\u76ee\u76f8\u8fde",
+      "location": {
+        "x": 73.0,
+        "y": 76.0,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "solder_mask_bridge",
+      "severity": "error",
+      "message": "\u9876\u5c42\u963b\u710a\u5f00\u7a97\u533a\u57df\u4e0e\u4e0d\u540c\u7f51\u7edc\u7684\u9879\u76ee\u76f8\u8fde",
+      "location": {
+        "x": 73.0,
+        "y": 80.0,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "solder_mask_bridge",
+      "severity": "error",
+      "message": "\u9876\u5c42\u963b\u710a\u5f00\u7a97\u533a\u57df\u4e0e\u4e0d\u540c\u7f51\u7edc\u7684\u9879\u76ee\u76f8\u8fde",
+      "location": {
+        "x": 73.0,
+        "y": 76.0,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "solder_mask_bridge",
+      "severity": "error",
+      "message": "\u9876\u5c42\u963b\u710a\u5f00\u7a97\u533a\u57df\u4e0e\u4e0d\u540c\u7f51\u7edc\u7684\u9879\u76ee\u76f8\u8fde",
+      "location": {
+        "x": 129.0,
+        "y": 58.96,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "solder_mask_bridge",
+      "severity": "error",
+      "message": "\u9876\u5c42\u963b\u710a\u5f00\u7a97\u533a\u57df\u4e0e\u4e0d\u540c\u7f51\u7edc\u7684\u9879\u76ee\u76f8\u8fde",
+      "location": {
+        "x": 103.8,
+        "y": 77.96,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "solder_mask_bridge",
+      "severity": "error",
+      "message": "\u9876\u5c42\u963b\u710a\u5f00\u7a97\u533a\u57df\u4e0e\u4e0d\u540c\u7f51\u7edc\u7684\u9879\u76ee\u76f8\u8fde",
+      "location": {
+        "x": 73.0,
+        "y": 76.0,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "solder_mask_bridge",
+      "severity": "error",
+      "message": "\u9876\u5c42\u963b\u710a\u5f00\u7a97\u533a\u57df\u4e0e\u4e0d\u540c\u7f51\u7edc\u7684\u9879\u76ee\u76f8\u8fde",
+      "location": {
+        "x": 73.0,
+        "y": 80.0,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "solder_mask_bridge",
+      "severity": "error",
+      "message": "\u9876\u5c42\u963b\u710a\u5f00\u7a97\u533a\u57df\u4e0e\u4e0d\u540c\u7f51\u7edc\u7684\u9879\u76ee\u76f8\u8fde",
+      "location": {
+        "x": 98.2,
+        "y": 77.96,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "solder_mask_bridge",
+      "severity": "error",
+      "message": "\u9876\u5c42\u963b\u710a\u5f00\u7a97\u533a\u57df\u4e0e\u4e0d\u540c\u7f51\u7edc\u7684\u9879\u76ee\u76f8\u8fde",
+      "location": {
+        "x": 98.2,
+        "y": 77.96,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "solder_mask_bridge",
+      "severity": "error",
+      "message": "\u9876\u5c42\u963b\u710a\u5f00\u7a97\u533a\u57df\u4e0e\u4e0d\u540c\u7f51\u7edc\u7684\u9879\u76ee\u76f8\u8fde",
+      "location": {
+        "x": 73.0,
+        "y": 74.0,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "solder_mask_bridge",
+      "severity": "error",
+      "message": "\u9876\u5c42\u963b\u710a\u5f00\u7a97\u533a\u57df\u4e0e\u4e0d\u540c\u7f51\u7edc\u7684\u9879\u76ee\u76f8\u8fde",
+      "location": {
+        "x": 98.2,
+        "y": 77.96,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "solder_mask_bridge",
+      "severity": "error",
+      "message": "\u9876\u5c42\u963b\u710a\u5f00\u7a97\u533a\u57df\u4e0e\u4e0d\u540c\u7f51\u7edc\u7684\u9879\u76ee\u76f8\u8fde",
+      "location": {
+        "x": 73.0,
+        "y": 80.0,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "solder_mask_bridge",
+      "severity": "error",
+      "message": "\u9876\u5c42\u963b\u710a\u5f00\u7a97\u533a\u57df\u4e0e\u4e0d\u540c\u7f51\u7edc\u7684\u9879\u76ee\u76f8\u8fde",
+      "location": {
+        "x": 73.0,
+        "y": 77.0,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "solder_mask_bridge",
+      "severity": "error",
+      "message": "\u9876\u5c42\u963b\u710a\u5f00\u7a97\u533a\u57df\u4e0e\u4e0d\u540c\u7f51\u7edc\u7684\u9879\u76ee\u76f8\u8fde",
+      "location": {
+        "x": 73.0,
+        "y": 80.0,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "solder_mask_bridge",
+      "severity": "error",
+      "message": "\u9876\u5c42\u963b\u710a\u5f00\u7a97\u533a\u57df\u4e0e\u4e0d\u540c\u7f51\u7edc\u7684\u9879\u76ee\u76f8\u8fde",
+      "location": {
+        "x": 73.0,
+        "y": 83.0,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "solder_mask_bridge",
+      "severity": "error",
+      "message": "\u9876\u5c42\u963b\u710a\u5f00\u7a97\u533a\u57df\u4e0e\u4e0d\u540c\u7f51\u7edc\u7684\u9879\u76ee\u76f8\u8fde",
+      "location": {
+        "x": 73.0,
+        "y": 73.0,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "solder_mask_bridge",
+      "severity": "error",
+      "message": "\u9876\u5c42\u963b\u710a\u5f00\u7a97\u533a\u57df\u4e0e\u4e0d\u540c\u7f51\u7edc\u7684\u9879\u76ee\u76f8\u8fde",
+      "location": {
+        "x": 73.0,
+        "y": 73.0,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "solder_mask_bridge",
+      "severity": "error",
+      "message": "\u9876\u5c42\u963b\u710a\u5f00\u7a97\u533a\u57df\u4e0e\u4e0d\u540c\u7f51\u7edc\u7684\u9879\u76ee\u76f8\u8fde",
+      "location": {
+        "x": 73.0,
+        "y": 73.0,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "solder_mask_bridge",
+      "severity": "error",
+      "message": "\u9876\u5c42\u963b\u710a\u5f00\u7a97\u533a\u57df\u4e0e\u4e0d\u540c\u7f51\u7edc\u7684\u9879\u76ee\u76f8\u8fde",
+      "location": {
+        "x": 94.8,
+        "y": 70.96,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "solder_mask_bridge",
+      "severity": "error",
+      "message": "\u9876\u5c42\u963b\u710a\u5f00\u7a97\u533a\u57df\u4e0e\u4e0d\u540c\u7f51\u7edc\u7684\u9879\u76ee\u76f8\u8fde",
+      "location": {
+        "x": 73.0,
+        "y": 73.0,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "solder_mask_bridge",
+      "severity": "error",
+      "message": "\u9876\u5c42\u963b\u710a\u5f00\u7a97\u533a\u57df\u4e0e\u4e0d\u540c\u7f51\u7edc\u7684\u9879\u76ee\u76f8\u8fde",
+      "location": {
+        "x": 89.05,
+        "y": 71.01,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "solder_mask_bridge",
+      "severity": "error",
+      "message": "\u9876\u5c42\u963b\u710a\u5f00\u7a97\u533a\u57df\u4e0e\u4e0d\u540c\u7f51\u7edc\u7684\u9879\u76ee\u76f8\u8fde",
+      "location": {
+        "x": 89.05,
+        "y": 71.01,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "solder_mask_bridge",
+      "severity": "error",
+      "message": "\u9876\u5c42\u963b\u710a\u5f00\u7a97\u533a\u57df\u4e0e\u4e0d\u540c\u7f51\u7edc\u7684\u9879\u76ee\u76f8\u8fde",
+      "location": {
+        "x": 103.8,
+        "y": 85.96,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "solder_mask_bridge",
+      "severity": "error",
+      "message": "\u9876\u5c42\u963b\u710a\u5f00\u7a97\u533a\u57df\u4e0e\u4e0d\u540c\u7f51\u7edc\u7684\u9879\u76ee\u76f8\u8fde",
+      "location": {
+        "x": 119.0,
+        "y": 58.96,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "solder_mask_bridge",
+      "severity": "error",
+      "message": "\u9876\u5c42\u963b\u710a\u5f00\u7a97\u533a\u57df\u4e0e\u4e0d\u540c\u7f51\u7edc\u7684\u9879\u76ee\u76f8\u8fde",
+      "location": {
+        "x": 103.8,
+        "y": 85.96,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "solder_mask_bridge",
+      "severity": "error",
+      "message": "\u9876\u5c42\u963b\u710a\u5f00\u7a97\u533a\u57df\u4e0e\u4e0d\u540c\u7f51\u7edc\u7684\u9879\u76ee\u76f8\u8fde",
+      "location": {
+        "x": 94.8,
+        "y": 70.96,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "solder_mask_bridge",
+      "severity": "error",
+      "message": "\u9876\u5c42\u963b\u710a\u5f00\u7a97\u533a\u57df\u4e0e\u4e0d\u540c\u7f51\u7edc\u7684\u9879\u76ee\u76f8\u8fde",
+      "location": {
+        "x": 119.0,
+        "y": 58.96,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "solder_mask_bridge",
+      "severity": "error",
+      "message": "\u9876\u5c42\u963b\u710a\u5f00\u7a97\u533a\u57df\u4e0e\u4e0d\u540c\u7f51\u7edc\u7684\u9879\u76ee\u76f8\u8fde",
+      "location": {
+        "x": 119.0,
+        "y": 58.96,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "solder_mask_bridge",
+      "severity": "error",
+      "message": "\u9876\u5c42\u963b\u710a\u5f00\u7a97\u533a\u57df\u4e0e\u4e0d\u540c\u7f51\u7edc\u7684\u9879\u76ee\u76f8\u8fde",
+      "location": {
+        "x": 119.0,
+        "y": 58.96,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "solder_mask_bridge",
+      "severity": "error",
+      "message": "\u9876\u5c42\u963b\u710a\u5f00\u7a97\u533a\u57df\u4e0e\u4e0d\u540c\u7f51\u7edc\u7684\u9879\u76ee\u76f8\u8fde",
+      "location": {
+        "x": 119.0,
+        "y": 63.96,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "solder_mask_bridge",
+      "severity": "error",
+      "message": "\u9876\u5c42\u963b\u710a\u5f00\u7a97\u533a\u57df\u4e0e\u4e0d\u540c\u7f51\u7edc\u7684\u9879\u76ee\u76f8\u8fde",
+      "location": {
+        "x": 119.0,
+        "y": 63.96,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "solder_mask_bridge",
+      "severity": "error",
+      "message": "\u9876\u5c42\u963b\u710a\u5f00\u7a97\u533a\u57df\u4e0e\u4e0d\u540c\u7f51\u7edc\u7684\u9879\u76ee\u76f8\u8fde",
+      "location": {
+        "x": 103.8,
+        "y": 81.96,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "solder_mask_bridge",
+      "severity": "error",
+      "message": "\u9876\u5c42\u963b\u710a\u5f00\u7a97\u533a\u57df\u4e0e\u4e0d\u540c\u7f51\u7edc\u7684\u9879\u76ee\u76f8\u8fde",
+      "location": {
+        "x": 119.0,
+        "y": 63.96,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "solder_mask_bridge",
+      "severity": "error",
+      "message": "\u9876\u5c42\u963b\u710a\u5f00\u7a97\u533a\u57df\u4e0e\u4e0d\u540c\u7f51\u7edc\u7684\u9879\u76ee\u76f8\u8fde",
+      "location": {
+        "x": 119.0,
+        "y": 63.96,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "lib_footprint_issues",
+      "severity": "warning",
+      "message": "\u5f53\u524d\u914d\u7f6e\u4e2d\u4e0d\u5305\u542b\u5c01\u88c5\u5e93 'ProPrj_\u7814\u7535\u8d5b-easyedapro'",
+      "location": {
+        "x": 85.0,
+        "y": 73.96,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "lib_footprint_issues",
+      "severity": "warning",
+      "message": "\u5f53\u524d\u914d\u7f6e\u4e2d\u4e0d\u5305\u542b\u5c01\u88c5\u5e93 'ProPrj_\u7814\u7535\u8d5b-easyedapro'",
+      "location": {
+        "x": 85.0,
+        "y": 69.96,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "lib_footprint_issues",
+      "severity": "warning",
+      "message": "\u5f53\u524d\u914d\u7f6e\u4e2d\u4e0d\u5305\u542b\u5c01\u88c5\u5e93 'ProPrj_\u7814\u7535\u8d5b-easyedapro'",
+      "location": {
+        "x": 103.0,
+        "y": 85.96,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "lib_footprint_issues",
+      "severity": "warning",
+      "message": "\u5f53\u524d\u914d\u7f6e\u4e2d\u4e0d\u5305\u542b\u5c01\u88c5\u5e93 'ProPrj_\u7814\u7535\u8d5b-easyedapro'",
+      "location": {
+        "x": 103.0,
+        "y": 77.96,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "lib_footprint_issues",
+      "severity": "warning",
+      "message": "\u5f53\u524d\u914d\u7f6e\u4e2d\u4e0d\u5305\u542b\u5c01\u88c5\u5e93 'ProPrj_\u7814\u7535\u8d5b-easyedapro'",
+      "location": {
+        "x": 89.5,
+        "y": 78.96,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "lib_footprint_issues",
+      "severity": "warning",
+      "message": "\u5f53\u524d\u914d\u7f6e\u4e2d\u4e0d\u5305\u542b\u5c01\u88c5\u5e93 'ProPrj_\u7814\u7535\u8d5b-easyedapro'",
+      "location": {
+        "x": 127.27,
+        "y": 74.84,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "lib_footprint_issues",
+      "severity": "warning",
+      "message": "\u5f53\u524d\u914d\u7f6e\u4e2d\u4e0d\u5305\u542b\u5c01\u88c5\u5e93 'ProPrj_\u7814\u7535\u8d5b-easyedapro'",
+      "location": {
+        "x": 73.0,
+        "y": 77.5,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "lib_footprint_issues",
+      "severity": "warning",
+      "message": "\u5f53\u524d\u914d\u7f6e\u4e2d\u4e0d\u5305\u542b\u5c01\u88c5\u5e93 'ProPrj_\u7814\u7535\u8d5b-easyedapro'",
+      "location": {
+        "x": 94.0,
+        "y": 70.96,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "lib_footprint_issues",
+      "severity": "warning",
+      "message": "\u5f53\u524d\u914d\u7f6e\u4e2d\u4e0d\u5305\u542b\u5c01\u88c5\u5e93 'ProPrj_\u7814\u7535\u8d5b-easyedapro'",
+      "location": {
+        "x": 99.0,
+        "y": 85.96,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "lib_footprint_issues",
+      "severity": "warning",
+      "message": "\u5f53\u524d\u914d\u7f6e\u4e2d\u4e0d\u5305\u542b\u5c01\u88c5\u5e93 'ProPrj_\u7814\u7535\u8d5b-easyedapro'",
+      "location": {
+        "x": 90.0,
+        "y": 71.96,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "lib_footprint_issues",
+      "severity": "warning",
+      "message": "\u5f53\u524d\u914d\u7f6e\u4e2d\u4e0d\u5305\u542b\u5c01\u88c5\u5e93 'ProPrj_\u7814\u7535\u8d5b-easyedapro'",
+      "location": {
+        "x": 124.0,
+        "y": 61.46,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "lib_footprint_issues",
+      "severity": "warning",
+      "message": "\u5f53\u524d\u914d\u7f6e\u4e2d\u4e0d\u5305\u542b\u5c01\u88c5\u5e93 'ProPrj_\u7814\u7535\u8d5b-easyedapro'",
+      "location": {
+        "x": 99.0,
+        "y": 81.96,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "lib_footprint_issues",
+      "severity": "warning",
+      "message": "\u5f53\u524d\u914d\u7f6e\u4e2d\u4e0d\u5305\u542b\u5c01\u88c5\u5e93 'ProPrj_\u7814\u7535\u8d5b-easyedapro'",
+      "location": {
+        "x": 89.5,
+        "y": 82.96,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "lib_footprint_issues",
+      "severity": "warning",
+      "message": "\u5f53\u524d\u914d\u7f6e\u4e2d\u4e0d\u5305\u542b\u5c01\u88c5\u5e93 'ProPrj_\u7814\u7535\u8d5b-easyedapro'",
+      "location": {
+        "x": 99.0,
+        "y": 77.96,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "lib_footprint_issues",
+      "severity": "warning",
+      "message": "\u5f53\u524d\u914d\u7f6e\u4e2d\u4e0d\u5305\u542b\u5c01\u88c5\u5e93 'ProPrj_\u7814\u7535\u8d5b-easyedapro'",
+      "location": {
+        "x": 103.0,
+        "y": 81.96,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "lib_footprint_issues",
+      "severity": "warning",
+      "message": "\u5f53\u524d\u914d\u7f6e\u4e2d\u4e0d\u5305\u542b\u5c01\u88c5\u5e93 'ProPrj_\u7814\u7535\u8d5b-easyedapro'",
+      "location": {
+        "x": 89.5,
+        "y": 86.96,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "silk_overlap",
+      "severity": "warning",
+      "message": "Silkscreen clearance",
+      "location": {
+        "x": 123.97,
+        "y": 73.24,
+        "unit": "mm"
+      }
+    },
+    {
+      "type": "silk_over_copper",
+      "severity": "warning",
+      "message": "Silkscreen clipped by solder mask",
+      "location": {
+        "x": 112.0,
+        "y": 95.5,
+        "unit": "mm"
+      }
+    }
+  ]
+}
