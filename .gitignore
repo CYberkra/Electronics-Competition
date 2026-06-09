@@ -96,3 +96,8 @@ vivado/*.log
 vivado/*.jou
 kicad/.history/
 vivado_pid*.str
+# KiCad generated
+kicad/drc_report.json
+kicad/erc_report.json
+kicad/codex_check.net
+kicad/fp-lib-table
