@@ -334,10 +334,9 @@ case(state_cur)
         WR_STA_130:begin     if(dataout_ready) state_next = WR_STA_131; else state_next = WR_STA_130; end
         WR_STA_131:begin     if(dataout_ready) state_next = WR_STA_132; else state_next = WR_STA_131; end
         WR_STA_132:begin     if(dataout_ready) state_next = WR_STA_133; else state_next = WR_STA_132; end
+        // P4a: 简化空分支 — 原 if/else 两路均指向 WR_STA_134，无意义
+        // TODO: 应在 WR_STA_133 检查 PLL lock 状态 (w_rd_data == 0x02|0x06) 并重试或报错
         WR_STA_133  :begin     if(dataout_ready)
-                                if(w_rd_data == 8'd02 | w_rd_data == 8'd06 )
-                                    state_next = WR_STA_134;
-                                else
                                     state_next = WR_STA_134;
                               else
                                  state_next = WR_STA_133  ; end

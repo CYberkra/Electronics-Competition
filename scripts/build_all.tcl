@@ -4,8 +4,14 @@ open_project vivado/awg_k325t.xpr
 set_property source_mgmt_mode All [current_project]
 set_property top awg_top [current_fileset]
 
-# Enable UART control (ad9144_uart_reg_bridge on 115200 8N1)
-set_property verilog_define {AWG_UART_CONTROL=1} [current_fileset]
+# Enable UART control + ILA debug
+set_property verilog_define {AWG_UART_CONTROL=1 AWG_DEBUG_ILA=1} [current_fileset]
+
+# Ensure ILA IP output products are generated before synthesis
+catch {generate_target all [get_files */ila_awg_debug.xci] -force}
+catch {reset_run ila_awg_debug_synth_1}
+launch_runs ila_awg_debug_synth_1 -jobs 4
+wait_on_run ila_awg_debug_synth_1
 
 # Check all IPs
 foreach xci [get_files *.xci] {

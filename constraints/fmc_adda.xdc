@@ -1,5 +1,5 @@
 #------------------------------------------------------------------------------
-# FMC ADDA (AD9144 + AD9250) Pin Constraints
+# FMC ADDA (AD9144 DAC only; AD9250 ADC 已剥离) Pin Constraints
 # Target: Zhengdianyuanzi K7-325T, XC7K325TFFG900-2
 #
 # 引脚来源：正点原子 K7_BASE_1V3_2025_0111_USER.pdf 原理图
@@ -7,8 +7,8 @@
 #   J34B = LA 信号 + CLK0/CLK1 + PRSNT
 #   J34E = DP1~DP9 + GBTCLK1
 #
-# 子卡：FMCADDA-9250-9144 (AD9250 250Msps ADC + AD9144 2.8Gsps DAC)
-# 模式：4L DAC (AD9144 Mode4, Lane0~3) + 2L ADC (AD9250, Lane0~1)
+# 子卡：FMCADDA-9250-9144 (AD9144 2.8Gsps DAC only; AD9250 ADC 已剥离)
+# 模式：4L DAC (AD9144 Mode4, Lane0~3)
 #------------------------------------------------------------------------------
 
 #==============================================================================
@@ -18,12 +18,11 @@
 set_property PACKAGE_PIN G8  [get_ports fmc_gbtclk0_m2c_p]
 set_property PACKAGE_PIN G7  [get_ports fmc_gbtclk0_m2c_n]
 
-# GBTCLK1 — 备用参考时钟
-set_property PACKAGE_PIN J8  [get_ports fmc_gbtclk1_m2c_p]
-set_property PACKAGE_PIN J7  [get_ports fmc_gbtclk1_m2c_n]
+# GBTCLK1 — 备用参考时钟 (未使用，端口未在 awg_top.v 中声明)
+# set_property PACKAGE_PIN J8  [get_ports fmc_gbtclk1_m2c_p]
+# set_property PACKAGE_PIN J7  [get_ports fmc_gbtclk1_m2c_n]
 
-# 时钟约束：125MHz
-create_clock -period 8.000 -name fmc_refclk0 [get_ports fmc_gbtclk0_m2c_p]
+# 时钟约束：fmc_refclk0 定义见 awg_k325t.xdc（主约束文件）
 
 #==============================================================================
 # 2. JESD204B 高速差分对 — DAC TX (AD9144, FPGA → 子卡, C2M)
@@ -52,14 +51,9 @@ set_property PACKAGE_PIN K1  [get_ports fmc_dp3_c2m_n]
 # set_property PACKAGE_PIN ??? [get_ports fmc_dp7_c2m_n]
 
 #==============================================================================
-# 3. JESD204B 高速差分对 — ADC RX (AD9250, 子卡 → FPGA, M2C)
+# 3. JESD204B 高速差分对 — ADC RX (AD9250) — 已剥离，端口已移除
 #==============================================================================
-# 2L 模式：DP0~DP1_M2C (5Gbps lane rate)
-set_property PACKAGE_PIN G4  [get_ports fmc_dp0_m2c_p]
-set_property PACKAGE_PIN G3  [get_ports fmc_dp0_m2c_n]
-
-set_property PACKAGE_PIN F6  [get_ports fmc_dp1_m2c_p]
-set_property PACKAGE_PIN F5  [get_ports fmc_dp1_m2c_n]
+# fmc_dp0_m2c_p/n (G4/G3), fmc_dp1_m2c_p/n (F6/F5) — not used
 
 #==============================================================================
 # 4. JESD204B 同步信号 (LVDS_25)
@@ -74,10 +68,7 @@ set_property PACKAGE_PIN D21 [get_ports dac_sync1_p]
 set_property PACKAGE_PIN C21 [get_ports dac_sync1_n]
 set_property IOSTANDARD LVDS_25 [get_ports {dac_sync1_p dac_sync1_n}]
 
-# ADC SYNC — LA13_P/N (J34A D17/D18 → D22/C22)
-set_property PACKAGE_PIN D22 [get_ports adc_sync_p]
-set_property PACKAGE_PIN C22 [get_ports adc_sync_n]
-set_property IOSTANDARD LVDS_25 [get_ports {adc_sync_p adc_sync_n}]
+# ADC SYNC — 已剥离，端口已移除 (原 D22/C22)
 
 #==============================================================================
 # 5. SYSREF (LVDS_25)
@@ -90,19 +81,8 @@ set_property IOSTANDARD LVDS_25 [get_ports {fmc_sysref_p fmc_sysref_n}]
 #==============================================================================
 # 6. SPI 控制信号 (LVCMOS25)
 #==============================================================================
-# AD9250 SPI — LA01_CC (SCLK/CSN) + LA02_N (SDIO)
-set_property PACKAGE_PIN F21 [get_ports ad9250_spi_sclk]
-set_property IOSTANDARD LVCMOS25 [get_ports ad9250_spi_sclk]
-
-set_property PACKAGE_PIN E21 [get_ports ad9250_spi_csb]
-set_property IOSTANDARD LVCMOS25 [get_ports ad9250_spi_csb]
-
-set_property PACKAGE_PIN J18 [get_ports ad9250_spi_sdio]
-set_property IOSTANDARD LVCMOS25 [get_ports ad9250_spi_sdio]
-
-# AD9250 RSTN — CLK0_M2C_P (J34B H4 → F20)
-set_property PACKAGE_PIN F20 [get_ports ad9250_reset]
-set_property IOSTANDARD LVCMOS25 [get_ports ad9250_reset]
+# AD9250 SPI/RSTN — 已剥离，端口已移除
+# (原 ad9250_spi_sclk/csb/sdio: F21/E21/J18, ad9250_reset: F20)
 
 # AD9144 SPI — LA10_P/N (SCLK/CSN) + LA06_P (SDIO)
 set_property PACKAGE_PIN C19 [get_ports ad9144_spi_sclk]
@@ -125,12 +105,11 @@ set_property IOSTANDARD LVCMOS25 [get_ports ad9144_txen0]
 set_property PACKAGE_PIN C16 [get_ports ad9144_txen1]
 set_property IOSTANDARD LVCMOS25 [get_ports ad9144_txen1]
 
-# LMK04828 SPI — ADK 总线 (LA28/LA29, J34B G30/G31/H31/H32)
-# 来源：底板原理图 K7_BASE_1V3_2025_0111_USER.pdf P15
-#   ADK_SCLK = LA29_N = J34B G31 → E16
-#   ADK_SDIO = LA28_N = J34B H32 → J12
-#   ADK_CSB  = LA28_P = J34B H31 → J11  (CS#, 低有效)
-#   ADK_RST  = LA29_P = J34B G30 → F15  (RESET, 低有效)
+# LMK04828 SPI/控制
+#   SPI SCLK → LA29_N (J34B G31 → E16) — ADK总线
+#   SPI SDIO → LA28_N (J34B H32 → J12) — ADK总线
+#   CS# → LA28_P (J34B H31 → J11)
+#   RESET → LA29_P (J34B G30 → F15)
 set_property PACKAGE_PIN E16 [get_ports lmk04828_spi_sclk]
 set_property IOSTANDARD LVCMOS25 [get_ports lmk04828_spi_sclk]
 
@@ -163,8 +142,8 @@ set_clock_groups -asynchronous -group [get_clocks fmc_refclk0] -group [get_clock
 #==============================================================================
 # 9. False path
 #==============================================================================
-set_false_path -to [get_ports {ad9144_spi_* ad9250_spi_* lmk04828_spi_*}]
-set_false_path -to [get_ports {ad9144_reset ad9250_reset ad9144_txen*}]
+set_false_path -to [get_ports {ad9144_spi_* lmk04828_spi_*}]
+set_false_path -to [get_ports {ad9144_reset ad9144_txen*}]
 set_false_path -from [get_ports fmc_prsnt]
 
 #==============================================================================

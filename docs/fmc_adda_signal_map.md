@@ -56,10 +56,10 @@
 | LA 信号 | FMC 引脚 | FPGA 管脚 | Bank | IOSTD | 端口名 | 状态 |
 |---------|---------|-----------|------|-------|--------|------|
 | GBTCLK0_M2C_P/N | D5/D6 | G8/G7 | 117 | — | `fmc_gbtclk0_m2c_p/n` | ✅ |
-| CLK0_M2C_P | H4 | F20 | 14 | LVCMOS25 | `ad9250_reset` | ✅ |
-| LA01_P_CC | D8 | F21 | — | LVCMOS25 | `ad9250_spi_sclk` | ✅ |
-| LA01_N_CC | D9 | E21 | — | LVCMOS25 | `ad9250_spi_csb` | ✅ |
-| LA02_N | H9 | J18 | — | LVCMOS25 | `ad9250_spi_sdio` | ✅ |
+| CLK0_M2C_P | H4 | F20 | 14 | LVCMOS25 | `ad9250_reset` | ⚠️ 已剥离 |
+| LA01_P_CC | D8 | F21 | — | LVCMOS25 | `ad9250_spi_sclk` | ⚠️ 已剥离 |
+| LA01_N_CC | D9 | E21 | — | LVCMOS25 | `ad9250_spi_csb` | ⚠️ 已剥离 |
+| LA02_N | H9 | J18 | — | LVCMOS25 | `ad9250_spi_sdio` | ⚠️ 已剥离 |
 | LA02_P | — | — | — | — | (FDA/FDB) | — |
 | LA04_P | H10 | D16 | — | LVCMOS25 | `ad9144_txen0` | ✅ |
 | LA04_N | H11 | C16 | — | LVCMOS25 | `ad9144_txen1` | ✅ |
@@ -68,7 +68,7 @@
 | LA09_P/N | D14/D15 | D21/C21 | — | LVDS_25 | `dac_sync1_p/n` | ✅ |
 | LA10_P | C14 | C19 | — | LVCMOS25 | `ad9144_spi_sclk` | ✅ |
 | LA10_N | C15 | B19 | — | LVCMOS25 | `ad9144_spi_csb` | ✅ |
-| LA13_P/N | D17/D18 | D22/C22 | — | LVDS_25 | `adc_sync_p/n` | ✅ |
+| LA13_P/N | D17/D18 | D22/C22 | — | LVDS_25 | `adc_sync_p/n` | ⚠️ 已剥离 |
 | LA14_N | C19 | F18 | — | LVCMOS25 | `ad9144_reset` | ✅ |
 | LA14_P | C18 | — | — | — | `ad9144_irqn` | — |
 | LA18_P_CC | G23 | G23 | — | LVCMOS25 | PROT0 | — |
@@ -79,6 +79,8 @@
 | **LA29_P** | G30 | **F15** | — | LVCMOS25 | **`lmk04828_reset`** | ✅ |
 | **LA29_N** | G31 | **E16** | — | LVCMOS25 | **`lmk04828_spi_sclk`** | ✅ |
 | PRSNT | — | AF30 | — | LVCMOS25 | `fmc_prsnt` | ✅ |
+
+> **注：** 标记为 ⚠️ 已剥离 的引脚已从约束文件（`awg_k325t.xdc`, `fmc_adda.xdc`）中移除（改为注释保留信息），对应的 RTL 模块（AD9250 SPI、JESD RX、校准模块）已从 `awg_top.v` 中移除。本工程当前仅使用 DAC (AD9144) 功能。约束清理日期：2026-06-09。
 
 ## 3. ADK 总线详情
 
@@ -111,8 +113,8 @@ ADK（ADDA Kit）总线是 LMK04828 的 SPI 控制总线，连接到 FMC HPC 的
 | 模块 | 状态 | 验证方式 |
 |------|------|---------|
 | AD9144 SPI/SYNC/TXEN/RESET | ✅ 已约束 | 子卡用户说明 + 底板原理图 |
-| AD9250 SPI/SYNC/RESET | ✅ 已约束 | 子卡用户说明 + 底板原理图 |
-| JESD204B GTX 收发器 | ✅ 已约束 | 子卡用户说明 |
+| AD9250 SPI/SYNC/RESET | ⚠️ 已剥离 | 代码+约束均已移除（2026-06-09） |
+| JESD204B GTX 收发器 | ✅ 已约束 (TX only) | 子卡用户说明 |
 | LMK04828 SCLK/SDIO/CS#/RESET | ✅ 已约束 | ADK 总线表 + 底板原理图 P15 |
 | 板载 UART/KEY/LED/时钟 | ✅ 已约束 | K7_IO.xdc 参考 |
 

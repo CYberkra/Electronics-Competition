@@ -201,21 +201,20 @@ always@ (posedge clk_in) begin
                 WR_STA_25: begin r_wr_infodata <= {3'b000,13'h05F,8'h14};r_wrrd_mode_sel <= SPI_WRITE_MODE; end  // enable jesd204b PHY , begin CGS link
                 WR_STA_26: begin r_wr_infodata <= {3'b000,13'h0F3,8'hFF};end  // force a internal fifo alignment
                 WR_STA_27: begin r_wr_infodata <= {3'b000,13'h0FF,8'h01};end  // force a internal fifo alignment
-                WR_STA_28: begin r_wr_infodata <= {3'b000,13'h0FF,8'h01};end  //
-                WR_STA_29: begin r_wr_infodata <= {3'b000,13'h0EE,8'h81};end  //
-                WR_STA_28: begin r_wr_infodata <= {3'b000,13'h0EF,8'h81};end  //
-                WR_STA_29: begin r_wr_infodata <= {3'b000,13'h0EE,8'h82};end  //
-                WR_STA_30: begin r_wr_infodata <= {3'b000,13'h0EF,8'h82};end  //
-                WR_STA_31: begin r_wr_infodata <= {3'b000,13'h0EE,8'h83};end  //
-                WR_STA_32: begin r_wr_infodata <= {3'b000,13'h0EF,8'h83};end  //
-                WR_STA_33: begin r_wr_infodata <= {3'b000,13'h0EE,8'h84};end  //
-                WR_STA_34: begin r_wr_infodata <= {3'b000,13'h0EF,8'h84};end  //
-                WR_STA_35: begin r_wr_infodata <= {3'b000,13'h0EE,8'h85};end  //
-                WR_STA_36: begin r_wr_infodata <= {3'b000,13'h0EF,8'h85};end  //
-                WR_STA_37: begin r_wr_infodata <= {3'b000,13'h0EE,8'h86};end  //
-                WR_STA_38: begin r_wr_infodata <= {3'b000,13'h0EF,8'h86};end  //
-                WR_STA_39: begin r_wr_infodata <= {3'b000,13'h0EE,8'h87};end  //
-                WR_STA_40: begin r_wr_infodata <= {3'b000,13'h0EF,8'h87};end  //
+                WR_STA_28: begin r_wr_infodata <= {3'b000,13'h0EE,8'h81};end  //
+                WR_STA_29: begin r_wr_infodata <= {3'b000,13'h0EF,8'h81};end  //
+                WR_STA_30: begin r_wr_infodata <= {3'b000,13'h0EE,8'h82};end  //
+                WR_STA_31: begin r_wr_infodata <= {3'b000,13'h0EF,8'h82};end  //
+                WR_STA_32: begin r_wr_infodata <= {3'b000,13'h0EE,8'h83};end  //
+                WR_STA_33: begin r_wr_infodata <= {3'b000,13'h0EF,8'h83};end  //
+                WR_STA_34: begin r_wr_infodata <= {3'b000,13'h0EE,8'h84};end  //
+                WR_STA_35: begin r_wr_infodata <= {3'b000,13'h0EF,8'h84};end  //
+                WR_STA_36: begin r_wr_infodata <= {3'b000,13'h0EE,8'h85};end  //
+                WR_STA_37: begin r_wr_infodata <= {3'b000,13'h0EF,8'h85};end  //
+                WR_STA_38: begin r_wr_infodata <= {3'b000,13'h0EE,8'h86};end  //
+                WR_STA_39: begin r_wr_infodata <= {3'b000,13'h0EF,8'h86};end  //
+                WR_STA_40: begin r_wr_infodata <= {3'b000,13'h0EE,8'h87};end  //
+                WR_STA_41: begin r_wr_infodata <= {3'b000,13'h0EF,8'h87};end  //
                 END : begin dataout_valid <= 1'b0; datain_ready <= 1'b0; rst_delay_cnt <= 10'd0; r_wrrd_mode_sel <= SPI_WRITE_MODE;end
             endcase
         end
