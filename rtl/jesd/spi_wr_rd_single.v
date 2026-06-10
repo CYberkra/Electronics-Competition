@@ -36,43 +36,38 @@ reg[31:0] spi_cnt = 32'd0;
 reg[2:0] state_cur = 3'd0, state_next = 3'd0;
 
 reg[7:0] i, j;
+//reg r_sclk;
 reg[15:0] delay_cnt;
-wire spi_tick;
-
 always@ (posedge clk_in) begin
     if(!rst_n) begin
         spi_cnt <= 32'd0;
         r_sclk <= 0;
         o_sclk <= 0;
         end
-    else begin
-        if(spi_cnt <= 32'd10) begin
-            r_sclk <= 1;
-            spi_cnt <= spi_cnt + 1'd1;
-            end
-        else if(spi_cnt <= 32'd20) begin
-            o_sclk <= 1;
-            spi_cnt <= spi_cnt + 1'd1;
-            end
-        else if(spi_cnt <= 32'd30) begin
-            r_sclk <= 0;
-            spi_cnt <= spi_cnt + 1'd1;
-            end
-        else if(spi_cnt <= 32'd40) begin
-            o_sclk <= 0;
-            spi_cnt <= spi_cnt + 1'd1;
-            end
-        else
-           spi_cnt <= 32'd0;
-    end
+    else if(spi_cnt <= 32'd10) begin
+        r_sclk <= 1;
+        spi_cnt <= spi_cnt + 1'd1;
+        end
+    else if(spi_cnt <= 32'd20) begin
+        o_sclk <= 1;
+        spi_cnt <= spi_cnt + 1'd1;
+        end
+    else if(spi_cnt <= 32'd30) begin
+        r_sclk <= 0;
+        spi_cnt <= spi_cnt + 1'd1;
+        end
+    else if(spi_cnt <= 32'd40) begin
+        o_sclk <= 0;
+        spi_cnt <= spi_cnt + 1'd1;
+        end
+    else
+       spi_cnt <= 32'd0;
 end
 
-assign spi_tick = (spi_cnt == 32'd41);
-
-always@ (posedge clk_in) begin
+always@ (posedge r_sclk) begin
     if(!rst_n)
         state_cur <= IDLE;
-    else if(spi_tick)
+    else
         state_cur <= state_next;
 end
 
@@ -170,17 +165,16 @@ always@ (posedge clk_in) begin
     end
 end
 
-always@ (posedge clk_in) begin
+always@ (posedge r_sclk) begin
     if(!rst_n) begin
        o_sda <= 1'b0;
        o_cs_n <= 1'b1;
        i <= 1'd0;
        j <= 1'd0;
        r_rd_data <= 8'h00;
-       o_sda_dir <= 1'b0;
+       o_sda_dir <= 1'b0; //Ĭ�������������
        delay_cnt <= 16'd0;
     end
-    else if(spi_tick) begin
     case(state_cur)
             IDLE : begin
                         o_sda <= 1'b0;
@@ -214,7 +208,7 @@ always@ (posedge clk_in) begin
                                 end
                         end
             DATA_REV : begin
-                            o_sda_dir <= 1'b1;
+                            o_sda_dir <= 1'b1; // data input direction
                             r_rd_data <= r_rd_data | ((i_sda)  << (SPI_DATA_LENGTH - 1 - j));
                             r_rd_data[SPI_DATA_LENGTH - 1] <= hold_save_read;
                             j <= j + 1'd1;
@@ -227,7 +221,6 @@ always@ (posedge clk_in) begin
                         j <= 1'd0;
                     end
         endcase
-    end
 end
 
 reg r_datain_ready, r_datain_ready_temp1;
@@ -236,17 +229,15 @@ always@ (posedge clk_in) begin
         r_datain_ready <= 1'b0;
         r_datain_ready_temp1 <= 1'b0;
         end
-    else if(spi_tick) begin
-        if(state_cur == IDLE) begin
-            r_datain_ready <= 1'b1;
-            if(datain_valid)
-                r_datain_ready_temp1 <= r_datain_ready;
-            end
-        else if(state_cur == START) begin
-            r_datain_ready <= 1'b0;
-            r_datain_ready_temp1 <= 1'b0;
-            end
-    end
+    else if(state_cur == IDLE) begin
+        r_datain_ready <= 1'b1;
+        if(datain_valid)
+            r_datain_ready_temp1 <= r_datain_ready;
+        end
+    else if(state_cur == START) begin
+        r_datain_ready <= 1'b0;
+        r_datain_ready_temp1 <= 1'b0;
+        end
 end
 assign datain_ready = (r_datain_ready & (~r_datain_ready_temp1)) ;
 

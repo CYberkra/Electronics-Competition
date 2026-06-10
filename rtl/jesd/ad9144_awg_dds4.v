@@ -8,7 +8,7 @@
 // generation and ease independent verification.
 
 module ad9144_awg_dds4 #(
-    parameter INIT_FILE = "../dds/ad9144_sine_4096.hex"
+    parameter INIT_FILE = "ad9144_sine_4096.hex"
 ) (
     input  wire               clk,
     input  wire               rst_n,
@@ -57,12 +57,11 @@ reg [11:0] addr0_s2, addr1_s2, addr2_s2, addr3_s2;
 
 reg signed [15:0] sine0_s1, sine1_s1, sine2_s1, sine3_s1;
 reg signed [15:0] shape0_s1, shape1_s1, shape2_s1, shape3_s1;
-reg signed [15:0] raw0_s1b, raw1_s1b, raw2_s1b, raw3_s1b;
 reg signed [32:0] product0_s2, product1_s2, product2_s2, product3_s2;
-reg [15:0] amp_s0, amp_s1, amp_s1b;
+reg [15:0] amp_s0, amp_s1;
 reg signed [15:0] offset_s0, offset_s1, offset_s2;
 reg [1:0] wave_mode_s0, wave_mode_s1;
-reg [3:0] valid_pipe;
+reg [2:0] valid_pipe;
 
 function signed [15:0] shape_from_addr;
     input [1:0] mode;
@@ -157,7 +156,7 @@ always @(posedge clk or negedge rst_n) begin
         phase_addr1  <= 12'd0;
         phase_addr2  <= 12'd0;
         phase_addr3  <= 12'd0;
-        valid_pipe   <= 4'b0000;
+        valid_pipe   <= 3'b000;
         sample_valid <= 1'b0;
     end else begin
         phase_acc <= phase_acc + phase_inc4;
@@ -186,16 +185,10 @@ always @(posedge clk or negedge rst_n) begin
         offset_s1 <= offset_s0;
         wave_mode_s1 <= wave_mode_s0;
 
-        raw0_s1b   <= select_raw_sample(wave_mode_s1, sine0_s1, shape0_s1);
-        raw1_s1b   <= select_raw_sample(wave_mode_s1, sine1_s1, shape1_s1);
-        raw2_s1b   <= select_raw_sample(wave_mode_s1, sine2_s1, shape2_s1);
-        raw3_s1b   <= select_raw_sample(wave_mode_s1, sine3_s1, shape3_s1);
-        amp_s1b    <= amp_s1;
-
-        product0_s2 <= raw0_s1b * $signed({1'b0, amp_s1b});
-        product1_s2 <= raw1_s1b * $signed({1'b0, amp_s1b});
-        product2_s2 <= raw2_s1b * $signed({1'b0, amp_s1b});
-        product3_s2 <= raw3_s1b * $signed({1'b0, amp_s1b});
+        product0_s2 <= select_raw_sample(wave_mode_s1, sine0_s1, shape0_s1) * $signed({1'b0, amp_s1});
+        product1_s2 <= select_raw_sample(wave_mode_s1, sine1_s1, shape1_s1) * $signed({1'b0, amp_s1});
+        product2_s2 <= select_raw_sample(wave_mode_s1, sine2_s1, shape2_s1) * $signed({1'b0, amp_s1});
+        product3_s2 <= select_raw_sample(wave_mode_s1, sine3_s1, shape3_s1) * $signed({1'b0, amp_s1});
         addr0_s2    <= addr0_s1;
         addr1_s2    <= addr1_s1;
         addr2_s2    <= addr2_s1;
@@ -211,8 +204,8 @@ always @(posedge clk or negedge rst_n) begin
         phase_addr2 <= addr2_s2;
         phase_addr3 <= addr3_s2;
 
-        valid_pipe   <= {valid_pipe[2:0], 1'b1};
-        sample_valid <= valid_pipe[3];
+        valid_pipe   <= {valid_pipe[1:0], 1'b1};
+        sample_valid <= valid_pipe[2];
     end
 end
 

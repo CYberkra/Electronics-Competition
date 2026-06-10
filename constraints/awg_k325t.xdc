@@ -38,7 +38,8 @@ set_clock_groups -asynchronous -group [get_clocks fmc_refclk0] -group [get_clock
 set_property PACKAGE_PIN D17 [get_ports fmc_glblclk_p]
 set_property PACKAGE_PIN D18 [get_ports fmc_glblclk_n]
 set_property IOSTANDARD LVDS_25 [get_ports {fmc_glblclk_p fmc_glblclk_n}]
-# 时钟由 clk_for_glbclk IP 内部自动创建，无需重复定义
+# glblclk 125MHz 时钟约束 — IP 虽会自动创建，但显式定义确保时序分析正确
+create_clock -period 8.000 -name fmc_glblclk [get_ports fmc_glblclk_p]
 
 #==============================================================================
 # 3. JESD204B 高速差分对 — DAC TX (AD9144, FPGA→子卡, C2M)

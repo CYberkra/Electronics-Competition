@@ -40,7 +40,11 @@ module ad9144_awg_reg_bank (
     input  wire               tx_ready,
     input  wire               tx_sync,
     input  wire               sysref_seen,
-    input  wire               sample_valid
+    input  wire               sample_valid,
+
+    // Debug
+    input  wire         [3:0] init_state,
+    input  wire               glblclk_mmcm_locked
 );
 
 localparam [7:0] ADDR_ID              = 8'h00;
@@ -60,6 +64,7 @@ localparam [7:0] ADDR_RANGE_SEL       = 8'h34;
 localparam [7:0] ADDR_OUTPUT_EN       = 8'h38;
 localparam [7:0] ADDR_CAL_ENABLE      = 8'h3C;
 localparam [7:0] ADDR_CAL_TABLE_BASE  = 8'h40;
+localparam [7:0] ADDR_DIAG            = 8'h44;
 
 localparam [31:0] CORE_ID      = 32'h41574731; // "AWG1"
 localparam [31:0] CORE_VERSION = 32'h20260507;
@@ -225,6 +230,9 @@ always @(posedge clk or negedge rst_n) begin
             end
             ADDR_CAL_ENABLE: begin
                 cfg_rdata <= {31'd0, cal_enable};
+            end
+            ADDR_DIAG: begin
+                cfg_rdata <= {24'd0, init_state, 2'b00, glblclk_mmcm_locked, 1'b0};
             end
             ADDR_BUTTON_STATE: begin
                 cfg_rdata <= {

@@ -312,10 +312,10 @@ module awg_top (
     );
 
     //==========================================================================
-    // JESD Core 时钟生成 (TX only, ADC 已剥离)
+    // JESD Core 时钟生成 — 恢复原始 clk_for_glbclk (师弟确认硬件可用)
     //==========================================================================
     clk_for_glbclk clk_for_glbclk_inst (
-        .clk_out1 (),
+        .clk_out1 (w_rx_core_clk),
         .clk_out2 (w_tx_core_clk),
         .resetn   (w_rst_n),
         .locked   (w_glbclk_mmcm_locked),
@@ -345,9 +345,7 @@ module awg_top (
 `ifdef AWG_UART_CONTROL
     wire awg_uart_activity;
 
-    // FIX: UART clocked by internal 100MHz (sys_clk_bufg) instead of
-    // w_tx_core_clk (external LMK glblclk). This makes UART available
-    // immediately after FPGA boot, before LMK/JESD init completes.
+    // UART bridge on internal 100MHz — available immediately after FPGA boot
     ad9144_uart_reg_bridge #(
         .CLK_HZ(100000000),
         .BAUD(115200)
@@ -370,14 +368,20 @@ module awg_top (
     assign awg_cfg_wdata = 32'd0;
 `endif
 
-    // Register bank also moved to sys_clk_bufg so UART write/read pulses
-    // are in the same clock domain. CDC note: reg outputs (phase_inc,
-    // amplitude, etc.) feed the DDS in w_tx_core_clk domain via mux.
-    // These are quasi-static control values — one-sample glitch on change
-    // is invisible in the RF output at 2.8Gsps.
+    // Register bank also on sys_clk_bufg — same domain as UART bridge.
+    // CDC: reg outputs (phase_inc, amplitude, etc.) feed DDS in w_tx_core_clk
+    // domain. These are quasi-static control values. output_enable is
+    // double-synchronized below to prevent metastability in the JESD data path.
     ad9144_awg_reg_bank u_ad9144_awg_reg_bank (
         .clk              (sys_clk_bufg),
         .rst_n            (sys_rst_n),
+        .cfg_wr_en        (awg_cfg_wr_en),
+        .cfg_rd_en        (awg_cfg_rd_en),
+        .cfg_addr         (awg_cfg_addr),
+        .cfg_wdata        (awg_cfg_wdata),
+        .cfg_rdata        (awg_reg_read_data),
+        .output_enable    (awg_reg_output_enable_sys),
+        .use_reg_control  (awg_reg_use_control),
         .cfg_wr_en        (awg_cfg_wr_en),
         .cfg_addr         (awg_cfg_addr),
         .cfg_wdata        (awg_cfg_wdata),
@@ -401,7 +405,11 @@ module awg_top (
         .sysref_seen      (w_sysref),
         .sample_valid     (w_awg_sample_valid),
         .range_sel        (awg_reg_range_sel),
-        .output_en        (awg_reg_output_en)
+        .output_en        (awg_reg_output_en),
+
+        // Debug: expose init state and MMCM lock
+        .init_state           (state),
+        .glblclk_mmcm_locked  (w_glbclk_mmcm_locked)
     );
 
     wire [47:0] phase_inc    = awg_reg_use_control ? awg_reg_phase_inc : key_phase_inc;
