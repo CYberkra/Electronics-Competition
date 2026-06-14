@@ -20,9 +20,11 @@ module spi_wr_rd_single #(
 
     input datain_valid,
     output datain_ready,
-    output reg r_sclk,
+    output wire r_sclk,  // deprecated, kept for port compatibility
     output reg hold_save_read
     );
+
+    assign r_sclk = 1'b0;
 
 
 localparam IDLE         = 3'd0;
@@ -36,38 +38,34 @@ reg[31:0] spi_cnt = 32'd0;
 reg[2:0] state_cur = 3'd0, state_next = 3'd0;
 
 reg[7:0] i, j;
-//reg r_sclk;
 reg[15:0] delay_cnt;
+
+// Clock-enable: fires once per SPI bit (every 40 clk_in ticks, at rising edge of original r_sclk)
+wire spi_tick = (spi_cnt == 32'd0);
+
+// Counter only, no signal generation here
 always@ (posedge clk_in) begin
-    if(!rst_n) begin
+    if(!rst_n)
         spi_cnt <= 32'd0;
-        r_sclk <= 0;
-        o_sclk <= 0;
-        end
-    else if(spi_cnt <= 32'd10) begin
-        r_sclk <= 1;
+    else if(spi_cnt < 32'd40)
         spi_cnt <= spi_cnt + 1'd1;
-        end
-    else if(spi_cnt <= 32'd20) begin
-        o_sclk <= 1;
-        spi_cnt <= spi_cnt + 1'd1;
-        end
-    else if(spi_cnt <= 32'd30) begin
-        r_sclk <= 0;
-        spi_cnt <= spi_cnt + 1'd1;
-        end
-    else if(spi_cnt <= 32'd40) begin
-        o_sclk <= 0;
-        spi_cnt <= spi_cnt + 1'd1;
-        end
     else
-       spi_cnt <= 32'd0;
+        spi_cnt <= 32'd0;
 end
 
-always@ (posedge r_sclk) begin
+// SPI clock output (pure combinational decode from counter)
+always@ (posedge clk_in) begin
+    if(!rst_n)
+        o_sclk <= 0;
+    else
+        o_sclk <= (spi_cnt >= 32'd10 && spi_cnt < 32'd30);
+end
+
+// State register: clk_in + spi_tick enable (replaces posedge r_sclk)
+always@ (posedge clk_in) begin
     if(!rst_n)
         state_cur <= IDLE;
-    else
+    else if(spi_tick)
         state_cur <= state_next;
 end
 
@@ -83,7 +81,7 @@ case(state_cur)
                     state_next = INFO_TRANS;
                 end
         INFO_TRANS : begin
-                        if(i_wrrd_mode_sel == 2'b01)  //spi read mode
+                        if(i_wrrd_mode_sel == 2'b01)
                             if(i == SPI_INFO_LENGTH - 1'd1)
                                 state_next = DATA_REV;
                             else
@@ -98,6 +96,8 @@ case(state_cur)
                                 state_next = INFO_TRANS;
                             else
                                 state_next = END;
+                        else
+                            state_next = IDLE;  // defensive: prevent latch
                      end
         DATA_REV : begin
                     if(j == SPI_DATA_LENGTH - 1'd1) begin
@@ -110,6 +110,7 @@ case(state_cur)
         END : begin
                 state_next = IDLE;
                 end
+        default: state_next = IDLE;
     endcase
 end
 reg r_once_flag;
@@ -165,7 +166,7 @@ always@ (posedge clk_in) begin
     end
 end
 
-always@ (posedge r_sclk) begin
+always@ (posedge clk_in) begin
     if(!rst_n) begin
        o_sda <= 1'b0;
        o_cs_n <= 1'b1;
@@ -175,6 +176,7 @@ always@ (posedge r_sclk) begin
        o_sda_dir <= 1'b0; //Ĭ�������������
        delay_cnt <= 16'd0;
     end
+    else if(spi_tick) begin
     case(state_cur)
             IDLE : begin
                         o_sda <= 1'b0;
@@ -221,6 +223,7 @@ always@ (posedge r_sclk) begin
                         j <= 1'd0;
                     end
         endcase
+    end
 end
 
 reg r_datain_ready, r_datain_ready_temp1;

@@ -190,6 +190,28 @@ set_property BITSTREAM.GENERAL.COMPRESS true [current_design]
 set_property CFGBVS VCCO [current_design]
 set_property CONFIG_VOLTAGE 3.3 [current_design]
 
+#==============================================================================
+# 14. 扩展模块 (KiCad PCB, P2 CMOS/CAMERA 接口) — 待顶层端口实例化
+# ST7789 TFT (SPI) + EC11 旋转编码器 + LEDK
+# 详见: kicad/模块管脚分配表.csv
+#==============================================================================
+# ST7789 TFT SPI 信号
+# set_property PACKAGE_PIN N27 [get_ports tft_dc]       ;# CMOS_VSYNC
+# set_property PACKAGE_PIN M24 [get_ports tft_scl]      ;# CMOS_SCL
+# set_property PACKAGE_PIN M27 [get_ports tft_cs]       ;# CMOS_HREF
+# set_property PACKAGE_PIN M25 [get_ports tft_sda]      ;# CMOS_SDA
+# set_property PACKAGE_PIN N29 [get_ports tft_res]      ;# CMOS_RESET
+# set_property PACKAGE_PIN M20 [get_ports tft_blk]      ;# CMOS_D0
+# set_property IOSTANDARD LVCMOS33 [get_ports {tft_dc tft_scl tft_cs tft_sda tft_res tft_blk}]
+# EC11 旋转编码器
+# set_property PACKAGE_PIN L20 [get_ports ec11_a]       ;# CMOS_D1
+# set_property PACKAGE_PIN J21 [get_ports ec11_b]       ;# CMOS_D2
+# set_property PACKAGE_PIN J22 [get_ports ec11_m]       ;# CMOS_D3
+# set_property IOSTANDARD LVCMOS33 [get_ports {ec11_a ec11_b ec11_m}]
+# LEDK 背光
+# set_property PACKAGE_PIN L30 [get_ports ledk]         ;# CMOS_D4
+# set_property IOSTANDARD LVCMOS33 [get_ports ledk]
+
 # Vivado 2024.1 假阳性：SPI FSM next-state 被误检为门控时钟
 # 所有寄存器已使用 clk_in + spi_tick(CE)，无实际门控时钟
 set_property SEVERITY {Info} [get_drc_checks PDRC-153]

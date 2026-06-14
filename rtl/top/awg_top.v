@@ -123,10 +123,13 @@ module awg_top (
 
     // JESD204B 内部信号
     wire w_common0_qpll_lock_out;
-    wire w_tx_sync;
+    wire w_tx_sync_from_pins;
+    wire w_tx_sys_reset;
     wire w_sysref;
     wire w_tx_reset_gt;
     reg  r_jesd_tx_sys_reset;
+    reg [3:0] state;
+    reg [15:0] jesd_rst_delay_cnt;
     wire w_jesd_tx_sys_reset_vio;
     wire w_tx_reset_done;
     wire w_tx_aresetn;
@@ -345,13 +348,12 @@ module awg_top (
 `ifdef AWG_UART_CONTROL
     wire awg_uart_activity;
 
-    // UART bridge on internal 100MHz — available immediately after FPGA boot
     ad9144_uart_reg_bridge #(
-        .CLK_HZ(100000000),
+        .CLK_HZ(250000000),
         .BAUD(115200)
     ) u_ad9144_uart_reg_bridge (
-        .clk            (sys_clk_bufg),
-        .rst_n          (sys_rst_n),
+        .clk            (w_tx_core_clk),
+        .rst_n          (w_rst_n),
         .uart_rxd       (uart_rxd),
         .uart_txd       (uart_txd),
         .cfg_wr_en      (awg_cfg_wr_en),
@@ -368,24 +370,13 @@ module awg_top (
     assign awg_cfg_wdata = 32'd0;
 `endif
 
-    // Register bank also on sys_clk_bufg — same domain as UART bridge.
-    // CDC: reg outputs (phase_inc, amplitude, etc.) feed DDS in w_tx_core_clk
-    // domain. These are quasi-static control values. output_enable is
-    // double-synchronized below to prevent metastability in the JESD data path.
     ad9144_awg_reg_bank u_ad9144_awg_reg_bank (
-        .clk              (sys_clk_bufg),
-        .rst_n            (sys_rst_n),
+        .clk              (w_tx_core_clk),
+        .rst_n            (w_rst_n),
         .cfg_wr_en        (awg_cfg_wr_en),
         .cfg_rd_en        (awg_cfg_rd_en),
         .cfg_addr         (awg_cfg_addr),
         .cfg_wdata        (awg_cfg_wdata),
-        .cfg_rdata        (awg_reg_read_data),
-        .output_enable    (awg_reg_output_enable_sys),
-        .use_reg_control  (awg_reg_use_control),
-        .cfg_wr_en        (awg_cfg_wr_en),
-        .cfg_addr         (awg_cfg_addr),
-        .cfg_wdata        (awg_cfg_wdata),
-        .cfg_rd_en        (awg_cfg_rd_en),
         .cfg_rdata        (awg_reg_read_data),
         .output_enable    (awg_reg_output_enable),
         .use_reg_control  (awg_reg_use_control),
@@ -401,7 +392,7 @@ module awg_top (
         .button_phase_sel (key_phase_offset[2:0]),
         .button_wave_sel  (key_wave_mode_3b[1:0]),
         .tx_ready         (w_tx_tready),
-        .tx_sync          (w_tx_sync),
+        .tx_sync          (w_tx_sync_from_pins),
         .sysref_seen      (w_sysref),
         .sample_valid     (w_awg_sample_valid),
         .range_sel        (awg_reg_range_sel),
@@ -462,7 +453,6 @@ module awg_top (
     );
 
     // DAC SYNC 输入缓冲
-    wire w_tx_sync_from_pins;
     IBUFDS IBUFDS_tx_sync (
         .O (w_tx_sync_from_pins),
         .I (dac_sync0_p),
@@ -548,8 +538,6 @@ module awg_top (
     // 顺序：LMK04828 → JESD TX复位 → AXI配置 → AD9144 → 完成
     // （AD9250/ADC 已剥离，JESD RX 已移除）
     //==========================================================================
-    reg [3:0] state;
-    reg [15:0] jesd_rst_delay_cnt;
 
     always @(posedge clk_25m) begin
         if (!w_rst_n) begin
