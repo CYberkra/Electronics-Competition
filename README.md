@@ -119,6 +119,8 @@ Electronics-Competition/
 | 答辩 PPT | `docs/competition/竞赛答辩PPT.pptx` |
 | PPT 大纲 | `docs/competition/答辩PPT内容大纲.md` |
 | 视频脚本 | `docs/competition/video_script.md` |
+| 技术论文 | `docs/competition/技术论文.md` |
+| 交付物清单 | `docs/competition/交付物清单.md` |
 | 扩展模块管脚 | `kicad/模块管脚分配表.csv` |
 | SFCW/FMCW 任务 | `docs/tasks/SFCW_FMCW_波形生成任务.md` |
 | TFT+EC11 GUI 任务 | `docs/tasks/TFT_Encoder_GUI_菜单系统任务.md` |
