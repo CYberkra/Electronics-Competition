@@ -97,8 +97,8 @@ module awg_key_ui_ctrl #(
 
         case (wave_sel)
             3'd0: wave_mode = 3'd0;   // sine
-            3'd1: wave_mode = 3'd1;   // square
-            3'd2: wave_mode = 3'd2;   // triangle
+            3'd1: wave_mode = 3'd1;   // triangle
+            3'd2: wave_mode = 3'd2;   // square
             3'd3: wave_mode = 3'd3;   // sawtooth
             3'd4: wave_mode = 3'd4;   // test / DC
             3'd5: wave_mode = 3'd5;   // BRAM waveform

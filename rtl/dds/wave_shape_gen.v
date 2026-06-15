@@ -19,7 +19,7 @@ module wave_shape_gen #(
     parameter DATA_W = 16
 )(
     input  wire [ADDR_W-1:0] addr,       // 相位地址 (0 ~ 4095)
-    input  wire [2:0]        mode,       // 1=square, 2=triangle, 3=saw
+    input  wire [2:0]        mode,       // 1=triangle, 2=square, 3=saw
     output reg  signed [DATA_W-1:0] wave_out
 );
 
@@ -54,8 +54,8 @@ module wave_shape_gen #(
     //----------------------------------------------------------------------
     always @(*) begin
         case (mode)
-            3'd1:   wave_out = addr[ADDR_W-1] ? MAX_NEG : MAX_POS;  // 方波
-            3'd2:   wave_out = triangle_val;                         // 三角波
+            3'd1:   wave_out = triangle_val;                         // 三角波
+            3'd2:   wave_out = addr[ADDR_W-1] ? MAX_NEG : MAX_POS;  // 方波
             3'd3:   wave_out = saw_val;                              // 锯齿波
             default: wave_out = 16'sd0;                             // 默认静音
         endcase

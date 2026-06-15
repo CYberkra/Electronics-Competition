@@ -1,5 +1,5 @@
 # Build minimal KEY->LED test (no FMC/JESD dependency)
-cd "D:/projects/GPR/Electronics-Competition"
+cd "D:/FPGA/awg_k325t"
 create_project -force vivado/test_led -part xc7k325tffg900-2
 set_property target_language Verilog [current_project]
 

@@ -1,5 +1,5 @@
 # Run KEY/LED behavioral simulation
-cd "D:/projects/GPR/Electronics-Competition"
+cd "D:/FPGA/awg_k325t"
 
 # Use disk-based project for simulation compatibility
 create_project -force sim_key_led sim/sim_key_led -part xc7k325tffg900-2

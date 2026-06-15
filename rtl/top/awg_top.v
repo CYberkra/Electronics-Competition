@@ -96,7 +96,21 @@ module awg_top (
 
     // UART 控制接口 (通过 AWG_UART_CONTROL 宏启用)
     input  wire        uart_rxd,          // UART RX
-    output wire        uart_txd           // UART TX
+    output wire        uart_txd,          // UART TX
+
+    //==========================================================================
+    // 扩展模块接口 (KiCad PCB: ST7789 TFT + EC11 编码器)
+    //==========================================================================
+    output wire        tft_dc,            // TFT 数据/命令切换
+    output wire        tft_scl,           // TFT SPI 时钟
+    output wire        tft_cs,            // TFT SPI 片选
+    output wire        tft_sda,           // TFT SPI 数据
+    output wire        tft_res,           // TFT 复位
+    output wire        tft_blk,           // TFT 背光
+    input  wire        ec11_a,            // EC11 A 相
+    input  wire        ec11_b,            // EC11 B 相
+    input  wire        ec11_m,            // EC11 按键
+    output wire        ec11_ledk          // 扩展模块 LED
 );
 
     //==========================================================================
@@ -344,9 +358,38 @@ module awg_top (
     wire [31:0] awg_cfg_wdata;
     wire [1:0]  awg_reg_range_sel;
     wire        awg_reg_output_en;
+    wire        awg_reg_cal_enable;
+    wire        awg_reg_cal_wr_en;
+    wire [3:0]  awg_reg_cal_wr_addr;
+    wire [31:0] awg_reg_cal_wr_data;
+    wire        awg_reg_cal_rd_en;
+    wire [3:0]  awg_reg_cal_rd_addr;
+    wire [31:0] awg_reg_cal_rd_data;
+
+    // Sweep engine control wires
+    wire        awg_reg_sweep_enable;
+    wire        awg_reg_sweep_dir;
+    wire        awg_reg_sweep_log_mode;
+    wire [47:0] awg_reg_sweep_start_inc;
+    wire [47:0] awg_reg_sweep_stop_inc;
+    wire [47:0] awg_reg_sweep_step_inc;
+    wire [31:0] awg_reg_sweep_dwell;
+    wire [47:0] w_sweep_phase_inc;
+    wire        w_sweep_active;
+
+    // Expansion module - EC11 encoder + ST7789 display
+    wire signed [7:0] ec11_rotation;
+    wire        ec11_btn_short, ec11_btn_long;
+    wire        ec11_cfg_wr_en;
+    wire [7:0]  ec11_cfg_addr;
+    wire [31:0] ec11_cfg_wdata;
+    wire        ec11_apply;
 
 `ifdef AWG_UART_CONTROL
     wire awg_uart_activity;
+    wire uart_cfg_wr_en;
+    wire [7:0] uart_cfg_addr;
+    wire [31:0] uart_cfg_wdata;
 
     ad9144_uart_reg_bridge #(
         .CLK_HZ(250000000),
@@ -356,19 +399,25 @@ module awg_top (
         .rst_n          (w_rst_n),
         .uart_rxd       (uart_rxd),
         .uart_txd       (uart_txd),
-        .cfg_wr_en      (awg_cfg_wr_en),
+        .cfg_wr_en      (uart_cfg_wr_en),
         .cfg_rd_en      (awg_cfg_rd_en),
-        .cfg_addr       (awg_cfg_addr),
-        .cfg_wdata      (awg_cfg_wdata),
+        .cfg_addr       (uart_cfg_addr),
+        .cfg_wdata      (uart_cfg_wdata),
         .cfg_rdata      (awg_reg_read_data),
         .activity_toggle(awg_uart_activity)
     );
 `else
-    assign awg_cfg_wr_en = 1'b0;
+    wire uart_cfg_wr_en = 1'b0;
+    wire [7:0] uart_cfg_addr = 8'd0;
+    wire [31:0] uart_cfg_wdata = 32'd0;
     assign awg_cfg_rd_en = 1'b0;
-    assign awg_cfg_addr  = 8'd0;
-    assign awg_cfg_wdata = 32'd0;
 `endif
+
+    // EC11 + UART bus mux (UART priority for both read and write)
+    wire uart_bus_active = uart_cfg_wr_en | awg_cfg_rd_en;
+    assign awg_cfg_wr_en = uart_cfg_wr_en | ec11_cfg_wr_en;
+    assign awg_cfg_addr  = uart_bus_active ? uart_cfg_addr : ec11_cfg_addr;
+    assign awg_cfg_wdata = uart_cfg_wr_en ? uart_cfg_wdata : ec11_cfg_wdata;
 
     ad9144_awg_reg_bank u_ad9144_awg_reg_bank (
         .clk              (w_tx_core_clk),
@@ -395,8 +444,23 @@ module awg_top (
         .tx_sync          (w_tx_sync_from_pins),
         .sysref_seen      (w_sysref),
         .sample_valid     (w_awg_sample_valid),
+        .sweep_active_in  (w_sweep_active),
         .range_sel        (awg_reg_range_sel),
         .output_en        (awg_reg_output_en),
+        .cal_enable       (awg_reg_cal_enable),
+        .cal_wr_en        (awg_reg_cal_wr_en),
+        .cal_wr_addr      (awg_reg_cal_wr_addr),
+        .cal_wr_data      (awg_reg_cal_wr_data),
+        .cal_rd_en        (awg_reg_cal_rd_en),
+        .cal_rd_addr      (awg_reg_cal_rd_addr),
+        .cal_rd_data      (awg_reg_cal_rd_data),
+        .sweep_enable     (awg_reg_sweep_enable),
+        .sweep_dir        (awg_reg_sweep_dir),
+        .sweep_log_mode   (awg_reg_sweep_log_mode),
+        .sweep_start_inc  (awg_reg_sweep_start_inc),
+        .sweep_stop_inc   (awg_reg_sweep_stop_inc),
+        .sweep_step_inc   (awg_reg_sweep_step_inc),
+        .sweep_dwell      (awg_reg_sweep_dwell),
 
         // Debug: expose init state and MMCM lock
         .init_state           (state),
@@ -404,10 +468,48 @@ module awg_top (
     );
 
     wire [47:0] phase_inc    = awg_reg_use_control ? awg_reg_phase_inc : key_phase_inc;
+
+    // Sweep engine between phase_inc and DDS
+    sweep_engine #(.PHASE_W(48)) u_sweep_engine (
+        .clk               (w_tx_core_clk),
+        .rst_n             (w_rst_n),
+        .enable            (awg_reg_sweep_enable),
+        .sweep_dir         (awg_reg_sweep_dir),
+        .sweep_log_mode    (awg_reg_sweep_log_mode),
+        .dyn_start_inc     (awg_reg_sweep_start_inc),
+        .dyn_stop_inc      (awg_reg_sweep_stop_inc),
+        .dyn_step_inc      (awg_reg_sweep_step_inc),
+        .dyn_dwell         (awg_reg_sweep_dwell),
+        .manual_phase_inc  (phase_inc),
+        .phase_inc_out     (w_sweep_phase_inc),
+        .sweep_active      (w_sweep_active)
+    );
+
     wire [15:0] amp_q15      = awg_reg_use_control ? awg_reg_amplitude_q15 : key_amplitude;
     wire [47:0] phase_offset = awg_reg_use_control ? awg_reg_phase_offset : key_phase_offset;
     wire [1:0]  wave_mode    = awg_reg_use_control ? awg_reg_wave_mode : key_wave_mode_3b[1:0];
     wire signed [15:0] awg_offset = awg_reg_use_control ? awg_reg_offset : 16'sd0;
+
+    //==========================================================================
+    // 数字校准模块 — 频率分bin增益/偏置补偿
+    //==========================================================================
+    wire [15:0] amp_q15_calibrated;
+
+    ad9144_awg_cal u_ad9144_awg_cal (
+        .clk               (w_tx_core_clk),
+        .rst_n             (w_rst_n),
+        .cal_enable        (awg_reg_cal_enable),
+        .range_sel         (awg_reg_range_sel),
+        .phase_inc         (w_sweep_phase_inc),
+        .amplitude_q15_in  (amp_q15),
+        .amplitude_q15_out (amp_q15_calibrated),
+        .cal_wr_en         (awg_reg_cal_wr_en),
+        .cal_wr_addr       (awg_reg_cal_wr_addr),
+        .cal_wr_data       (awg_reg_cal_wr_data),
+        .cal_rd_en         (awg_reg_cal_rd_en),
+        .cal_rd_addr       (awg_reg_cal_rd_addr),
+        .cal_rd_data       (awg_reg_cal_rd_data)
+    );
 
     //==========================================================================
     // 4-采样每周期 DDS (JESD204B 需要 4 样本/beat)
@@ -417,10 +519,10 @@ module awg_top (
     ) u_ad9144_awg_dds4 (
         .clk           (w_tx_core_clk),
         .rst_n         (w_rst_n),
-        .phase_inc     (phase_inc),
+        .phase_inc     (w_sweep_phase_inc),
         .phase_offset  (phase_offset),
         .wave_mode     (wave_mode),
-        .amplitude_q15 (amp_q15),
+        .amplitude_q15 (amp_q15_calibrated),
         .offset        (awg_offset),
         .sample0       (w_awg_sample0),
         .sample1       (w_awg_sample1),
@@ -430,7 +532,12 @@ module awg_top (
         .phase_addr1   (w_awg_phase_addr1),
         .phase_addr2   (),
         .phase_addr3   (),
-        .sample_valid  (w_awg_sample_valid)
+        .sample_valid  (w_awg_sample_valid),
+        // FMCW chirp — disabled by default, enable via future reg_bank extension
+        .chirp_en      (1'b0),
+        .chirp_slope   (48'd0),
+        .chirp_start_inc(48'd0),
+        .chirp_stop_inc(48'd0)
     );
 
     ad9144_sample_packer u_ad9144_sample_packer (
@@ -623,6 +730,58 @@ module awg_top (
             endcase
         end
     end
+
+    //==========================================================================
+    // Expansion module - EC11 encoder decode
+    //==========================================================================
+    ec11_decoder #(
+        .CLK_HZ(25000000)
+    ) u_ec11_decoder (
+        .clk        (clk_25m),
+        .rst_n      (w_rst_n),
+        .ec11_a     (ec11_a),
+        .ec11_b     (ec11_b),
+        .ec11_btn   (ec11_m),
+        .rotation   (ec11_rotation),
+        .btn_short  (ec11_btn_short),
+        .btn_long   (ec11_btn_long)
+    );
+
+    // EC11 -> AWG register bridge
+    ec11_awg_bridge u_ec11_awg_bridge (
+        .clk        (clk_25m),
+        .rst_n      (w_rst_n),
+        .rotation   (ec11_rotation),
+        .btn_short  (ec11_btn_short),
+        .btn_long   (ec11_btn_long),
+        .wr_en      (ec11_cfg_wr_en),
+        .wr_addr    (ec11_cfg_addr),
+        .wr_data    (ec11_cfg_wdata),
+        .apply_trig (ec11_apply),
+        .param_page (),
+        .activity   ()
+    );
+
+    // ST7789 TFT display driver
+    wire tft_init_done;
+    st7789_driver u_st7789_driver (
+        .clk         (clk_25m),
+        .rst_n       (w_rst_n),
+        .tft_scl     (tft_scl),
+        .tft_sda     (tft_sda),
+        .tft_cs      (tft_cs),
+        .tft_dc      (tft_dc),
+        .tft_res     (tft_res),
+        .tft_blk     (tft_blk),
+        .pixel_data  (16'hF800),  // RED test pattern
+        .pixel_valid (1'b1),       // continuous feed
+        .pixel_ready (),
+        .frame_done  (),
+        .init_done   (tft_init_done)
+    );
+
+    // Expansion module LED: ON = TFT init done, BLINK = EC11 activity
+    assign ec11_ledk = tft_init_done | ec11_apply;
 
     //==========================================================================
     // LED 指示

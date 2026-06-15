@@ -41,6 +41,16 @@ module ad9144_awg_reg_bank (
     input  wire               tx_sync,
     input  wire               sysref_seen,
     input  wire               sample_valid,
+    input  wire               sweep_active_in,
+
+    // Sweep control outputs
+    output reg         [47:0] sweep_start_inc,
+    output reg         [47:0] sweep_stop_inc,
+    output reg         [47:0] sweep_step_inc,
+    output reg         [31:0] sweep_dwell,
+    output reg                sweep_enable,
+    output reg                sweep_dir,
+    output reg                sweep_log_mode,
 
     // Debug
     input  wire         [3:0] init_state,
@@ -65,6 +75,14 @@ localparam [7:0] ADDR_OUTPUT_EN       = 8'h38;
 localparam [7:0] ADDR_CAL_ENABLE      = 8'h3C;
 localparam [7:0] ADDR_CAL_TABLE_BASE  = 8'h40;
 localparam [7:0] ADDR_DIAG            = 8'h44;
+localparam [7:0] ADDR_SWEEP_START_LO  = 8'h50;
+localparam [7:0] ADDR_SWEEP_START_HI  = 8'h54;
+localparam [7:0] ADDR_SWEEP_STOP_LO   = 8'h58;
+localparam [7:0] ADDR_SWEEP_STOP_HI   = 8'h5C;
+localparam [7:0] ADDR_SWEEP_STEP_LO   = 8'h60;
+localparam [7:0] ADDR_SWEEP_STEP_HI   = 8'h64;
+localparam [7:0] ADDR_SWEEP_DWELL     = 8'h68;
+localparam [7:0] ADDR_SWEEP_CTRL      = 8'h6C;
 
 localparam [31:0] CORE_ID      = 32'h41574731; // "AWG1"
 localparam [31:0] CORE_VERSION = 32'h20260507;
@@ -87,6 +105,13 @@ always @(posedge clk or negedge rst_n) begin
         range_sel     <= 2'd0;
         cal_enable    <= 1'b0;
         cal_wr_en     <= 1'b0;
+        sweep_start_inc <= 48'h000000000000;
+        sweep_stop_inc  <= 48'h0CCCCCCCCCCD;
+        sweep_step_inc  <= 48'h004189374BC7;
+        sweep_dwell     <= 32'd125000000;
+        sweep_enable    <= 1'b0;
+        sweep_dir       <= 1'b0;
+        sweep_log_mode  <= 1'b0;
         // cal_rd_en is driven ONLY in the read-logic always block below
     end else begin
         cal_wr_en <= 1'b0;
@@ -128,6 +153,18 @@ always @(posedge clk or negedge rst_n) begin
                 end
                 ADDR_CAL_ENABLE: begin
                     cal_enable <= cfg_wdata[0];
+                end
+                ADDR_SWEEP_START_LO:  sweep_start_inc[31:0]  <= cfg_wdata;
+                ADDR_SWEEP_START_HI:  sweep_start_inc[47:32] <= cfg_wdata[15:0];
+                ADDR_SWEEP_STOP_LO:   sweep_stop_inc[31:0]   <= cfg_wdata;
+                ADDR_SWEEP_STOP_HI:   sweep_stop_inc[47:32]  <= cfg_wdata[15:0];
+                ADDR_SWEEP_STEP_LO:   sweep_step_inc[31:0]   <= cfg_wdata;
+                ADDR_SWEEP_STEP_HI:   sweep_step_inc[47:32]  <= cfg_wdata[15:0];
+                ADDR_SWEEP_DWELL:     sweep_dwell            <= cfg_wdata;
+                ADDR_SWEEP_CTRL: begin
+                    sweep_enable   <= cfg_wdata[0];
+                    sweep_dir      <= cfg_wdata[1];
+                    sweep_log_mode <= cfg_wdata[2];
                 end
                 default: begin
                     if (cfg_addr >= ADDR_CAL_TABLE_BASE && cfg_addr < ADDR_CAL_TABLE_BASE + 8'h40) begin
@@ -232,8 +269,16 @@ always @(posedge clk or negedge rst_n) begin
                 cfg_rdata <= {31'd0, cal_enable};
             end
             ADDR_DIAG: begin
-                cfg_rdata <= {24'd0, init_state, 2'b00, glblclk_mmcm_locked, 1'b0};
+                cfg_rdata <= {23'd0, sweep_active_in, init_state, 2'b00, glblclk_mmcm_locked, 1'b0};
             end
+            ADDR_SWEEP_START_LO:  cfg_rdata <= sweep_start_inc[31:0];
+            ADDR_SWEEP_START_HI:  cfg_rdata <= {16'd0, sweep_start_inc[47:32]};
+            ADDR_SWEEP_STOP_LO:   cfg_rdata <= sweep_stop_inc[31:0];
+            ADDR_SWEEP_STOP_HI:   cfg_rdata <= {16'd0, sweep_stop_inc[47:32]};
+            ADDR_SWEEP_STEP_LO:   cfg_rdata <= sweep_step_inc[31:0];
+            ADDR_SWEEP_STEP_HI:   cfg_rdata <= {16'd0, sweep_step_inc[47:32]};
+            ADDR_SWEEP_DWELL:     cfg_rdata <= sweep_dwell;
+            ADDR_SWEEP_CTRL:      cfg_rdata <= {28'd0, sweep_log_mode, sweep_dir, sweep_enable, 1'b0};
             ADDR_BUTTON_STATE: begin
                 cfg_rdata <= {
                     14'd0,

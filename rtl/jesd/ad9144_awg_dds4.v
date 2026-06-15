@@ -25,7 +25,13 @@ module ad9144_awg_dds4 #(
     output reg         [11:0] phase_addr1,
     output reg         [11:0] phase_addr2,
     output reg         [11:0] phase_addr3,
-    output reg                sample_valid
+    output reg                sample_valid,
+
+    // FMCW chirp mode (continuous frequency modulation)
+    input  wire               chirp_en,
+    input  wire        [47:0] chirp_slope,
+    input  wire        [47:0] chirp_start_inc,
+    input  wire        [47:0] chirp_stop_inc
 );
 
 (* rom_style = "block" *) reg signed [15:0] sine_rom0 [0:4095];
@@ -41,10 +47,14 @@ initial begin
 end
 
 reg [47:0] phase_acc;
+reg [47:0] chirp_phase_inc;
+reg        chirp_dir;
 wire [47:0] phase_base = phase_acc + phase_offset;
-wire [47:0] phase_inc2 = {phase_inc[46:0], 1'b0};
-wire [47:0] phase_inc3 = phase_inc2 + phase_inc;
-wire [47:0] phase_inc4 = {phase_inc[45:0], 2'b00};
+// Effective phase_inc: chirp or static
+wire [47:0] eff_phase_inc = chirp_en ? chirp_phase_inc : phase_inc;
+wire [47:0] phase_inc2 = {eff_phase_inc[46:0], 1'b0};
+wire [47:0] phase_inc3 = phase_inc2 + eff_phase_inc;
+wire [47:0] phase_inc4 = {eff_phase_inc[45:0], 2'b00};
 
 wire [47:0] phase0 = phase_base;
 wire [47:0] phase1 = phase_base + phase_inc;
@@ -70,18 +80,23 @@ function signed [15:0] shape_from_addr;
     input [11:0] addr;
     reg [10:0] half_addr;
     reg [10:0] tri_unsigned;
-    reg signed [12:0] tri_centered;
+    reg [16:0] tri_scaled;
+    reg signed [17:0] tri_signed;
     reg signed [13:0] saw_centered;
     begin
         half_addr = addr[10:0];
         case (mode)
-            2'd1: shape_from_addr = addr[11] ? -16'sd32768 : 16'sd32767;
-            2'd2: begin
+            2'd1: begin  // Triangle -- matches reg_bank 1=Triangle
                 tri_unsigned = addr[11] ? (11'd2047 - half_addr) : half_addr;
-                tri_centered = $signed({1'b0, tri_unsigned}) - 13'sd1024;
-                shape_from_addr = tri_centered <<< 5;
+                // scale: tri_unsigned*32 + tri_unsigned/64 ~= 65535/2047
+                // peak: 2047*32+31=65535 -> signed=65535-32768=32767
+                tri_scaled = {1'b0, tri_unsigned, 5'b0}
+                           + {11'd0, tri_unsigned[10:6]};
+                tri_signed = $signed({1'b0, tri_scaled}) - 18'sd32768;
+                shape_from_addr = tri_signed[15:0];
             end
-            2'd3: begin
+            2'd2: shape_from_addr = addr[11] ? -16'sd32768 : 16'sd32767;  // Square
+            2'd3: begin  // Sawtooth
                 saw_centered = $signed({1'b0, addr}) - 14'sd2048;
                 shape_from_addr = saw_centered <<< 4;
             end
@@ -118,7 +133,9 @@ endfunction
 
 always @(posedge clk or negedge rst_n) begin
     if (!rst_n) begin
-        phase_acc    <= 48'd0;
+        phase_acc       <= 48'd0;
+        chirp_phase_inc <= 48'd0;
+        chirp_dir       <= 1'b0;
         addr0_s0     <= 12'd0;
         addr1_s0     <= 12'd0;
         addr2_s0     <= 12'd0;
@@ -156,6 +173,19 @@ always @(posedge clk or negedge rst_n) begin
         valid_pipe   <= 3'b000;
         sample_valid <= 1'b0;
     end else begin
+        // FMCW chirp: phase_inc ramps every cycle
+        if (chirp_en) begin
+            if (!chirp_dir && chirp_phase_inc < chirp_stop_inc)
+                chirp_phase_inc <= chirp_phase_inc + chirp_slope;
+            else if (chirp_dir && chirp_phase_inc > chirp_start_inc)
+                chirp_phase_inc <= chirp_phase_inc - chirp_slope;
+            else
+                chirp_dir <= ~chirp_dir;
+        end else begin
+            chirp_phase_inc <= phase_inc;
+            chirp_dir <= 1'b0;
+        end
+
         phase_acc <= phase_acc + phase_inc4;
 
         addr0_s0 <= phase0[47:36];

@@ -1,5 +1,5 @@
 # Program the K325T board with awg_top.bit
-cd "D:/projects/GPR/Electronics-Competition"
+cd "D:/FPGA/awg_k325t"
 
 open_hw_manager
 connect_hw_server -url localhost:3121

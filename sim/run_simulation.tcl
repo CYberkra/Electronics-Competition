@@ -2,7 +2,7 @@
 # 自动运行行为仿真并保存波形
 
 set script_dir [file normalize [file dirname [info script]]]
-set repo_root [file normalize [file join $script_dir ""]]
+set repo_root [file normalize [file join $script_dir ".."]]
 
 # 打开工程
 open_project [file join $repo_root "vivado" "awg_k325t.xpr"]

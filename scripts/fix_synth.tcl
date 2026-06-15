@@ -1,6 +1,7 @@
+set_param general.maxThreads 16
 # Quick rebuild: setup sources, synthesize, implement, generate bitstream
 # Usage: vivado -mode batch -source scripts/fix_synth.tcl
-cd "D:/projects/GPR/Electronics-Competition"
+cd "D:/FPGA/awg_k325t"
 open_project vivado/awg_k325t.xpr
 
 set_property source_mgmt_mode All [current_project]
@@ -36,10 +37,10 @@ foreach xci [get_files *.xci] {
 
 # Build
 puts "\n=== Synth ===" ; catch {reset_run synth_1}
-launch_runs synth_1 -jobs 4; wait_on_run synth_1
+launch_runs synth_1 -jobs 8; wait_on_run synth_1
 puts "Synth: [get_property PROGRESS [get_runs synth_1]]"
 
-launch_runs impl_1 -jobs 4 -to_step write_bitstream; wait_on_run impl_1
+launch_runs impl_1 -jobs 12 -to_step write_bitstream; wait_on_run impl_1
 puts "Impl: [get_property PROGRESS [get_runs impl_1]]"
 
 if {[get_property PROGRESS [get_runs impl_1]] eq "100%"} {
