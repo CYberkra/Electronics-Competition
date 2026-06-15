@@ -1,6 +1,6 @@
 import serial, sys
 f = float(sys.argv[1]) if len(sys.argv) > 1 else 50_000
-ser = serial.Serial('COM3', 115200, timeout=2)
+ser = serial.Serial('COM4', 115200, timeout=2)
 def wr(a,d):
     ser.write(f'W {a&0xFF:02X} {d&0xFFFFFFFF:08X}\n'.encode())
     ser.flush(); ser.readline()

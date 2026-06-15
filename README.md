@@ -1,38 +1,51 @@
 # AWG K325T — 任意波形信号发生器
 
 > 第二十一届研电赛 · 优利德赛题二 FPGA 数字基带
-> 目标器件：Xilinx Kintex-7 XC7K325TFFG900-2（正点原子 K7-325T 开发板）
-> 子卡：FMCADDA-9250-9144（AD9250 ADC + AD9144 DAC）
+> 目标器件：Xilinx Kintex-7 XC7K325TFFG900-2（正点原子 K7-325T）
+> 子卡：FMCADDA-9250-9144 (AD9144 DAC)
+> 扩展模块：KiCad PCB (ST7789 LCD + EC11 编码器 + Logo 丝印)
 
 ---
 
 ## 项目简介
 
-基于 **正点原子 K7-325T** + **FMCADDA-9250-9144 子卡** 的高速任意波形发生器 FPGA 实现。
+基于 **K7-325T** + **AD9144 DAC** 的高速任意波形发生器，TX-only 纯信号生成设计。
 
 ### 核心指标
 
-| 指标 | 值 |
-|------|----|
-| DAC | AD9144, 4 通道 16bit, 2.8Gsps |
-| ADC | AD9250, 双通道 14bit, 250Msps |
-| JESD204B | TX 4L @10Gbps / RX 2L @5Gbps |
-| 时钟 | LMK04828 PLL（50M TCXO → 125M/250M）|
-| 频率分辨率 | 48bit DDS ≈ 1μHz @250MHz clk |
+| 指标 | 值 | 赛题要求 |
+|------|----|---------|
+| DAC | AD9144, 4ch 16bit, 2.8Gsps | ≥5GSa/s ⚠️ |
+| 垂直分辨率 | 16 bit | ≥14bit ✅ |
+| 频率分辨率 | 48bit DDS, ~μHz | ≤1mHz ✅ |
+| JESD204B | TX 4L @10Gbps | — |
+| 时钟 | LMK04828 (50M TCXO) | — |
+| 控制 | UART 115200 + 按键 | — |
+
+### 实测幅度 (2026-06-14, 满幅度 0x7FFF)
+
+| 100kHz | 1MHz | 10MHz | 100MHz | 300MHz |
+|--------|------|-------|--------|--------|
+| 60mV | 120mV | 500mV | 680mV | 470mV |
 
 ### 当前进度
 
-- [x] AD9144 DAC 4L JESD204B 建链（GTX @10Gbps）
-- [x] AD9250 ADC 2L JESD204B 建链
+- [x] JESD204B 4L @10Gbps 建链
 - [x] LMK04828 SPI 时钟配置
-- [x] DDS 信号发生（正弦/三角/方波/锯齿波）
-- [x] 扫频引擎
-- [x] BRAM 波形回放
-- [x] 幅度/偏置缩放
-- [x] 数字校准表
-- [x] UART 远程控制
-- [x] 板载按键控制（频率/波形/幅度/偏置）
-- [x] Bitstream 生成
+- [x] SPI clock-enable 重构 (derived clock → clk_in + spi_tick)
+- [x] DDS 4级流水线 (48bit, 4采样/周期, Sine LUT 4096×16bit)
+- [x] 4种波形 (正弦/方波/三角/锯齿) + BRAM 任意波形
+- [x] 扫频引擎 (线性, sweep_engine.v)
+- [x] 幅度/偏置 Q1.15 缩放
+- [x] UART 远程控制 (115200 8N1 ASCII 协议)
+- [x] 板载按键控制 (KEY0/KEY1)
+- [x] KiCad 扩展模块 (ST7789 + EC11, 含 Logo 丝印)
+- [x] 竞赛文档 (设计文档 + 测试方案 + PPT)
+- [ ] 扩展模块 FPGA 驱动 (EC11 + ST7789)
+- [ ] 对数扫频
+- [ ] 数字校准表实例化 (ad9144_awg_cal)
+- [ ] 频谱仪频域测试 (THD/SFDR/ENOB)
+- [ ] 外部放大器 (→3Vpp)
 
 ---
 
@@ -40,29 +53,29 @@
 
 | 项目 | 版本/路径 |
 |------|----------|
-| **Vivado** | **2024.1 Enterprise Edition** |
+| **Vivado** | **2024.1** (2024.2+ 无 7 系 JESD IP) |
 | 目标器件 | `xc7k325tffg900-2` |
-| License | Synthesis + `xc7k325t` + JESD204 |
-
-> **注意**：Vivado 2024.2+ 已移除 7 系列 JESD204 IP 支持，必须使用 2024.1。
+| License | Synthesis + JESD204 |
 
 ---
 
 ## 快速开始
 
-### 1. 生成 Bitstream
+### 构建 & 烧录
 
 ```powershell
-& D:\Xilinx\Vivado\2024.1\bin\vivado.bat -mode batch -source scripts/fix_synth.tcl
+# 综合 → 实现 → Bitstream
+& D:\Xilinx\Vivado\2024.1\bin\vivado.bat -mode batch -source scripts/build_all.tcl
+
+# 烧录
+& D:\Xilinx\Vivado\2024.1\bin\vivado.bat -mode batch -source scripts/program.tcl
 ```
 
-输出：`vivado/awg_k325t.runs/impl_1/awg_top.bit`
+### UART 控制
 
-### 2. 重新构建工程（如需）
-
-```tcl
-# Vivado Tcl Console
-source scripts/build_all.tcl
+```python
+python tools/set_freq.py 50000000  # 50MHz
+# 或手动: W 08 00000003 (开控制) → W 10/14 (设频率) → W 2C 00000001 (应用)
 ```
 
 ---
@@ -71,39 +84,25 @@ source scripts/build_all.tcl
 
 ```
 Electronics-Competition/
-├── rtl/                    # Verilog RTL 源码
-│   ├── top/                # 顶层模块 awg_top
-│   ├── control/            # 按键 / LED 控制
-│   ├── dds/                # DDS + NCO + LUT
-│   ├── dsp/                # AWG 核心 / 幅度偏置 / 复用
-│   ├── jesd/               # JESD204B 接口 + SPI 配置
-│   ├── sweep/              # 扫频引擎
-│   └── wave/               # BRAM 波形播放器
-├── constraints/            # XDC 约束文件
-│   ├── awg_k325t.xdc       # 主约束（系统级）
-│   └── fmc_adda.xdc        # FMC 子卡管脚映射
-├── vivado/                 # Vivado 工程 + IP 配置
-├── scripts/                # 自动化 Tcl 脚本
-├── docs/                   # 文档
-│   ├── fmc_adda_signal_map.md  # FMC 信号映射表
-│   ├── overview/          # 项目概述（硬件平台、工具链）
-│   ├── architecture/      # 系统架构（时钟树、顶层图）
-│   ├── modules/           # 模块设计笔记（AD9144/JESD/LMK/DDS）
-│   ├── timing/            # 约束与时序（CDC 风险）
-│   ├── troubleshooting/   # 问题排查（License/错误/验证流程）
-│   ├── reference/         # 参数手册、文件索引
-│   ├── competition/       # 竞赛文档
-│   └── references/        # 参考原理图 + 用户手册 PDF
-├── sim/                    # 仿真 testbench
-├── kicad/                  # KiCad 工程（扩展模块）
-└── constraints/            # FPGA 约束
+├── rtl/               # Verilog RTL (top/ control/ dds/ dsp/ jesd/ sweep/ wave/)
+├── constraints/       # XDC 约束 (awg_k325t.xdc, fmc_adda.xdc)
+├── vivado/            # Vivado 工程 (.xpr + IP .xci)
+├── scripts/           # Tcl 构建/烧录脚本
+├── tools/             # Python UART 工具
+├── docs/competition/  # 竞赛文档 (设计文档/测试方案/PPT/视频脚本)
+├── sim/               # 仿真 testbench
+└── kicad/             # KiCad 扩展模块 PCB
 ```
 
----
+## 扩展模块管脚
 
-## FMC 信号映射
+| 功能 | FPGA 引脚 | 备注 |
+|------|----------|------|
+| TFT SPI (6pin) | N27/M24/M27/M25/N29/M20 | ST7789, P2 CMOS接口 |
+| EC11 编码器 | L20/J21/J22 | CMOS_D1/D2/D3 |
+| LEDK | L30 | CMOS_D4 |
 
-详见 [`docs/fmc_adda_signal_map.md`](docs/fmc_adda_signal_map.md) — 包含子卡↔底板完整管脚映射表。
+约束已备注释在 `constraints/awg_k325t.xdc` §14，顶层端口待加。
 
 ---
 
@@ -111,43 +110,15 @@ Electronics-Competition/
 
 | 需求 | 位置 |
 |------|------|
-| FMC 信号总表 | `docs/fmc_adda_signal_map.md` |
-| 子卡用户说明 | `docs/references/FMCADDA-9250-9144子卡用户说明.pdf` |
-| 子卡原理图 | `docs/references/FMC_9250_9144_BRD_SCH.pdf` |
-| 底板原理图 | `docs/references/K7_BASE_1V3_2025_0111_USER.pdf` |
-| 底板 IO 参考 | `docs/references/K7_IO.xdc` |
-| FMC 约束 | `constraints/fmc_adda.xdc` |
-| 模块设计笔记 | `docs/modules/`（AD9144/JESD/LMK/DDS） |
-| 问题排查 | `docs/troubleshooting/`（License/错误/验证） |
-| 竞赛设计文档 | `docs/competition/design_document.md` |
+| 赛题原文 | `docs/competition/uni-trend-problem-statement.md` |
+| 设计文档 | `docs/competition/design_document.md` |
+| 测试方案 | `docs/competition/AWG指标测试方案.md` |
+| 测试记录 | `docs/competition/AWG指标测试结果记录.md` |
+| 答辩 PPT | `docs/competition/竞赛答辩PPT.pptx` |
+| PPT 大纲 | `docs/competition/答辩PPT内容大纲.md` |
+| 视频脚本 | `docs/competition/video_script.md` |
+| 扩展模块管脚 | `kicad/模块管脚分配表.csv` |
 
 ---
 
-## Git 规范
-
-### 分支策略
-
-```
-main          # 稳定版本
-  └── dev     # 日常开发
-```
-
-### 提交类型
-
-| type | 用途 |
-|------|------|
-| `feat` | 新功能 |
-| `fix` | 修复 |
-| `docs` | 文档 |
-| `refactor` | 重构 |
-| `chore` | 构建/工具 |
-
-### 提交规范
-
-- 不提交 Vivado 生成文件（`.runs/`, `.cache/`, `.sim/`, `.gen/`）
-- 不提交 bitstream（`.bit`）
-- 不提交波形配置（`.wcfg`）
-
----
-
-> **最后更新**: 2026-06-09
+> **最后更新**: 2026-06-15

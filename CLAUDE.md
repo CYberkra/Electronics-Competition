@@ -158,3 +158,69 @@ All sims use Vivado XSim. Run via `sim/run_simulation.tcl`.
 3. **JESD204 IP requires license** — `trial.lic` at `%APPDATA%\XilinxLicense\`
 4. **CFGMCLK from STARTUPE2** — the system MMCM is clocked from the FPGA's internal 65MHz configuration clock, not the 100MHz board clock
 5. **TX-only design** — this is a pure AWG/signal-generation project. The competition problem does NOT require ADC. No signal acquisition needed.
+
+## UART Control Quick Reference
+
+Connect to COM port (varies: COM3, COM4, etc.) at 115200 8N1:
+
+```python
+import serial; ser = serial.Serial('COM4', 115200, timeout=2)
+def wr(addr, data):
+    ser.write(f'W {addr&0xFF:02X} {data&0xFFFFFFFF:08X}\n'.encode())
+    ser.flush(); ser.readline()
+
+wr(0x08, 0x03)  # MUST enable UART control first (bit1=1)
+# Set frequency: phase_inc = f_hz * 2^48 / 1e9
+wr(0x10, pi_lo) # PHASE_INC_LO
+wr(0x14, pi_hi) # PHASE_INC_HI
+wr(0x28, 0)     # 0=sine, 1=square, 2=triangle, 3=saw
+wr(0x20, 0x7FFF)# amplitude (Q1.15, max safe=0x7FFF)
+wr(0x2C, 1)     # APPLY (write any value to trigger)
+```
+
+Or use: `python tools/set_freq.py 10000000`
+
+## Expansion Module (TFT + Encoder)
+
+KiCad PCB connected to FPGA P2 (CMOS/CAMERA interface):
+
+| Signal | H3 Pin | FPGA Pin | FPGA Function |
+|--------|--------|----------|---------------|
+| TFT_DC | 3 | N27 | CMOS_VSYNC |
+| TFT_SCL | 4 | M24 | CMOS_SCL |
+| TFT_CS | 5 | M27 | CMOS_HREF |
+| TFT_SDA | 6 | M25 | CMOS_SDA |
+| TFT_RES | 7 | N29 | CMOS_RESET |
+| TFT_BLK | 8 | M20 | CMOS_D0 |
+| EC11_A | 9 | L20 | CMOS_D1 |
+| EC11_B | 10 | J21 | CMOS_D2 |
+| EC11_M | 11 | J22 | CMOS_D3 |
+| LEDK | 12 | L30 | CMOS_D4 |
+
+Pin constraints ready in `constraints/awg_k325t.xdc` §14 (commented, awaiting top-level ports).
+FPGA drivers for EC11 quadrature decode + ST7789 SPI are NOT yet implemented.
+
+## Recent RTL Changes (2026-06-14, commit 7de5f0d)
+
+| File | Change | Reason |
+|------|--------|--------|
+| `spi_wr_rd_single.v` | derived clock → clock-enable | Fix CRITICAL: register as clock |
+| `ad9144_awg_dds4.v` | +1 pipeline stage | Fix timing: shape_from_addr path |
+| `awg_top.v` | explicit wire declarations | Clean up implicit-net warnings |
+| `ad9144_spi_wr_config.v` | `10'd0` → `32'd0` | Fix width mismatch |
+| `lmk_spi_wr_config.v` | comment added | Board has inverter on RESET path |
+
+## Measured Performance (2026-06-14)
+
+Tested with Agilent DSO-X 3034A, 50Ω termination, amplitude=0x7FFF:
+
+| Freq | Vpp | Notes |
+|------|-----|-------|
+| 100kHz | 60mV | Transformer LF cutoff |
+| 10MHz | 500mV | |
+| 100MHz | 680mV | Peak response |
+| 300MHz | 470mV | HF rolloff |
+
+Flatness: >20dB deviation across full range (fails <3dB requirement).
+Root cause: FMC transformer AC coupling, no output amplifier, calibration table not instantiated.
+
