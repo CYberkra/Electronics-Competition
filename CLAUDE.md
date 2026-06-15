@@ -17,6 +17,9 @@ AWG (Arbitrary Waveform Generator) FPGA implementation for the 21st National Gra
 **Must use Vivado 2024.1 Enterprise Edition** — 2024.2+ removed 7-series JESD204 IP support.
 
 ```powershell
+# Verify Vivado and license before first build
+& D:\Xilinx\Vivado\2024.1\bin\vivado.bat -mode batch -source scripts/verify_license.tcl
+
 # Full build with ILA debug (Synthesis → Implementation → Bitstream)
 & D:\Xilinx\Vivado\2024.1\bin\vivado.bat -mode batch -source scripts/build_all.tcl
 
@@ -158,6 +161,8 @@ All sims use Vivado XSim. Run via `sim/run_simulation.tcl`.
 3. **JESD204 IP requires license** — `trial.lic` at `%APPDATA%\XilinxLicense\`
 4. **CFGMCLK from STARTUPE2** — the system MMCM is clocked from the FPGA's internal 65MHz configuration clock, not the 100MHz board clock
 5. **TX-only design** — this is a pure AWG/signal-generation project. The competition problem does NOT require ADC. No signal acquisition needed.
+6. **LMK04828 RESET has board inverter** — `1'b0` from FPGA → inverter → `1'b1` to LMK = deasserted. DO NOT change `lmk_spi_wr_config.v:assign o_lmk_rst = 1'b0;`
+7. **Vivado project files fragile** — `vivado/` directory (XPR + IP XCI) may be missing from repo. Restore from backup at `C:\Users\unive\Downloads\K325T_AWG_Competition_Core_20260610\vendor_src\`. IPs need `upgrade_ip` before `generate_target` for 2024.1.
 
 ## UART Control Quick Reference
 
@@ -179,6 +184,8 @@ wr(0x2C, 1)     # APPLY (write any value to trigger)
 ```
 
 Or use: `python tools/set_freq.py 10000000`
+
+**⚠️ Gotcha**: After each reprogram, `control_reg` defaults to `0x01` (UART disabled). `set_freq.py` does NOT auto-enable UART control — run `wr(0x08, 0x03)` first or the frequency won't change. COM port can change after reboot (check with `python -c "import serial.tools.list_ports; [print(p.device) for p in serial.tools.list_ports.comports()]"`).
 
 ## Expansion Module (TFT + Encoder)
 
