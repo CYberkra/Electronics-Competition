@@ -86,7 +86,8 @@ python tools/set_freq.py 50000000  # 50MHz
 Electronics-Competition/
 ├── rtl/               # Verilog RTL (top/ control/ dds/ dsp/ jesd/ sweep/ wave/)
 ├── constraints/       # XDC 约束 (awg_k325t.xdc, fmc_adda.xdc)
-├── vivado/            # Vivado 工程 (.xpr + IP .xci)
+├── vivado/            # Vivado 工程
+├── docs/tasks/        # 开发任务文档 (SFCW, GUI)
 ├── scripts/           # Tcl 构建/烧录脚本
 ├── tools/             # Python UART 工具
 ├── docs/competition/  # 竞赛文档 (设计文档/测试方案/PPT/视频脚本)
@@ -110,7 +111,8 @@ Electronics-Competition/
 
 | 需求 | 位置 |
 |------|------|
-| 赛题原文 | `docs/competition/uni-trend-problem-statement.md` |
+| 赛题原文 (官方PDF) | `docs/references/研电赛第21届技术竞赛赛题清单.pdf` |
+| 赛题原文 (文本) | `docs/competition/uni-trend-problem-statement.md` |
 | 设计文档 | `docs/competition/design_document.md` |
 | 测试方案 | `docs/competition/AWG指标测试方案.md` |
 | 测试记录 | `docs/competition/AWG指标测试结果记录.md` |
@@ -118,6 +120,8 @@ Electronics-Competition/
 | PPT 大纲 | `docs/competition/答辩PPT内容大纲.md` |
 | 视频脚本 | `docs/competition/video_script.md` |
 | 扩展模块管脚 | `kicad/模块管脚分配表.csv` |
+| SFCW/FMCW 任务 | `docs/tasks/SFCW_FMCW_波形生成任务.md` |
+| TFT+EC11 GUI 任务 | `docs/tasks/TFT_Encoder_GUI_菜单系统任务.md` |
 
 ---
 
