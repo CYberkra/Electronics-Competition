@@ -1,255 +1,174 @@
-//------------------------------------------------------------------------------
-// ST7789 SPI LCD Driver — 240x280 TFT, 3-wire SPI + DC + RES + BLK
-// Simple counter-based SPI: each bit = 2 cycles (SCL low → SCL high)
-// SPI clock = clk/2 = 12.5 MHz
-//------------------------------------------------------------------------------
+// ST7789 SPI LCD Driver - 240x280 TFT
+// 6-state bit engine: 6 cycles/bit = 4.17 MHz SCL
+// SPI Mode 0: CPOL=0 (idle low), CPHA=0 (sample on rising edge)
 `timescale 1ns / 1ps
 
 module st7789_driver (
-    input  wire        clk,           // 25MHz
+    input  wire        clk,
     input  wire        rst_n,
-
     output reg         tft_scl,
     output reg         tft_sda,
     output reg         tft_cs,
-    output reg         tft_dc,        // 0=command, 1=data
+    output reg         tft_dc,
     output reg         tft_res,
     output reg         tft_blk,
-
-    input  wire [15:0] pixel_data,    // RGB565
+    input  wire [15:0] pixel_data,
     input  wire        pixel_valid,
     output reg         pixel_ready,
-
     output reg         frame_done,
     output reg         init_done
 );
 
-    // Init commands: {is_data(1bit), payload(8bit)}
-    // Special: 9'h1FF = delay, 9'h1FE = end
-    localparam CMD_SWRESET = 9'h001;
-    localparam CMD_SLPOUT  = 9'h011;
-    localparam CMD_COLMOD  = 9'h03A;
-    localparam CMD_MADCTL  = 9'h036;
-    localparam CMD_INVON   = 9'h021;
-    localparam CMD_NORON   = 9'h013;
-    localparam CMD_DISPON  = 9'h029;
-    localparam CMD_CASET   = 9'h02A;
-    localparam CMD_RASET   = 9'h02B;
-    localparam CMD_RAMWR   = 9'h02C;
+    // Init commands: 9-bit {is_data, byte}, 0x1FF=delay, 0x1FE=end
+    localparam CMD_SWRESET = {1'b0, 8'h01};
+    localparam CMD_SLPOUT  = {1'b0, 8'h11};
+    localparam CMD_COLMOD  = {1'b0, 8'h3A};
+    localparam CMD_MADCTL  = {1'b0, 8'h36};
+    localparam CMD_INVON   = {1'b0, 8'h21};
+    localparam CMD_NORON   = {1'b0, 8'h13};
+    localparam CMD_DISPON  = {1'b0, 8'h29};
+    localparam CMD_CASET   = {1'b0, 8'h2A};
+    localparam CMD_RASET   = {1'b0, 8'h2B};
+    localparam CMD_RAMWR   = {1'b0, 8'h2C};
     localparam SEQ_DELAY   = 9'h1FF;
     localparam SEQ_END     = 9'h1FE;
+    // Delay count for 120ms at 25MHz
+    localparam [24:0] DELAY_120MS = 25'd3_000_000;
 
-    // Init sequence ROM
-    reg [8:0] init_seq [0:24];
+    reg [8:0] seq [0:23];
     integer i;
     always @(posedge clk or negedge rst_n) begin
-        if (!rst_n) begin
-            for (i = 0; i < 25; i = i + 1) init_seq[i] <= 9'd0;
-        end else begin
-            init_seq[0]  <= CMD_SWRESET; init_seq[1]  <= SEQ_DELAY;
-            init_seq[2]  <= CMD_SLPOUT;  init_seq[3]  <= SEQ_DELAY;
-            init_seq[4]  <= CMD_COLMOD;  init_seq[5]  <= {1'b1, 8'h55};
-            init_seq[6]  <= CMD_MADCTL;  init_seq[7]  <= {1'b1, 8'h00};
-            init_seq[8]  <= CMD_INVON;
-            init_seq[9]  <= CMD_NORON;
-            init_seq[10] <= CMD_DISPON;
-            init_seq[11] <= CMD_CASET;
-            init_seq[12] <= {1'b1, 8'h00}; init_seq[13] <= {1'b1, 8'h00};
-            init_seq[14] <= {1'b1, 8'h00}; init_seq[15] <= {1'b1, 8'hEF};
-            init_seq[16] <= CMD_RASET;
-            init_seq[17] <= {1'b1, 8'h00}; init_seq[18] <= {1'b1, 8'h00};
-            init_seq[19] <= {1'b1, 8'h01}; init_seq[20] <= {1'b1, 8'h17};
-            init_seq[21] <= CMD_RAMWR;
-            init_seq[22] <= SEQ_END;
+        if (!rst_n) for (i=0;i<24;i=i+1) seq[i]<=9'd0;
+        else begin
+            seq[0] <=CMD_SWRESET; seq[1] <=SEQ_DELAY;
+            seq[2] <=CMD_SLPOUT;  seq[3] <=SEQ_DELAY;
+            seq[4] <=CMD_COLMOD;  seq[5] <={1'b1,8'h55};
+            seq[6] <=CMD_MADCTL;  seq[7] <={1'b1,8'h00}; // RGB mode (BGR=0x08 if colors swapped) // BGR panel subpixel order
+            seq[8] <=CMD_INVON;
+            seq[9] <=CMD_NORON;
+            seq[10]<=CMD_DISPON;  seq[11]<=SEQ_DELAY;    // 120ms settle
+            seq[12]<=CMD_CASET;
+            seq[13]<={1'b1,8'h00};seq[14]<={1'b1,8'h00}; // XS=0
+            seq[15]<={1'b1,8'h00};seq[16]<={1'b1,8'hEF}; // XE=239
+            seq[17]<=CMD_RASET;
+            seq[18]<={1'b1,8'h00};seq[19]<={1'b1,8'h14}; // YS=20 (0x0014)
+            seq[20]<={1'b1,8'h01};seq[21]<={1'b1,8'h2B}; // YE=299 (0x012B)
+            seq[22]<=CMD_RAMWR;
+            seq[23]<=SEQ_END;
         end
     end
 
-    //--------------------------------------------------------------------------
-    // SPI bit-bang state machine
-    // Each bit: 2 sub-cycles (phase=0: SCL=0 set SDA; phase=1: SCL=1 sample)
-    //--------------------------------------------------------------------------
-    localparam PHASE_SCL1 = 1'b1;  // SCL high, ST7789 samples SDA
-    localparam PHASE_SCL0 = 1'b0;  // SCL low, update SDA
+    // 6-state per bit engine: 3 SCL=0, 3 SCL=1
+    // Gives 240ns/bit = 4.17MHz SCL, double timing margin
+    localparam [2:0] PH_S0=0, PH_S1=1, PH_S2=2, PH_H0=3, PH_H1=4, PH_H2=5;
+    reg [2:0] ph;
+    reg [2:0] bc;         // bit count 0-7
+    reg [7:0] sr;         // shift register
+    reg [4:0] si;         // sequence index
+    reg [24:0] dc;        // delay counter
+    reg [15:0] px;        // current pixel
+    reg active;           // currently sending a byte
+    reg px_1st;           // 1=first byte of pixel, 0=second
 
-    reg        spi_phase;     // current SPI clock phase
-    reg [2:0]  bit_cnt;       // bits remaining in current byte (0-7)
-    reg [7:0]  spi_byte;      // byte being sent
-
-    // High-level state
-    reg [3:0]  state;
-    reg [4:0]  seq_idx;
-    reg [24:0] delay_cnt;      // enough for ~1 sec delay
-
-    localparam S_RESET      = 4'd0;
-    localparam S_INIT       = 4'd1;
-    localparam S_INIT_DELAY = 4'd2;
-    localparam S_PIXEL      = 4'd3;
-    localparam S_INIT_DONE  = 4'd4;
-
-    reg        spi_active;    // 1=currently sending a byte
-    reg        px_byte1;      // 1=first byte of pixel, 0=second byte
+    localparam ST_RESET=0, ST_INIT=1, ST_DELAY=2, ST_PIXEL=3, ST_DONE=4;
+    reg [2:0] st;
+    reg [2:0] st_prev;  // for edge detection
 
     always @(posedge clk or negedge rst_n) begin
         if (!rst_n) begin
-            state      <= S_RESET;
-            spi_phase  <= PHASE_SCL0;
-            bit_cnt    <= 3'd0;
-            spi_byte   <= 8'd0;
-            seq_idx    <= 5'd0;
-            delay_cnt  <= 25'd0;
-            spi_active <= 1'b0;
-            px_byte1   <= 1'b0;
-            tft_scl    <= 1'b0;
-            tft_sda    <= 1'b0;
-            tft_cs     <= 1'b1;
-            tft_dc     <= 1'b0;
-            tft_res    <= 1'b0;
-            tft_blk    <= 1'b0;
-            pixel_ready <= 1'b0;
-            frame_done  <= 1'b0;
-            init_done   <= 1'b0;
+            st<=ST_RESET; ph<=PH_S0; bc<=0; sr<=0; si<=0; dc<=0; px<=0;
+            active<=0; px_1st<=0;
+            tft_scl<=0; tft_sda<=0; tft_cs<=1; tft_dc<=0; tft_res<=0; tft_blk<=0;
+            pixel_ready<=0; frame_done<=0; init_done<=0;
         end else begin
-            frame_done <= 1'b0;
+            frame_done <= 0;
+            st_prev <= st;
+            // 6-state counter: explicitly wrap at PH_H2
+            if (active && ph == PH_H2)
+                ph <= PH_S0;
+            else if (!active)
+                ph <= PH_S0;
+            else
+                ph <= ph + 1'b1;
 
-            // SPI clock phase toggles every cycle
-            spi_phase <= ~spi_phase;
+            // On entering ST_PIXEL: backlight on, init done, ready for pixels
+            if (st==ST_PIXEL && st_prev!=ST_PIXEL) begin
+                tft_blk <= 1'b1; init_done <= 1'b1; pixel_ready <= 1'b1;
+            end
 
-            // SPI Mode 3: SCL idle HIGH (CPOL=1), sample on rising edge
-            tft_scl <= ~spi_phase;
-
-            case (state)
-
-                //------------------------------------------------------------------
-                // RESET: hardware reset pulse, then start init
-                //------------------------------------------------------------------
-                S_RESET: begin
-                    tft_cs  <= 1'b1;
-                    tft_res <= 1'b0;
-                    if (delay_cnt < 25'd25000) begin  // 1ms
-                        delay_cnt <= delay_cnt + 1'b1;
-                    end else begin
-                        tft_res   <= 1'b1;
-                        delay_cnt <= 25'd0;
-                        seq_idx   <= 5'd0;
-                        state     <= S_INIT;
-                    end
+            case (st)
+                ST_RESET: begin
+                    tft_cs<=1; tft_res<=0;
+                    if (dc<DELAY_120MS) dc<=dc+1; else begin tft_res<=1; dc<=0; si<=0; st<=ST_INIT; end
                 end
 
-                //------------------------------------------------------------------
-                // INIT: process init sequence
-                //------------------------------------------------------------------
-                S_INIT: begin
-                    if (spi_phase == PHASE_SCL1) begin
-                        if (spi_active && bit_cnt > 0) begin
-                            spi_byte <= {spi_byte[6:0], 1'b0};
-                            bit_cnt  <= bit_cnt - 1'b1;
-                            if (bit_cnt == 3'd1) spi_active <= 1'b0; // last bit
-                        end else if (spi_active && bit_cnt == 0) begin
-                            // Byte just completed → next entry
-                            seq_idx    <= seq_idx + 1'b1;
-                            spi_active <= 1'b0;
+                ST_INIT: begin
+                    if (!active) begin
+                        tft_scl <= 1'b0;  // SPI Mode 0 idle low between bytes
+                        if (seq[si]==SEQ_END) begin st<=ST_PIXEL; end
+                        else if (seq[si]==SEQ_DELAY) begin si<=si+1; dc<=0; st<=ST_DELAY; end
+                        else begin
+                            tft_cs<=0; tft_dc<=seq[si][8]; sr<=seq[si][7:0];
+                            bc<=0; active<=1; ph<=PH_S0;
                         end
-                        // else: no active byte, wait for SCL=0 to load one
                     end else begin
-                        // SCL=0: load next byte if idle, drive SDA
-                        if (!spi_active) begin
-                            if (init_seq[seq_idx] == SEQ_END) begin
-                                state <= S_INIT_DONE;
-                            end else if (init_seq[seq_idx] == SEQ_DELAY) begin
-                                tft_cs    <= 1'b1;
-                                delay_cnt <= 25'd0;
-                                state     <= S_INIT_DELAY;
-                            end else begin
-                                tft_sda    <= init_seq[seq_idx][7];
-                                tft_dc     <= init_seq[seq_idx][8]; // bit8: 1=data, 0=cmd
-                                spi_byte   <= init_seq[seq_idx][7:0];
-                                bit_cnt    <= 3'd7;
-                                spi_active <= 1'b1;
-                                tft_cs     <= 1'b0;
+                        // Bit engine
+                        case (ph)
+                            PH_S0: begin tft_scl<=0; tft_sda<=sr[7]; end
+                            PH_S1: begin tft_scl<=0; end
+                            PH_S2: begin tft_scl<=0; end
+                            PH_H0: begin tft_scl<=1; end  // ST7789 samples
+                            PH_H1: begin tft_scl<=1; end
+                            PH_H2: begin
+                                tft_scl<=1;
+                                if (bc<7) begin bc<=bc+1; sr<={sr[6:0],1'b0}; end
+                                else begin active<=0; si<=si+1; end
                             end
-                        end else begin
-                            tft_sda <= spi_byte[7];
-                        end
+                            default: ;
+                        endcase
                     end
                 end
 
-                //------------------------------------------------------------------
-                // INIT_DELAY: wait for specified time
-                //------------------------------------------------------------------
-                S_INIT_DELAY: begin
-                    tft_cs <= 1'b1;
-                    if (delay_cnt < 25'd75000) begin  // ~3ms
-                        delay_cnt <= delay_cnt + 1'b1;
-                    end else begin
-                        delay_cnt <= 25'd0;
-                        state     <= S_INIT;
-                    end
+                ST_DELAY: begin
+                    tft_cs<=1;
+                    if (dc<DELAY_120MS) dc<=dc+1; else begin dc<=0; st<=ST_INIT; end
                 end
 
-                //------------------------------------------------------------------
-                // INIT_DONE: backlight on, start accepting pixels
-                //------------------------------------------------------------------
-                S_INIT_DONE: begin
-                    tft_cs    <= 1'b0;
-                    tft_dc    <= 1'b1;
-                    tft_blk   <= 1'b1;
-                    init_done <= 1'b1;
-                    pixel_ready <= 1'b1;
-                    spi_active  <= 1'b0;
-                    px_byte1    <= 1'b1;
-                    state     <= S_PIXEL;
-                end
-
-                //------------------------------------------------------------------
-                // PIXEL: send 2 bytes (RGB565) per pixel
-                //------------------------------------------------------------------
-                S_PIXEL: begin
-                    if (spi_phase == PHASE_SCL1) begin
-                        if (spi_active && bit_cnt > 0) begin
-                            spi_byte <= {spi_byte[6:0], 1'b0};
-                            bit_cnt  <= bit_cnt - 1'b1;
-                            if (bit_cnt == 3'd1) spi_active <= 1'b0;
-                        end else if (spi_active && bit_cnt == 0) begin
-                            // Byte done → load next
-                            spi_active <= 1'b0;
-                            if (px_byte1) begin
-                                // High byte done → load low byte immediately
-                                spi_byte <= pixel_data[7:0];
-                                bit_cnt  <= 3'd7;
-                                spi_active <= 1'b1;
-                                px_byte1 <= 1'b0;
-                            end else begin
-                                // Low byte done → pixel complete
-                                pixel_ready <= 1'b1;
-                                px_byte1 <= 1'b1;
-                            end
+                ST_PIXEL: begin
+                    if (!active) begin
+                        tft_scl <= 1'b0;  // SPI Mode 0 idle between pixels
+                        if (pixel_valid && pixel_ready) begin
+                            pixel_ready<=0; px<=pixel_data; px_1st<=1;
+                            sr<=pixel_data[15:8]; bc<=0; active<=1; ph<=PH_S0;
+                            tft_cs<=0; tft_dc<=1;
                         end
                     end else begin
-                        // SCL=0: drive SDA, load new byte if idle
-                        if (!spi_active) begin
-                            // Start new byte
-                            bit_cnt    <= 3'd7;
-                            spi_active <= 1'b1;
-                            if (px_byte1) begin
-                                // Starting high byte of pixel
-                                tft_sda <= pixel_data[15];
-                                spi_byte <= pixel_data[15:8];
-                                if (pixel_valid && pixel_ready)
-                                    pixel_ready <= 1'b0;
-                            end else begin
-                                // Starting low byte of pixel
-                                tft_sda <= pixel_data[7];
-                                spi_byte <= pixel_data[7:0];
+                        case (ph)
+                            PH_S0: begin tft_scl<=0; tft_sda<=sr[7]; end
+                            PH_S1: begin tft_scl<=0; end
+                            PH_S2: begin tft_scl<=0; end
+                            PH_H0: begin tft_scl<=1; end  // ST7789 samples
+                            PH_H1: begin tft_scl<=1; end
+                            PH_H2: begin
+                                tft_scl<=1;
+                                if (bc<7) begin bc<=bc+1; sr<={sr[6:0],1'b0}; end
+                                else begin
+                                    if (px_1st) begin
+                                        px_1st<=0; sr<=px[7:0]; bc<=0;
+                                    end else begin
+                                        active<=0; pixel_ready<=1;
+                                    end
+                                end
                             end
-                        end else begin
-                            tft_sda <= spi_byte[7];
-                        end
+                            default: ;
+                        endcase
                     end
                 end
 
-                default: state <= S_RESET;
+                default: st<=ST_RESET;
             endcase
         end
     end
+
 
 endmodule

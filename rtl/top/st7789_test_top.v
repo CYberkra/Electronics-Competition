@@ -48,41 +48,36 @@ module st7789_test_top (
     reg [7:0]  px_col;      // 0-239 column
     reg [8:0]  px_row;      // 0-279 row
     reg [15:0] pat_pixel;
+    wire       pixel_ready;
     reg        pat_valid;
+    always @(posedge clk_25m or negedge rst_n) begin
+        if (!rst_n) pat_valid <= 0; else pat_valid <= 1; end
 
+
+
+    // Color bars: 8 bands × 30 pixels each
     always @(posedge clk_25m or negedge rst_n) begin
         if (!rst_n) begin
-            px_col <= 8'd0;
-            px_row <= 9'd0;
-            pat_valid <= 1'b0;
-        end else begin
-            pat_valid <= 1'b1;  // continuous valid
-
-            if (px_col == 8'd239) begin
-                px_col <= 8'd0;
-                if (px_row == 9'd279)
-                    px_row <= 9'd0;
-                else
-                    px_row <= px_row + 1'b1;
+            px_col <= 0; px_row <= 0;
+        end else if (pat_valid && pixel_ready) begin
+            if (px_col == 239) begin
+                px_col <= 0;
+                if (px_row == 279) px_row <= 0;
+                else px_row <= px_row + 1;
             end else begin
-                px_col <= px_col + 1'b1;
+                px_col <= px_col + 1;
             end
         end
     end
-
-    // Color bars: 8 bands × 30 pixels each
-    wire [2:0] band = px_col[7:5];  // 0-7
     always @(*) begin
-        case (band)
-            3'd0: pat_pixel = 16'hF800;  // Red
-            3'd1: pat_pixel = 16'hFFE0;  // Yellow
-            3'd2: pat_pixel = 16'h07E0;  // Green
-            3'd3: pat_pixel = 16'h001F;  // Blue
-            3'd4: pat_pixel = 16'hF81F;  // Magenta
-            3'd5: pat_pixel = 16'h07FF;  // Cyan
-            3'd6: pat_pixel = 16'hFFFF;  // White
-            3'd7: pat_pixel = 16'h0000;  // Black
-        endcase
+        if      (px_col <  30) pat_pixel = 16'hF800;
+        else if (px_col <  60) pat_pixel = 16'hFFE0;
+        else if (px_col <  90) pat_pixel = 16'h07E0;
+        else if (px_col < 120) pat_pixel = 16'h001F;
+        else if (px_col < 150) pat_pixel = 16'hF81F;
+        else if (px_col < 180) pat_pixel = 16'h07FF;
+        else if (px_col < 210) pat_pixel = 16'hFFFF;
+        else                   pat_pixel = 16'h0000;
     end
 
     //--------------------------------------------------------------------------
@@ -101,7 +96,7 @@ module st7789_test_top (
         .tft_blk     (tft_blk),
         .pixel_data  (pat_pixel),
         .pixel_valid (pat_valid),
-        .pixel_ready (),
+        .pixel_ready (pixel_ready),
         .frame_done  (),
         .init_done   (tft_init_done)
     );

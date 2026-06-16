@@ -366,6 +366,19 @@ module awg_top (
     wire [3:0]  awg_reg_cal_rd_addr;
     wire [31:0] awg_reg_cal_rd_data;
 
+    // Character display pipeline
+    wire [8:0]  grid_rd_addr;
+    wire [7:0]  grid_rd_data;
+    reg  [7:0]  grid_wr_data;
+    reg         grid_wr_en;
+    reg  [8:0]  grid_wr_addr;
+    wire [6:0]  font_char_code;
+    wire [3:0]  font_row;
+    wire [7:0]  font_bitmap;
+    wire [15:0] tft_pixel_data;
+    wire        tft_pixel_valid;
+    wire        tft_pixel_ready;
+
     // Sweep engine control wires
     wire        awg_reg_sweep_enable;
     wire        awg_reg_sweep_dir;
@@ -445,6 +458,9 @@ module awg_top (
         .sysref_seen      (w_sysref),
         .sample_valid     (w_awg_sample_valid),
         .sweep_active_in  (w_sweep_active),
+        .ec11_a_in        (ec11_a),
+        .ec11_b_in        (ec11_b),
+        .ec11_btn_in      (ec11_m),
         .range_sel        (awg_reg_range_sel),
         .output_en        (awg_reg_output_en),
         .cal_enable       (awg_reg_cal_enable),
@@ -762,23 +778,67 @@ module awg_top (
         .activity   ()
     );
 
-    // ST7789 TFT display driver
+    // Character display pipeline: grid -> renderer -> ST7789
+    char_grid u_char_grid (
+        .clk(clk_25m), .wr_en(grid_wr_en), .wr_addr(grid_wr_addr),
+        .wr_data(grid_wr_data), .rd_addr(grid_rd_addr), .rd_data(grid_rd_data)
+    );
+    char_rom #(.FONT_FILE("../../rtl/control/font_8x16.hex")) u_char_rom (
+        .clk(clk_25m), .char_code(font_char_code), .row(font_row), .bitmap(font_bitmap)
+    );
+    tile_renderer u_tile_renderer (
+        .clk(clk_25m), .rst_n(w_rst_n),
+        .char_addr(grid_rd_addr), .char_code(grid_rd_data),
+        .font_char(font_char_code), .font_row(font_row), .font_bitmap(font_bitmap),
+        .pixel_data(tft_pixel_data), .pixel_valid(tft_pixel_valid), .pixel_ready(tft_pixel_ready),
+        .fg_color(16'hFFFF), .bg_color(16'h0000), .title_color(16'h001F),
+        .status_color(16'h001F), .cursor_color(16'h07E0),
+        .cursor_row(5'd0), .cursor_col(5'd0),
+        .frame_start(), .vsync()
+    );
     wire tft_init_done;
     st7789_driver u_st7789_driver (
-        .clk         (clk_25m),
-        .rst_n       (w_rst_n),
-        .tft_scl     (tft_scl),
-        .tft_sda     (tft_sda),
-        .tft_cs      (tft_cs),
-        .tft_dc      (tft_dc),
-        .tft_res     (tft_res),
-        .tft_blk     (tft_blk),
-        .pixel_data  (16'hF800),  // RED test pattern
-        .pixel_valid (1'b1),       // continuous feed
-        .pixel_ready (),
-        .frame_done  (),
-        .init_done   (tft_init_done)
+        .clk(clk_25m), .rst_n(w_rst_n),
+        .tft_scl(tft_scl), .tft_sda(tft_sda), .tft_cs(tft_cs),
+        .tft_dc(tft_dc), .tft_res(tft_res), .tft_blk(tft_blk),
+        .pixel_data(tft_pixel_data), .pixel_valid(tft_pixel_valid), .pixel_ready(tft_pixel_ready),
+        .frame_done(), .init_done(tft_init_done)
     );
+
+    // Startup: write "AWG" to char_grid after init
+    reg [15:0] startup_timer;
+    reg [3:0]  startup_idx;
+    always @(posedge clk_25m or negedge w_rst_n) begin
+        if (!w_rst_n) begin
+            startup_timer <= 0; startup_idx <= 0;
+            grid_wr_en <= 0; grid_wr_addr <= 0; grid_wr_data <= 0;
+        end else begin
+            grid_wr_en <= 0;
+            if (!tft_init_done) begin
+                startup_timer <= 0; startup_idx <= 0;
+            end else if (startup_idx < 8) begin
+                if (startup_timer > 50000) begin
+                    startup_timer <= 0;
+                    grid_wr_en <= 1;
+                    grid_wr_addr <= 9'd210 + startup_idx; // row 7, col 0-7
+                    case (startup_idx)
+                        0: grid_wr_data <= 8'h20; // space
+                        1: grid_wr_data <= 8'h41; // A
+                        2: grid_wr_data <= 8'h57; // W
+                        3: grid_wr_data <= 8'h47; // G
+                        4: grid_wr_data <= 8'h20; // space
+                        5: grid_wr_data <= 8'h4F; // O
+                        6: grid_wr_data <= 8'h4B; // K
+                        7: grid_wr_data <= 8'h20; // space
+                    endcase
+                    startup_idx <= startup_idx + 1;
+                end else begin
+                    startup_timer <= startup_timer + 1;
+                end
+            end
+        end
+    end
+
 
     // Expansion module LED: ON = TFT init done, BLINK = EC11 activity
     assign ec11_ledk = tft_init_done | ec11_apply;

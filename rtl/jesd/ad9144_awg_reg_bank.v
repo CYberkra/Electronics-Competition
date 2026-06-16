@@ -42,6 +42,9 @@ module ad9144_awg_reg_bank (
     input  wire               sysref_seen,
     input  wire               sample_valid,
     input  wire               sweep_active_in,
+    input  wire               ec11_a_in,
+    input  wire               ec11_b_in,
+    input  wire               ec11_btn_in,
 
     // Sweep control outputs
     output reg         [47:0] sweep_start_inc,
@@ -269,7 +272,7 @@ always @(posedge clk or negedge rst_n) begin
                 cfg_rdata <= {31'd0, cal_enable};
             end
             ADDR_DIAG: begin
-                cfg_rdata <= {23'd0, sweep_active_in, init_state, 2'b00, glblclk_mmcm_locked, 1'b0};
+                cfg_rdata <= {20'd0, ec11_btn_in, ec11_b_in, ec11_a_in, sweep_active_in, init_state, 2'b00, glblclk_mmcm_locked, 1'b0};
             end
             ADDR_SWEEP_START_LO:  cfg_rdata <= sweep_start_inc[31:0];
             ADDR_SWEEP_START_HI:  cfg_rdata <= {16'd0, sweep_start_inc[47:32]};

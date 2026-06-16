@@ -75,36 +75,30 @@ reg [1:0] wave_mode_s0, wave_mode_s1, wave_mode_s2;
 reg [2:0] valid_pipe;
 reg [11:0] addr0_s3, addr1_s3, addr2_s3, addr3_s3;
 
-function signed [15:0] shape_from_addr;
+function signed [15:0] shape_from_phase;
     input [1:0] mode;
-    input [11:0] addr;
-    reg [10:0] half_addr;
+    input [47:0] phase;      // full 48-bit phase for fine resolution
     reg [10:0] tri_unsigned;
     reg [16:0] tri_scaled;
     reg signed [17:0] tri_signed;
-    reg signed [13:0] saw_centered;
     begin
-        half_addr = addr[10:0];
         case (mode)
-            2'd1: begin  // Triangle -- matches reg_bank 1=Triangle
-                tri_unsigned = addr[11] ? (11'd2047 - half_addr) : half_addr;
-                // scale: tri_unsigned*32 + tri_unsigned/64 ~= 65535/2047
-                // peak: 2047*32+31=65535 -> signed=65535-32768=32767
+            2'd1: begin  // Triangle
+                if (phase[47])
+                    tri_unsigned = 11'd2047 - phase[46:36];
+                else
+                    tri_unsigned = phase[46:36];
                 tri_scaled = {1'b0, tri_unsigned, 5'b0}
                            + {11'd0, tri_unsigned[10:6]};
                 tri_signed = $signed({1'b0, tri_scaled}) - 18'sd32768;
-                shape_from_addr = tri_signed[15:0];
+                shape_from_phase = tri_signed[15:0];
             end
-            2'd2: shape_from_addr = addr[11] ? -16'sd32768 : 16'sd32767;  // Square
-            2'd3: begin  // Sawtooth
-                saw_centered = $signed({1'b0, addr}) - 14'sd2048;
-                shape_from_addr = saw_centered <<< 4;
-            end
-            default: shape_from_addr = 16'sd0;
+            2'd2: shape_from_phase = phase[47] ? -16'sd32768 : 16'sd32767;
+            2'd3: shape_from_phase = $signed(phase[47:32]) - 16'sd32768;
+            default: shape_from_phase = 16'sd0;
         endcase
     end
 endfunction
-
 function signed [15:0] select_raw_sample;
     input [1:0] mode;
     input signed [15:0] sine_value;
@@ -214,10 +208,10 @@ always @(posedge clk or negedge rst_n) begin
         sine1_s2 <= sine1_s1;
         sine2_s2 <= sine2_s1;
         sine3_s2 <= sine3_s1;
-        shape0_s2 <= shape_from_addr(wave_mode_s1, addr0_s1);
-        shape1_s2 <= shape_from_addr(wave_mode_s1, addr1_s1);
-        shape2_s2 <= shape_from_addr(wave_mode_s1, addr2_s1);
-        shape3_s2 <= shape_from_addr(wave_mode_s1, addr3_s1);
+        shape0_s2 <= shape_from_phase(wave_mode_s1, phase0);
+        shape1_s2 <= shape_from_phase(wave_mode_s1, phase1);
+        shape2_s2 <= shape_from_phase(wave_mode_s1, phase2);
+        shape3_s2 <= shape_from_phase(wave_mode_s1, phase3);
         addr0_s2 <= addr0_s1;
         addr1_s2 <= addr1_s1;
         addr2_s2 <= addr2_s1;

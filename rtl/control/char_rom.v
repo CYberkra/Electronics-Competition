@@ -26,7 +26,8 @@ module char_rom #(
     // 地址计算
     wire [10:0] rom_addr;
     // char_code 0x20-0x7F → index 0-95
-    wire [6:0] char_index = char_code - 7'd32;
+    wire printable = (char_code >= 7'd32) && (char_code <= 7'd127);
+    wire [6:0] char_index = printable ? (char_code - 7'd32) : 7'd0;
     assign rom_addr = {char_index[6:0], row[3:0]};
 
     initial begin
