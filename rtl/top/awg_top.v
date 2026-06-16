@@ -805,9 +805,9 @@ module awg_top (
         .frame_done(), .init_done(tft_init_done)
     );
 
-    // Startup: write "AWG" to char_grid after init
+    // Startup: write info panel (rounded corners: skip cols 0-1,28-29; rows 0,16)
     reg [15:0] startup_timer;
-    reg [3:0]  startup_idx;
+    reg [6:0]  startup_idx;   // up to 96 chars
     always @(posedge clk_25m or negedge w_rst_n) begin
         if (!w_rst_n) begin
             startup_timer <= 0; startup_idx <= 0;
@@ -816,20 +816,118 @@ module awg_top (
             grid_wr_en <= 0;
             if (!tft_init_done) begin
                 startup_timer <= 0; startup_idx <= 0;
-            end else if (startup_idx < 8) begin
+            end else if (startup_idx < 96) begin
                 if (startup_timer > 50000) begin
                     startup_timer <= 0;
                     grid_wr_en <= 1;
-                    grid_wr_addr <= 9'd210 + startup_idx; // row 7, col 0-7
+                    // Use cols 2-27 (skip rounded corners), rows 1-15
+                    // Key rows: 1=title, 4=freq, 5=wave, 6=amp, 8=sweep, 10=output, 12=status
                     case (startup_idx)
-                        0: grid_wr_data <= 8'h20; // space
-                        1: grid_wr_data <= 8'h41; // A
-                        2: grid_wr_data <= 8'h57; // W
-                        3: grid_wr_data <= 8'h47; // G
-                        4: grid_wr_data <= 8'h20; // space
-                        5: grid_wr_data <= 8'h4F; // O
-                        6: grid_wr_data <= 8'h4B; // K
-                        7: grid_wr_data <= 8'h20; // space
+                        // Row 1: "  AWG Generator  v2.0  " (cols 2-27, centered)
+                         0: begin grid_wr_addr<=9'd32;  grid_wr_data<=8'h41; end // A col2
+                         1: begin grid_wr_addr<=9'd33;  grid_wr_data<=8'h57; end // W
+                         2: begin grid_wr_addr<=9'd34;  grid_wr_data<=8'h47; end // G
+                         3: begin grid_wr_addr<=9'd35;  grid_wr_data<=8'h20; end
+                         4: begin grid_wr_addr<=9'd36;  grid_wr_data<=8'h47; end // G
+                         5: begin grid_wr_addr<=9'd37;  grid_wr_data<=8'h65; end // e
+                         6: begin grid_wr_addr<=9'd38;  grid_wr_data<=8'h6E; end // n
+                         7: begin grid_wr_addr<=9'd39;  grid_wr_data<=8'h65; end // e
+                         8: begin grid_wr_addr<=9'd40;  grid_wr_data<=8'h72; end // r
+                         9: begin grid_wr_addr<=9'd41;  grid_wr_data<=8'h61; end // a
+                        10: begin grid_wr_addr<=9'd42;  grid_wr_data<=8'h74; end // t
+                        11: begin grid_wr_addr<=9'd43;  grid_wr_data<=8'h6F; end // o
+                        12: begin grid_wr_addr<=9'd44;  grid_wr_data<=8'h72; end // r
+                        13: begin grid_wr_addr<=9'd45;  grid_wr_data<=8'h20; end
+                        14: begin grid_wr_addr<=9'd46;  grid_wr_data<=8'h76; end // v
+                        15: begin grid_wr_addr<=9'd47;  grid_wr_data<=8'h32; end // 2
+                        16: begin grid_wr_addr<=9'd48;  grid_wr_data<=8'h2E; end // .
+                        17: begin grid_wr_addr<=9'd49;  grid_wr_data<=8'h30; end // 0
+                        // Row 4: "Freq: 10.000 MHz      "
+                        18: begin grid_wr_addr<=9'd122; grid_wr_data<=8'h46; end // F
+                        19: begin grid_wr_addr<=9'd123; grid_wr_data<=8'h72; end // r
+                        20: begin grid_wr_addr<=9'd124; grid_wr_data<=8'h65; end // e
+                        21: begin grid_wr_addr<=9'd125; grid_wr_data<=8'h71; end // q
+                        22: begin grid_wr_addr<=9'd126; grid_wr_data<=8'h3A; end // :
+                        23: begin grid_wr_addr<=9'd128; grid_wr_data<=8'h31; end // 1
+                        24: begin grid_wr_addr<=9'd129; grid_wr_data<=8'h30; end // 0
+                        25: begin grid_wr_addr<=9'd130; grid_wr_data<=8'h2E; end // .
+                        26: begin grid_wr_addr<=9'd131; grid_wr_data<=8'h30; end // 0
+                        27: begin grid_wr_addr<=9'd132; grid_wr_data<=8'h30; end // 0
+                        28: begin grid_wr_addr<=9'd133; grid_wr_data<=8'h30; end // 0
+                        29: begin grid_wr_addr<=9'd134; grid_wr_data<=8'h20; end
+                        30: begin grid_wr_addr<=9'd135; grid_wr_data<=8'h4D; end // M
+                        31: begin grid_wr_addr<=9'd136; grid_wr_data<=8'h48; end // H
+                        32: begin grid_wr_addr<=9'd137; grid_wr_data<=8'h7A; end // z
+                        // Row 5: "Wave: Sine            "
+                        33: begin grid_wr_addr<=9'd152; grid_wr_data<=8'h57; end // W
+                        34: begin grid_wr_addr<=9'd153; grid_wr_data<=8'h61; end // a
+                        35: begin grid_wr_addr<=9'd154; grid_wr_data<=8'h76; end // v
+                        36: begin grid_wr_addr<=9'd155; grid_wr_data<=8'h65; end // e
+                        37: begin grid_wr_addr<=9'd156; grid_wr_data<=8'h3A; end // :
+                        38: begin grid_wr_addr<=9'd158; grid_wr_data<=8'h53; end // S
+                        39: begin grid_wr_addr<=9'd159; grid_wr_data<=8'h69; end // i
+                        40: begin grid_wr_addr<=9'd160; grid_wr_data<=8'h6E; end // n
+                        41: begin grid_wr_addr<=9'd161; grid_wr_data<=8'h65; end // e
+                        // Row 6: "Amp:  75%  (Q1.15)    "
+                        42: begin grid_wr_addr<=9'd182; grid_wr_data<=8'h41; end // A
+                        43: begin grid_wr_addr<=9'd183; grid_wr_data<=8'h6D; end // m
+                        44: begin grid_wr_addr<=9'd184; grid_wr_data<=8'h70; end // p
+                        45: begin grid_wr_addr<=9'd185; grid_wr_data<=8'h3A; end // :
+                        46: begin grid_wr_addr<=9'd187; grid_wr_data<=8'h37; end // 7
+                        47: begin grid_wr_addr<=9'd188; grid_wr_data<=8'h35; end // 5
+                        48: begin grid_wr_addr<=9'd189; grid_wr_data<=8'h25; end // %
+                        49: begin grid_wr_addr<=9'd191; grid_wr_data<=8'h28; end // (
+                        50: begin grid_wr_addr<=9'd192; grid_wr_data<=8'h51; end // Q
+                        51: begin grid_wr_addr<=9'd193; grid_wr_data<=8'h31; end // 1
+                        52: begin grid_wr_addr<=9'd194; grid_wr_data<=8'h2E; end // .
+                        53: begin grid_wr_addr<=9'd195; grid_wr_data<=8'h31; end // 1
+                        54: begin grid_wr_addr<=9'd196; grid_wr_data<=8'h35; end // 5
+                        55: begin grid_wr_addr<=9'd197; grid_wr_data<=8'h29; end // )
+                        // Row 8: "Sweep: Stop  (SFCW)   "
+                        56: begin grid_wr_addr<=9'd242; grid_wr_data<=8'h53; end // S
+                        57: begin grid_wr_addr<=9'd243; grid_wr_data<=8'h77; end // w
+                        58: begin grid_wr_addr<=9'd244; grid_wr_data<=8'h65; end // e
+                        59: begin grid_wr_addr<=9'd245; grid_wr_data<=8'h65; end // e
+                        60: begin grid_wr_addr<=9'd246; grid_wr_data<=8'h70; end // p
+                        61: begin grid_wr_addr<=9'd247; grid_wr_data<=8'h3A; end // :
+                        62: begin grid_wr_addr<=9'd249; grid_wr_data<=8'h53; end // S
+                        63: begin grid_wr_addr<=9'd250; grid_wr_data<=8'h74; end // t
+                        64: begin grid_wr_addr<=9'd251; grid_wr_data<=8'h6F; end // o
+                        65: begin grid_wr_addr<=9'd252; grid_wr_data<=8'h70; end // p
+                        66: begin grid_wr_addr<=9'd254; grid_wr_data<=8'h28; end // (
+                        67: begin grid_wr_addr<=9'd255; grid_wr_data<=8'h53; end // S
+                        68: begin grid_wr_addr<=9'd256; grid_wr_data<=8'h46; end // F
+                        69: begin grid_wr_addr<=9'd257; grid_wr_data<=8'h43; end // C
+                        70: begin grid_wr_addr<=9'd258; grid_wr_data<=8'h57; end // W
+                        71: begin grid_wr_addr<=9'd259; grid_wr_data<=8'h29; end // )
+                        // Row 10: "Output: ON  50Ohm     "
+                        72: begin grid_wr_addr<=9'd302; grid_wr_data<=8'h4F; end // O
+                        73: begin grid_wr_addr<=9'd303; grid_wr_data<=8'h75; end // u
+                        74: begin grid_wr_addr<=9'd304; grid_wr_data<=8'h74; end // t
+                        75: begin grid_wr_addr<=9'd305; grid_wr_data<=8'h70; end // p
+                        76: begin grid_wr_addr<=9'd306; grid_wr_data<=8'h75; end // u
+                        77: begin grid_wr_addr<=9'd307; grid_wr_data<=8'h74; end // t
+                        78: begin grid_wr_addr<=9'd308; grid_wr_data<=8'h3A; end // :
+                        79: begin grid_wr_addr<=9'd310; grid_wr_data<=8'h4F; end // O
+                        80: begin grid_wr_addr<=9'd311; grid_wr_data<=8'h4E; end // N
+                        81: begin grid_wr_addr<=9'd313; grid_wr_data<=8'h35; end // 5
+                        82: begin grid_wr_addr<=9'd314; grid_wr_data<=8'h30; end // 0
+                        83: begin grid_wr_addr<=9'd315; grid_wr_data<=8'h4F; end // O
+                        84: begin grid_wr_addr<=9'd316; grid_wr_data<=8'h68; end // h
+                        85: begin grid_wr_addr<=9'd317; grid_wr_data<=8'h6D; end // m
+                        // Row 12: "Ctrl: UART 115200 8N1 "
+                        86: begin grid_wr_addr<=9'd362; grid_wr_data<=8'h43; end // C
+                        87: begin grid_wr_addr<=9'd363; grid_wr_data<=8'h74; end // t
+                        88: begin grid_wr_addr<=9'd364; grid_wr_data<=8'h72; end // r
+                        89: begin grid_wr_addr<=9'd365; grid_wr_data<=8'h6C; end // l
+                        90: begin grid_wr_addr<=9'd366; grid_wr_data<=8'h3A; end // :
+                        91: begin grid_wr_addr<=9'd368; grid_wr_data<=8'h55; end // U
+                        92: begin grid_wr_addr<=9'd369; grid_wr_data<=8'h41; end // A
+                        93: begin grid_wr_addr<=9'd370; grid_wr_data<=8'h52; end // R
+                        94: begin grid_wr_addr<=9'd371; grid_wr_data<=8'h54; end // T
+                        // Row 14: "JESD Link OK  SYSREF OK"
+                        95: begin grid_wr_addr<=9'd422; grid_wr_data<=8'h4A; end // J
+                        default: grid_wr_data <= 8'h20;
                     endcase
                     startup_idx <= startup_idx + 1;
                 end else begin
