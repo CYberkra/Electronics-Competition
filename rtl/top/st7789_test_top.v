@@ -49,9 +49,7 @@ module st7789_test_top (
     reg [8:0]  px_row;      // 0-279 row
     reg [15:0] pat_pixel;
     wire       pixel_ready;
-    reg        pat_valid;
-    always @(posedge clk_25m or negedge rst_n) begin
-        if (!rst_n) pat_valid <= 0; else pat_valid <= 1; end
+    wire       pixel_ready;
 
 
 
@@ -59,7 +57,7 @@ module st7789_test_top (
     always @(posedge clk_25m or negedge rst_n) begin
         if (!rst_n) begin
             px_col <= 0; px_row <= 0;
-        end else if (pat_valid && pixel_ready) begin
+        end else if (pixel_ready) begin
             if (px_col == 239) begin
                 px_col <= 0;
                 if (px_row == 279) px_row <= 0;
@@ -95,7 +93,7 @@ module st7789_test_top (
         .tft_res     (tft_res),
         .tft_blk     (tft_blk),
         .pixel_data  (pat_pixel),
-        .pixel_valid (pat_valid),
+        .pixel_valid (1'b1),
         .pixel_ready (pixel_ready),
         .frame_done  (),
         .init_done   (tft_init_done)

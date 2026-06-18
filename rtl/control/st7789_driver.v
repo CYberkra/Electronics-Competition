@@ -51,8 +51,8 @@ module st7789_driver (
             seq[13]<={1'b1,8'h00};seq[14]<={1'b1,8'h00}; // XS=0
             seq[15]<={1'b1,8'h00};seq[16]<={1'b1,8'hEF}; // XE=239
             seq[17]<=CMD_RASET;
-            seq[18]<={1'b1,8'h00};seq[19]<={1'b1,8'h14}; // YS=20 (0x0014)
-            seq[20]<={1'b1,8'h01};seq[21]<={1'b1,8'h2B}; // YE=299 (0x012B)
+            seq[18]<={1'b1,8'h00};seq[19]<={1'b1,8'h00}; // YS=0 (no offset) // YS=20 (0x0014)
+            seq[20]<={1'b1,8'h01};seq[21]<={1'b1,8'h17}; // YE=279 (0x012B)
             seq[22]<=CMD_RAMWR;
             seq[23]<=SEQ_END;
         end

@@ -243,6 +243,14 @@
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
       </File>
+      <File Path="$PPRDIR/../rtl/top/led_blink_test.v">
+        <FileInfo>
+          <Attr Name="AutoDisabled" Val="1"/>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
       <File Path="$PPRDIR/../rtl/top/st7789_test_top.v">
         <FileInfo>
           <Attr Name="AutoDisabled" Val="1"/>
@@ -421,6 +429,12 @@
           <Attr Name="UsedIn" Val="implementation"/>
         </FileInfo>
       </File>
+      <File Path="$PPRDIR/../constraints/led_blink.xdc">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+        </FileInfo>
+      </File>
       <Config>
         <Option Name="ConstrsType" Val="XDC"/>
       </Config>
@@ -436,6 +450,7 @@
       </File>
       <File Path="$PPRDIR/../sim/tb/tb_awg_core.v">
         <FileInfo>
+          <Attr Name="AutoDisabled" Val="1"/>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="implementation"/>
           <Attr Name="UsedIn" Val="simulation"/>
@@ -443,6 +458,7 @@
       </File>
       <File Path="$PPRDIR/../sim/tb/tb_awg_cal.v">
         <FileInfo>
+          <Attr Name="AutoDisabled" Val="1"/>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="implementation"/>
           <Attr Name="UsedIn" Val="simulation"/>
@@ -450,6 +466,7 @@
       </File>
       <File Path="$PPRDIR/../sim/tb/tb_awg_key_ui_ctrl.v">
         <FileInfo>
+          <Attr Name="AutoDisabled" Val="1"/>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="implementation"/>
           <Attr Name="UsedIn" Val="simulation"/>
@@ -457,6 +474,7 @@
       </File>
       <File Path="$PPRDIR/../sim/tb/tb_awg_led_status.v">
         <FileInfo>
+          <Attr Name="AutoDisabled" Val="1"/>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="implementation"/>
           <Attr Name="UsedIn" Val="simulation"/>
@@ -464,6 +482,7 @@
       </File>
       <File Path="$PPRDIR/../sim/tb/tb_key_led.v">
         <FileInfo>
+          <Attr Name="AutoDisabled" Val="1"/>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="implementation"/>
           <Attr Name="UsedIn" Val="simulation"/>
