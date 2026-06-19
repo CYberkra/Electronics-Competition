@@ -131,6 +131,13 @@
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
       </File>
+      <File Path="$PPRDIR/../rtl/control/awg_display_update.v">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
       <File Path="$PPRDIR/../rtl/control/awg_key_ui_ctrl.v">
         <FileInfo>
           <Attr Name="UsedIn" Val="synthesis"/>
@@ -139,6 +146,13 @@
         </FileInfo>
       </File>
       <File Path="$PPRDIR/../rtl/control/awg_led_status.v">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/control/cfg_cmd_cdc.v">
         <FileInfo>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="implementation"/>
